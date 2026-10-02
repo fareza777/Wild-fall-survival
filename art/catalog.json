@@ -1,0 +1,695 @@
+[
+  {
+    "key": "items/wood",
+    "kind": "item",
+    "prompt": "Original premium 2D survival game collectible inventory illustration, square composition, one centered complete object occupying 78% of frame with generous empty margin. three split pieces of weathered firewood, pale exposed grain and charcoal bark, loosely tied with twine. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/items/wood.png",
+    "output": "web/assets/art/items/wood.webp",
+    "width": 384
+  },
+  {
+    "key": "items/stone",
+    "kind": "item",
+    "prompt": "Original premium 2D survival game collectible inventory illustration, square composition, one centered complete object occupying 78% of frame with generous empty margin. three angular flint river stones, slate gray, fine mineral edges. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/items/stone.png",
+    "output": "web/assets/art/items/stone.webp",
+    "width": 384
+  },
+  {
+    "key": "items/fiber",
+    "kind": "item",
+    "prompt": "Original premium 2D survival game collectible inventory illustration, square composition, one centered complete object occupying 78% of frame with generous empty margin. a neat coil of pale hand-twisted plant fiber cord with loose dried stalks. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/items/fiber.png",
+    "output": "web/assets/art/items/fiber.webp",
+    "width": 384
+  },
+  {
+    "key": "items/herbs",
+    "kind": "item",
+    "prompt": "Original premium 2D survival game collectible inventory illustration, square composition, one centered complete object occupying 78% of frame with generous empty margin. a small tied bundle of dried medicinal sage and tiny ivory blossoms, silver gray leaves, no green. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/items/herbs.png",
+    "output": "web/assets/art/items/herbs.webp",
+    "width": 384
+  },
+  {
+    "key": "items/scrap",
+    "kind": "item",
+    "prompt": "Original premium 2D survival game collectible inventory illustration, square composition, one centered complete object occupying 78% of frame with generous empty margin. a small pile of salvaged iron brackets, bent rivets and rusted metal strips, copper patina. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/items/scrap.png",
+    "output": "web/assets/art/items/scrap.webp",
+    "width": 384
+  },
+  {
+    "key": "items/ore",
+    "kind": "item",
+    "prompt": "Original premium 2D survival game collectible inventory illustration, square composition, one centered complete object occupying 78% of frame with generous empty margin. a rough charcoal rock with bright natural copper mineral veins. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/items/ore.png",
+    "output": "web/assets/art/items/ore.webp",
+    "width": 384
+  },
+  {
+    "key": "items/hide",
+    "kind": "item",
+    "prompt": "Original premium 2D survival game collectible inventory illustration, square composition, one centered complete object occupying 78% of frame with generous empty margin. a folded tawny animal hide with textured fur and leather underside. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/items/hide.png",
+    "output": "web/assets/art/items/hide.webp",
+    "width": 384
+  },
+  {
+    "key": "items/berries",
+    "kind": "item",
+    "prompt": "Original premium 2D survival game collectible inventory illustration, square composition, one centered complete object occupying 78% of frame with generous empty margin. a small handful of deep burgundy wild berries with a twig, no green leaves. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/items/berries.png",
+    "output": "web/assets/art/items/berries.webp",
+    "width": 384
+  },
+  {
+    "key": "items/mushroom",
+    "kind": "item",
+    "prompt": "Original premium 2D survival game collectible inventory illustration, square composition, one centered complete object occupying 78% of frame with generous empty margin. three beige woodland mushrooms, one sliced cap, elegant tactile detail. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/items/mushroom.png",
+    "output": "web/assets/art/items/mushroom.webp",
+    "width": 384
+  },
+  {
+    "key": "items/ration",
+    "kind": "item",
+    "prompt": "Original premium 2D survival game collectible inventory illustration, square composition, one centered complete object occupying 78% of frame with generous empty margin. a sealed weathered kraft-paper emergency food packet tied with twine, entirely unlabelled. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/items/ration.png",
+    "output": "web/assets/art/items/ration.webp",
+    "width": 384
+  },
+  {
+    "key": "items/raw_meat",
+    "kind": "item",
+    "prompt": "Original premium 2D survival game collectible inventory illustration, square composition, one centered complete object occupying 78% of frame with generous empty margin. a clean raw red venison steak on a small dark slate, tasteful food illustration, no blood splashes. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/items/raw_meat.png",
+    "output": "web/assets/art/items/raw_meat.webp",
+    "width": 384
+  },
+  {
+    "key": "items/cooked_meat",
+    "kind": "item",
+    "prompt": "Original premium 2D survival game collectible inventory illustration, square composition, one centered complete object occupying 78% of frame with generous empty margin. a beautifully grilled venison steak with charred edges on a small slate, subtle warm steam. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/items/cooked_meat.png",
+    "output": "web/assets/art/items/cooked_meat.webp",
+    "width": 384
+  },
+  {
+    "key": "items/fish",
+    "kind": "item",
+    "prompt": "Original premium 2D survival game collectible inventory illustration, square composition, one centered complete object occupying 78% of frame with generous empty margin. one fresh silvery trout, full body diagonal, metallic scales, no blood. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/items/fish.png",
+    "output": "web/assets/art/items/fish.webp",
+    "width": 384
+  },
+  {
+    "key": "items/cooked_fish",
+    "kind": "item",
+    "prompt": "Original premium 2D survival game collectible inventory illustration, square composition, one centered complete object occupying 78% of frame with generous empty margin. one roasted golden trout on a small slate, charred skin, subtle warm steam. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/items/cooked_fish.png",
+    "output": "web/assets/art/items/cooked_fish.webp",
+    "width": 384
+  },
+  {
+    "key": "items/stew",
+    "kind": "item",
+    "prompt": "Original premium 2D survival game collectible inventory illustration, square composition, one centered complete object occupying 78% of frame with generous empty margin. a rustic dark iron bowl of mushroom stew with soft warm steam. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/items/stew.png",
+    "output": "web/assets/art/items/stew.webp",
+    "width": 384
+  },
+  {
+    "key": "items/water",
+    "kind": "item",
+    "prompt": "Original premium 2D survival game collectible inventory illustration, square composition, one centered complete object occupying 78% of frame with generous empty margin. a clear glass field-water bottle with cork, pristine transparent water and ivory reflections. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/items/water.png",
+    "output": "web/assets/art/items/water.webp",
+    "width": 384
+  },
+  {
+    "key": "items/dirty_water",
+    "kind": "item",
+    "prompt": "Original premium 2D survival game collectible inventory illustration, square composition, one centered complete object occupying 78% of frame with generous empty margin. a battered translucent field-water bottle containing cloudy brown river water, cork closure. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/items/dirty_water.png",
+    "output": "web/assets/art/items/dirty_water.webp",
+    "width": 384
+  },
+  {
+    "key": "items/tea",
+    "kind": "item",
+    "prompt": "Original premium 2D survival game collectible inventory illustration, square composition, one centered complete object occupying 78% of frame with generous empty margin. a small enamel camp mug containing warm amber herbal tea with gentle steam. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/items/tea.png",
+    "output": "web/assets/art/items/tea.webp",
+    "width": 384
+  },
+  {
+    "key": "items/bandage",
+    "kind": "item",
+    "prompt": "Original premium 2D survival game collectible inventory illustration, square composition, one centered complete object occupying 78% of frame with generous empty margin. a rolled clean ivory linen bandage with a loose folded strip. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/items/bandage.png",
+    "output": "web/assets/art/items/bandage.webp",
+    "width": 384
+  },
+  {
+    "key": "items/medicine",
+    "kind": "item",
+    "prompt": "Original premium 2D survival game collectible inventory illustration, square composition, one centered complete object occupying 78% of frame with generous empty margin. a tiny amber apothecary bottle with cork and two pale tablets beside it, no label. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/items/medicine.png",
+    "output": "web/assets/art/items/medicine.webp",
+    "width": 384
+  },
+  {
+    "key": "items/knife",
+    "kind": "item",
+    "prompt": "Original premium 2D survival game collectible inventory illustration, square composition, one centered complete object occupying 78% of frame with generous empty margin. a rugged survival knife with dark wrapped leather handle, scratched steel blade, diagonal full view. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/items/knife.png",
+    "output": "web/assets/art/items/knife.webp",
+    "width": 384
+  },
+  {
+    "key": "items/axe",
+    "kind": "item",
+    "prompt": "Original premium 2D survival game collectible inventory illustration, square composition, one centered complete object occupying 78% of frame with generous empty margin. one primitive stone axe with chipped flint head lashed to wood with pale cord, diagonal full view. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/items/axe.png",
+    "output": "web/assets/art/items/axe.webp",
+    "width": 384
+  },
+  {
+    "key": "items/iron_axe",
+    "kind": "item",
+    "prompt": "Original premium 2D survival game collectible inventory illustration, square composition, one centered complete object occupying 78% of frame with generous empty margin. one forged iron camp axe, dark steel head with copper scratches, seasoned wood handle, diagonal full view. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/items/iron_axe.png",
+    "output": "web/assets/art/items/iron_axe.webp",
+    "width": 384
+  },
+  {
+    "key": "items/spear",
+    "kind": "item",
+    "prompt": "Original premium 2D survival game collectible inventory illustration, square composition, one centered complete object occupying 78% of frame with generous empty margin. one full-length handmade survival spear with dark wooden shaft, flint tip and twine bindings, diagonal full view. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/items/spear.png",
+    "output": "web/assets/art/items/spear.webp",
+    "width": 384
+  },
+  {
+    "key": "items/bow",
+    "kind": "item",
+    "prompt": "Original premium 2D survival game collectible inventory illustration, square composition, one centered complete object occupying 78% of frame with generous empty margin. one complete curved ash-wood hunting recurve bow, dark leather grip and taut ivory bowstring, diagonal. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/items/bow.png",
+    "output": "web/assets/art/items/bow.webp",
+    "width": 384
+  },
+  {
+    "key": "items/arrows",
+    "kind": "item",
+    "prompt": "Original premium 2D survival game collectible inventory illustration, square composition, one centered complete object occupying 78% of frame with generous empty margin. three complete handmade arrows with flint tips and ivory feather fletching, diagonal bundle. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/items/arrows.png",
+    "output": "web/assets/art/items/arrows.webp",
+    "width": 384
+  },
+  {
+    "key": "items/jacket",
+    "kind": "item",
+    "prompt": "Original premium 2D survival game collectible inventory illustration, square composition, one centered complete object occupying 78% of frame with generous empty margin. a dark weathered leather survival jacket with deep black hood and scarf, EMPTY garment, no mannequin head or person. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/items/jacket.png",
+    "output": "web/assets/art/items/jacket.webp",
+    "width": 384
+  },
+  {
+    "key": "items/insulated",
+    "kind": "item",
+    "prompt": "Original premium 2D survival game collectible inventory illustration, square composition, one centered complete object occupying 78% of frame with generous empty margin. a thick graphite alpine coat with large fur-lined BLACK hood, folded dark mask scarf, EMPTY garment, no head or person. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/items/insulated.png",
+    "output": "web/assets/art/items/insulated.webp",
+    "width": 384
+  },
+  {
+    "key": "items/fishing_rod",
+    "kind": "item",
+    "prompt": "Original premium 2D survival game collectible inventory illustration, square composition, one centered complete object occupying 78% of frame with generous empty margin. one handmade fishing rod with wood handle, simple line spool and fine coiled line, full diagonal view. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/items/fishing_rod.png",
+    "output": "web/assets/art/items/fishing_rod.webp",
+    "width": 384
+  },
+  {
+    "key": "items/torch",
+    "kind": "item",
+    "prompt": "Original premium 2D survival game collectible inventory illustration, square composition, one centered complete object occupying 78% of frame with generous empty margin. a wrapped wooden survival torch with a small controlled copper flame, full diagonal view. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/items/torch.png",
+    "output": "web/assets/art/items/torch.webp",
+    "width": 384
+  },
+  {
+    "key": "items/backpack",
+    "kind": "item",
+    "prompt": "Original premium 2D survival game collectible inventory illustration, square composition, one centered complete object occupying 78% of frame with generous empty margin. a premium rugged charcoal canvas field backpack with buckled copper hardware and leather straps. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/items/backpack.png",
+    "output": "web/assets/art/items/backpack.webp",
+    "width": 384
+  },
+  {
+    "key": "items/trap",
+    "kind": "item",
+    "prompt": "Original premium 2D survival game collectible inventory illustration, square composition, one centered complete object occupying 78% of frame with generous empty margin. a handmade loop snare of pale fiber cord tied to a short wooden trigger, clearly legible loop. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/items/trap.png",
+    "output": "web/assets/art/items/trap.webp",
+    "width": 384
+  },
+  {
+    "key": "items/journal",
+    "kind": "item",
+    "prompt": "Original premium 2D survival game collectible inventory illustration, square composition, one centered complete object occupying 78% of frame with generous empty margin. a closed weathered leather ranger field notebook with copper compass clasp, no writing. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/items/journal.png",
+    "output": "web/assets/art/items/journal.webp",
+    "width": 384
+  },
+  {
+    "key": "items/radio_part",
+    "kind": "item",
+    "prompt": "Original premium 2D survival game collectible inventory illustration, square composition, one centered complete object occupying 78% of frame with generous empty margin. a salvaged radio circuit module with copper coils, dark circuit board and ivory ceramic parts, no green. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/items/radio_part.png",
+    "output": "web/assets/art/items/radio_part.webp",
+    "width": 384
+  },
+  {
+    "key": "items/battery",
+    "kind": "item",
+    "prompt": "Original premium 2D survival game collectible inventory illustration, square composition, one centered complete object occupying 78% of frame with generous empty margin. a handmade compact battery with two copper terminals and dark iron casing, leather-wrapped. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/items/battery.png",
+    "output": "web/assets/art/items/battery.webp",
+    "width": 384
+  },
+  {
+    "key": "items/radio",
+    "kind": "item",
+    "prompt": "Original premium 2D survival game collectible inventory illustration, square composition, one centered complete object occupying 78% of frame with generous empty margin. a vintage rugged emergency radio with dark charcoal casing, copper dial and long antenna, no lettering. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/items/radio.png",
+    "output": "web/assets/art/items/radio.webp",
+    "width": 384
+  },
+  {
+    "key": "structures/firepit",
+    "kind": "structure",
+    "prompt": "Original premium 2D survival game collectible inventory illustration, square composition, one centered complete object occupying 78% of frame with generous empty margin. a low stone fire ring with stacked wood and a small copper ember fire. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/structures/firepit.png",
+    "output": "web/assets/art/structures/firepit.webp",
+    "width": 384
+  },
+  {
+    "key": "structures/shelter",
+    "kind": "structure",
+    "prompt": "Original premium 2D survival game collectible inventory illustration, square composition, one centered complete object occupying 78% of frame with generous empty margin. a primitive A-frame tarp shelter, ash-gray canvas, dark poles, bedroll visible inside. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/structures/shelter.png",
+    "output": "web/assets/art/structures/shelter.webp",
+    "width": 384
+  },
+  {
+    "key": "structures/shelter2",
+    "kind": "structure",
+    "prompt": "Original premium 2D survival game collectible inventory illustration, square composition, one centered complete object occupying 78% of frame with generous empty margin. a small sturdy wilderness cabin built from dark logs with a pitched roof and amber-lit doorway. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/structures/shelter2.png",
+    "output": "web/assets/art/structures/shelter2.webp",
+    "width": 384
+  },
+  {
+    "key": "structures/shelter3",
+    "kind": "structure",
+    "prompt": "Original premium 2D survival game collectible inventory illustration, square composition, one centered complete object occupying 78% of frame with generous empty margin. an insulated alpine survival lodge of weathered dark timber and stone, snow on roof, warm window light. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/structures/shelter3.png",
+    "output": "web/assets/art/structures/shelter3.webp",
+    "width": 384
+  },
+  {
+    "key": "structures/rain_collector",
+    "kind": "structure",
+    "prompt": "Original premium 2D survival game collectible inventory illustration, square composition, one centered complete object occupying 78% of frame with generous empty margin. a handmade rain collector, stretched ivory canvas funnel on dark poles draining into a metal barrel. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/structures/rain_collector.png",
+    "output": "web/assets/art/structures/rain_collector.webp",
+    "width": 384
+  },
+  {
+    "key": "structures/garden",
+    "kind": "structure",
+    "prompt": "Original premium 2D survival game collectible inventory illustration, square composition, one centered complete object occupying 78% of frame with generous empty margin. a small raised woodland garden bed of dark timber with silvery medicinal herbs and dried berry shrubs. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/structures/garden.png",
+    "output": "web/assets/art/structures/garden.webp",
+    "width": 384
+  },
+  {
+    "key": "locations/camp",
+    "kind": "world",
+    "prompt": "Original premium atmospheric 2D survival game environment illustration, cinematic wide landscape 3:2 composition. an EMPTY alpine camp clearing on a broad slate ledge in the right foreground, NO shelter, NO cabin, NO campfire, NO tent, NO people; dramatic pale ivory peaks across a misty charcoal pine valley, moonlit ash-gray landscape, warm copper horizon, clear flat foreground to place modular camp objects. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Quiet atmosphere, layered fog, nuanced detail, room for UI overlay. No humans. No text, lettering, UI, frame or watermark.",
+    "transparent": false,
+    "original": "art/generated/locations/camp.png",
+    "output": "web/assets/art/locations/camp.webp",
+    "width": 1440
+  },
+  {
+    "key": "locations/forest",
+    "kind": "world",
+    "prompt": "Original premium atmospheric 2D survival game environment illustration, cinematic wide landscape 3:2 composition. dense charcoal pine forest, fog flowing between tall trunks, narrow wilderness trail, scattered pale stones, tiny warm copper trail ribbon. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Quiet atmosphere, layered fog, nuanced detail, room for UI overlay. No humans. No text, lettering, UI, frame or watermark.",
+    "transparent": false,
+    "original": "art/generated/locations/forest.png",
+    "output": "web/assets/art/locations/forest.webp",
+    "width": 1440
+  },
+  {
+    "key": "locations/river",
+    "kind": "world",
+    "prompt": "Original premium atmospheric 2D survival game environment illustration, cinematic wide landscape 3:2 composition. quiet silvery alpine river winding between slate river stones and charcoal pines, pale mountains in mist, warm dawn horizon. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Quiet atmosphere, layered fog, nuanced detail, room for UI overlay. No humans. No text, lettering, UI, frame or watermark.",
+    "transparent": false,
+    "original": "art/generated/locations/river.png",
+    "output": "web/assets/art/locations/river.webp",
+    "width": 1440
+  },
+  {
+    "key": "locations/cabin",
+    "kind": "world",
+    "prompt": "Original premium atmospheric 2D survival game environment illustration, cinematic wide landscape 3:2 composition. an abandoned weathered dark timber ranger cabin on a rocky forest clearing, broken amber-glass window, quiet ash-colored mist. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Quiet atmosphere, layered fog, nuanced detail, room for UI overlay. No humans. No text, lettering, UI, frame or watermark.",
+    "transparent": false,
+    "original": "art/generated/locations/cabin.png",
+    "output": "web/assets/art/locations/cabin.webp",
+    "width": 1440
+  },
+  {
+    "key": "locations/mountain",
+    "kind": "world",
+    "prompt": "Original premium atmospheric 2D survival game environment illustration, cinematic wide landscape 3:2 composition. dramatic cold alpine ridge trail above a cloud sea, monumental ivory snow mountains, charcoal crags and a tiny copper trail marker. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Quiet atmosphere, layered fog, nuanced detail, room for UI overlay. No humans. No text, lettering, UI, frame or watermark.",
+    "transparent": false,
+    "original": "art/generated/locations/mountain.png",
+    "output": "web/assets/art/locations/mountain.webp",
+    "width": 1440
+  },
+  {
+    "key": "locations/cave",
+    "kind": "world",
+    "prompt": "Original premium atmospheric 2D survival game environment illustration, cinematic wide landscape 3:2 composition. interior of an immense rugged slate cavern, copper ore veins in rocks, one small amber torch near entrance, mist and light shafts, beautiful dark stone texture. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Quiet atmosphere, layered fog, nuanced detail, room for UI overlay. No humans. No text, lettering, UI, frame or watermark.",
+    "transparent": false,
+    "original": "art/generated/locations/cave.png",
+    "output": "web/assets/art/locations/cave.webp",
+    "width": 1440
+  },
+  {
+    "key": "locations/ruins",
+    "kind": "world",
+    "prompt": "Original premium atmospheric 2D survival game environment illustration, cinematic wide landscape 3:2 composition. abandoned northern radio station ruins, dark stone walls, bent steel communication mast, copper rust, alpine fog, beautiful dramatic negative space. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Quiet atmosphere, layered fog, nuanced detail, room for UI overlay. No humans. No text, lettering, UI, frame or watermark.",
+    "transparent": false,
+    "original": "art/generated/locations/ruins.png",
+    "output": "web/assets/art/locations/ruins.webp",
+    "width": 1440
+  },
+  {
+    "key": "locations/summit",
+    "kind": "world",
+    "prompt": "Original premium atmospheric 2D survival game environment illustration, cinematic wide landscape 3:2 composition. vast ivory alpine summit above clouds, modest old radio mast on slate rocks, tiny copper pennant, luminous dawn horizon and distant cold mountain peaks. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Quiet atmosphere, layered fog, nuanced detail, room for UI overlay. No humans. No text, lettering, UI, frame or watermark.",
+    "transparent": false,
+    "original": "art/generated/locations/summit.png",
+    "output": "web/assets/art/locations/summit.webp",
+    "width": 1440
+  },
+  {
+    "key": "enemies/wolf",
+    "kind": "enemy",
+    "prompt": "Original premium 2D survival game collectible inventory illustration, square composition, one centered complete object occupying 78% of frame with generous empty margin. a powerful gray wilderness wolf, full body three-quarter view, thick silver ash fur, alert predatory stance, amber eyes, subtle breath mist. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/enemies/wolf.png",
+    "output": "web/assets/art/enemies/wolf.webp",
+    "width": 384
+  },
+  {
+    "key": "enemies/boar",
+    "kind": "enemy",
+    "prompt": "Original premium 2D survival game collectible inventory illustration, square composition, one centered complete object occupying 78% of frame with generous empty margin. a formidable wild boar, full body three-quarter view, dark charcoal bristles, ivory tusks, powerful shoulders, natural proportions. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/enemies/boar.png",
+    "output": "web/assets/art/enemies/boar.webp",
+    "width": 384
+  },
+  {
+    "key": "enemies/bear",
+    "kind": "enemy",
+    "prompt": "Original premium 2D survival game collectible inventory illustration, square composition, one centered complete object occupying 78% of frame with generous empty margin. a huge formidable grizzly bear, full body three-quarter view, dark ash-brown fur, powerful shoulders and paws, slight breath mist, natural proportions. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/enemies/bear.png",
+    "output": "web/assets/art/enemies/bear.webp",
+    "width": 384
+  },
+  {
+    "key": "symbols/compass",
+    "kind": "symbol",
+    "prompt": "Original premium 2D survival game UI pictogram, square composition, bold simple unmistakable shape, legible at 24 pixels. an engraved copper wilderness compass rose, four clear cardinal points and ivory inner needle. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/symbols/compass.png",
+    "output": "web/assets/art/symbols/compass.webp",
+    "width": 128
+  },
+  {
+    "key": "symbols/heart",
+    "kind": "symbol",
+    "prompt": "Original premium 2D survival game UI pictogram, square composition, bold simple unmistakable shape, legible at 24 pixels. one sculptural ivory heart shape with a fine copper seam, unmistakable health pictogram. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/symbols/heart.png",
+    "output": "web/assets/art/symbols/heart.webp",
+    "width": 128
+  },
+  {
+    "key": "symbols/lightning",
+    "kind": "symbol",
+    "prompt": "Original premium 2D survival game UI pictogram, square composition, bold simple unmistakable shape, legible at 24 pixels. one bold ivory lightning bolt with thin copper beveled edges, unmistakable energy pictogram. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/symbols/lightning.png",
+    "output": "web/assets/art/symbols/lightning.webp",
+    "width": 128
+  },
+  {
+    "key": "symbols/thermometer",
+    "kind": "symbol",
+    "prompt": "Original premium 2D survival game UI pictogram, square composition, bold simple unmistakable shape, legible at 24 pixels. one simple ivory glass thermometer with copper bulb, clean temperature pictogram. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/symbols/thermometer.png",
+    "output": "web/assets/art/symbols/thermometer.webp",
+    "width": 128
+  },
+  {
+    "key": "symbols/moon",
+    "kind": "symbol",
+    "prompt": "Original premium 2D survival game UI pictogram, square composition, bold simple unmistakable shape, legible at 24 pixels. one luminous ivory crescent moon, subtle copper edge, clean sleep pictogram. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/symbols/moon.png",
+    "output": "web/assets/art/symbols/moon.webp",
+    "width": 128
+  },
+  {
+    "key": "symbols/sun",
+    "kind": "symbol",
+    "prompt": "Original premium 2D survival game UI pictogram, square composition, bold simple unmistakable shape, legible at 24 pixels. one ivory sun disk surrounded by eight short copper rays, clean weather pictogram. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/symbols/sun.png",
+    "output": "web/assets/art/symbols/sun.webp",
+    "width": 128
+  },
+  {
+    "key": "symbols/cloud",
+    "kind": "symbol",
+    "prompt": "Original premium 2D survival game UI pictogram, square composition, bold simple unmistakable shape, legible at 24 pixels. one softly sculpted ivory cloud with copper edge, clean cloudy weather pictogram. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/symbols/cloud.png",
+    "output": "web/assets/art/symbols/cloud.webp",
+    "width": 128
+  },
+  {
+    "key": "symbols/cloud-fog",
+    "kind": "symbol",
+    "prompt": "Original premium 2D survival game UI pictogram, square composition, bold simple unmistakable shape, legible at 24 pixels. one ivory cloud above three simple horizontal gray fog lines, clear pictogram. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/symbols/cloud-fog.png",
+    "output": "web/assets/art/symbols/cloud-fog.webp",
+    "width": 128
+  },
+  {
+    "key": "symbols/cloud-rain",
+    "kind": "symbol",
+    "prompt": "Original premium 2D survival game UI pictogram, square composition, bold simple unmistakable shape, legible at 24 pixels. one ivory cloud above three copper rain drops, clear pictogram. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/symbols/cloud-rain.png",
+    "output": "web/assets/art/symbols/cloud-rain.webp",
+    "width": 128
+  },
+  {
+    "key": "symbols/cloud-lightning",
+    "kind": "symbol",
+    "prompt": "Original premium 2D survival game UI pictogram, square composition, bold simple unmistakable shape, legible at 24 pixels. one ivory storm cloud with a copper lightning bolt below, clear pictogram. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/symbols/cloud-lightning.png",
+    "output": "web/assets/art/symbols/cloud-lightning.webp",
+    "width": 128
+  },
+  {
+    "key": "symbols/snowflake",
+    "kind": "symbol",
+    "prompt": "Original premium 2D survival game UI pictogram, square composition, bold simple unmistakable shape, legible at 24 pixels. one bold symmetrical ivory six-point snowflake with subtle copper bevel, clean pictogram. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/symbols/snowflake.png",
+    "output": "web/assets/art/symbols/snowflake.webp",
+    "width": 128
+  },
+  {
+    "key": "symbols/hammer",
+    "kind": "symbol",
+    "prompt": "Original premium 2D survival game UI pictogram, square composition, bold simple unmistakable shape, legible at 24 pixels. one dark steel crafting hammer with copper handle, diagonal clear silhouette. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/symbols/hammer.png",
+    "output": "web/assets/art/symbols/hammer.webp",
+    "width": 128
+  },
+  {
+    "key": "symbols/shield",
+    "kind": "symbol",
+    "prompt": "Original premium 2D survival game UI pictogram, square composition, bold simple unmistakable shape, legible at 24 pixels. one simple dark iron shield with ivory edge and a copper center ridge, clean armor pictogram. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/symbols/shield.png",
+    "output": "web/assets/art/symbols/shield.webp",
+    "width": 128
+  },
+  {
+    "key": "symbols/clock",
+    "kind": "symbol",
+    "prompt": "Original premium 2D survival game UI pictogram, square composition, bold simple unmistakable shape, legible at 24 pixels. one ivory clock face with two bold copper hands, no numbers, simple clean time pictogram. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/symbols/clock.png",
+    "output": "web/assets/art/symbols/clock.webp",
+    "width": 128
+  },
+  {
+    "key": "symbols/flag",
+    "kind": "symbol",
+    "prompt": "Original premium 2D survival game UI pictogram, square composition, bold simple unmistakable shape, legible at 24 pixels. one copper trail pennant on a simple ivory pole, clean quest pictogram. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/symbols/flag.png",
+    "output": "web/assets/art/symbols/flag.webp",
+    "width": 128
+  },
+  {
+    "key": "symbols/mountains",
+    "kind": "symbol",
+    "prompt": "Original premium 2D survival game UI pictogram, square composition, bold simple unmistakable shape, legible at 24 pixels. two angular ivory snow mountain peaks with dark slate bases, clean location pictogram. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/symbols/mountains.png",
+    "output": "web/assets/art/symbols/mountains.webp",
+    "width": 128
+  },
+  {
+    "key": "symbols/paw-print",
+    "kind": "symbol",
+    "prompt": "Original premium 2D survival game UI pictogram, square composition, bold simple unmistakable shape, legible at 24 pixels. one bold ivory animal paw print with four toes and a copper edge, clean wildlife pictogram. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/symbols/paw-print.png",
+    "output": "web/assets/art/symbols/paw-print.webp",
+    "width": 128
+  },
+  {
+    "key": "symbols/flame",
+    "kind": "symbol",
+    "prompt": "Original premium 2D survival game UI pictogram, square composition, bold simple unmistakable shape, legible at 24 pixels. one elegant copper-amber campfire flame above two crossed dark charcoal sticks, clean ember pictogram. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/symbols/flame.png",
+    "output": "web/assets/art/symbols/flame.webp",
+    "width": 128
+  },
+  {
+    "key": "structures/firepit_cold",
+    "kind": "structure",
+    "prompt": "Original premium 2D survival game collectible inventory illustration, square composition, one centered complete object occupying 78% of frame with generous empty margin. a low stone fire ring with black charred sticks and cold white ash inside, absolutely NO flame, NO embers, NO glow, extinguished campfire. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/structures/firepit_cold.png",
+    "output": "web/assets/art/structures/firepit_cold.webp",
+    "width": 384
+  },
+  {
+    "key": "brand/title",
+    "kind": "world",
+    "prompt": "Premium atmospheric alpine survival title illustration: charcoal pines, ivory snow peaks, tiny ash-gray shelter and copper campfire on a ledge. A small black-hooded survivor with face fully concealed. Obsidian, ivory, copper palette, no green. Cinematic painterly realism. No text or UI.",
+    "transparent": false,
+    "original": "art/generated/brand/title.png",
+    "output": "web/assets/camp.webp",
+    "width": 1600
+  },
+  {
+    "key": "survivors/last_ember",
+    "kind": "survivor",
+    "prompt": "Original premium atmospheric 2D survival game character portrait, vertical square bust of a rugged solitary pilot survivor wearing a deep black hood, matte black scarf and charcoal canvas coat with copper buckles. FACE COMPLETELY HIDDEN, no facial features, no exposed eyes, no skin, no visible full face. Head inside deep pitch black shadow. Beautiful textured painterly realism, cinematic copper rim light, obsidian charcoal and ivory palette, NO GREEN, no neon. Isolated on transparent background. No text, logo, border or UI. Centered full hood and shoulders with margin.",
+    "transparent": true,
+    "original": "art/generated/survivors/last_ember.png",
+    "output": "web/assets/art/survivors/last_ember.webp",
+    "width": 512
+  },
+  {
+    "key": "survivors/riverborn",
+    "kind": "survivor",
+    "prompt": "Original premium atmospheric 2D survival game character portrait, vertical square bust of a resilient river wanderer wearing a dark hooded oilskin cloak and a black cloth mask, worn ivory straps and copper buckles. FACE COMPLETELY HIDDEN, no facial features, no exposed eyes, no skin, no visible full face. Head inside deep pitch black shadow. Beautiful textured painterly realism, cinematic copper rim light, obsidian charcoal and ivory palette, NO GREEN, no neon. Isolated on transparent background. No text, logo, border or UI. Centered full hood and shoulders with margin.",
+    "transparent": true,
+    "original": "art/generated/survivors/riverborn.png",
+    "output": "web/assets/art/survivors/riverborn.webp",
+    "width": 512
+  },
+  {
+    "key": "survivors/cold_trail",
+    "kind": "survivor",
+    "prompt": "Original premium atmospheric 2D survival game character portrait, vertical square bust of an alpine survivor wearing a graphite fur-lined hood, dark helmet goggles and a FULL black face covering. FACE COMPLETELY HIDDEN, no facial features, no exposed eyes, no skin, no visible full face. Head inside deep pitch black shadow. Beautiful textured painterly realism, cinematic copper rim light, obsidian charcoal and ivory palette, NO GREEN, no neon. Isolated on transparent background. No text, logo, border or UI. Centered full hood and shoulders with margin.",
+    "transparent": true,
+    "original": "art/generated/survivors/cold_trail.png",
+    "output": "web/assets/art/survivors/cold_trail.webp",
+    "width": 512
+  },
+  {
+    "key": "brand/emblem",
+    "kind": "brand",
+    "prompt": "Create original premium Android survival game app icon for WILDFALL Last Ember. Square full-bleed obsidian charcoal textured stone background, centered bold elegant copper amber flame shaped like a mountain peak above two crossed ivory-charcoal branches, simple striking emblem readable at 48px. Embossed tactile copper-metal effect with controlled warm glow and subtle ivory highlights. Beautiful luxury game mark, restrained geometry, sophisticated handcrafted look. No green, teal, purple or neon. No lettering, words, UI, border or watermark. Edge to edge square, no rounded corners.",
+    "transparent": false,
+    "original": "art/generated/brand/emblem.png",
+    "output": "web/assets/icon.webp",
+    "width": 256
+  }
+]

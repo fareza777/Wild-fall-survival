@@ -1,0 +1,42 @@
+{
+  "wolf": {
+    "name": "Ash Wolf",
+    "icon": "paw-print",
+    "health": 38,
+    "damage": 9,
+    "speed": 0.28,
+    "loot": {
+      "raw_meat": 2,
+      "hide": 1
+    },
+    "description": "Fast and territorial. Guard to recover stamina.",
+    "art": "assets/art/enemies/wolf.webp"
+  },
+  "boar": {
+    "name": "Ironhide Boar",
+    "icon": "paw-print",
+    "health": 46,
+    "damage": 11,
+    "speed": 0.18,
+    "loot": {
+      "raw_meat": 3,
+      "hide": 2
+    },
+    "description": "Heavy attacks. Armor and preparation help.",
+    "art": "assets/art/enemies/boar.webp"
+  },
+  "bear": {
+    "name": "Valley Grizzly",
+    "icon": "paw-print",
+    "health": 78,
+    "damage": 16,
+    "speed": 0.4,
+    "loot": {
+      "raw_meat": 4,
+      "hide": 3
+    },
+    "minDay": 5,
+    "description": "Dangerous after day five. Bring a bow and armor.",
+    "art": "assets/art/enemies/bear.webp"
+  }
+}

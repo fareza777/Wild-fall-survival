@@ -1,0 +1,7 @@
+# Preserve bundled runtime bytes so the checked-in APK verifies after any clone.
+web/** -text
+*.apk binary
+*.png binary
+*.webp binary
+*.ogg binary
+*.ttf binary

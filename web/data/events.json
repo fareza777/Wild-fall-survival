@@ -1,0 +1,294 @@
+{
+  "tracks": {
+    "title": "Tracks in the Mud",
+    "icon": "paw-print",
+    "locations": [
+      "forest",
+      "mountain"
+    ],
+    "text": "Fresh tracks disappear into the brush. A rabbit may be close.",
+    "choices": [
+      {
+        "label": "Follow the tracks",
+        "description": "A chance of venison.",
+        "minutes": 25,
+        "stamina": 8,
+        "chance": 0.72,
+        "loot": {
+          "raw_meat": 1
+        },
+        "failure": "The tracks vanish on the rocky ground."
+      },
+      {
+        "label": "Keep walking",
+        "description": "Leave the trail undisturbed.",
+        "minutes": 0,
+        "stamina": 0
+      }
+    ]
+  },
+  "cache": {
+    "title": "Caught in the Roots",
+    "icon": "backpack",
+    "locations": [
+      "forest",
+      "river"
+    ],
+    "text": "A torn pack hangs above the riverbank. Its contents may be dry.",
+    "choices": [
+      {
+        "label": "Retrieve the pack",
+        "description": "One ration and two fiber. Risk of injury.",
+        "minutes": 20,
+        "stamina": 6,
+        "loot": {
+          "ration": 1,
+          "fiber": 2
+        },
+        "risk": 0.2,
+        "injury": 10
+      },
+      {
+        "label": "Leave it",
+        "description": "Save your strength.",
+        "minutes": 0,
+        "stamina": 0
+      }
+    ]
+  },
+  "herbal": {
+    "title": "A Familiar Scent",
+    "icon": "leaf",
+    "locations": [
+      "camp",
+      "forest",
+      "river"
+    ],
+    "text": "Medicinal herbs grow beside the trail.",
+    "choices": [
+      {
+        "label": "Gather carefully",
+        "description": "Three herbs.",
+        "minutes": 15,
+        "stamina": 4,
+        "loot": {
+          "herbs": 3
+        }
+      },
+      {
+        "label": "Move on",
+        "description": "Save your strength.",
+        "minutes": 0,
+        "stamina": 0
+      }
+    ]
+  },
+  "howl": {
+    "title": "Eyes in the Mist",
+    "icon": "paw-print",
+    "locations": [
+      "forest",
+      "mountain",
+      "ruins"
+    ],
+    "text": "Footsteps stop when you stop. A wolf watches from the dark.",
+    "choices": [
+      {
+        "label": "Stand your ground",
+        "description": "Face an ash wolf.",
+        "minutes": 5,
+        "stamina": 4,
+        "combat": "wolf"
+      },
+      {
+        "label": "Back away",
+        "description": "Avoid the encounter.",
+        "minutes": 20,
+        "stamina": 10
+      },
+      {
+        "label": "Wait quietly",
+        "description": "Lose time, spend no stamina.",
+        "minutes": 30,
+        "stamina": 0
+      }
+    ]
+  },
+  "shelter": {
+    "title": "A Roof of Stone",
+    "icon": "tent",
+    "locations": [
+      "mountain",
+      "cave"
+    ],
+    "text": "A dry rock ledge offers a moment of shelter.",
+    "choices": [
+      {
+        "label": "Catch your breath",
+        "description": "Restore 20 stamina. Reduce fatigue by eight.",
+        "minutes": 45,
+        "stamina": 0,
+        "restore": 20,
+        "fatigue": -8
+      },
+      {
+        "label": "Keep moving",
+        "description": "Keep the daylight.",
+        "minutes": 0,
+        "stamina": 0
+      }
+    ]
+  },
+  "waterfall": {
+    "title": "Hidden Spring",
+    "icon": "drop",
+    "locations": [
+      "river",
+      "mountain"
+    ],
+    "text": "Clear water trickles through a crack in the rock.",
+    "choices": [
+      {
+        "label": "Fill your bottles",
+        "description": "Two clean water bottles.",
+        "minutes": 20,
+        "stamina": 4,
+        "loot": {
+          "water": 2
+        }
+      },
+      {
+        "label": "Mark the spring",
+        "description": "Save your strength.",
+        "minutes": 0,
+        "stamina": 0
+      }
+    ]
+  },
+  "broken_floor": {
+    "title": "The Rotten Floor",
+    "icon": "warning",
+    "locations": [
+      "cabin",
+      "ruins"
+    ],
+    "text": "A metal cache lies beneath fragile boards.",
+    "choices": [
+      {
+        "label": "Reach for the cache",
+        "description": "Three scrap. Risk of injury.",
+        "minutes": 30,
+        "stamina": 8,
+        "loot": {
+          "scrap": 3
+        },
+        "risk": 0.3,
+        "injury": 18
+      },
+      {
+        "label": "Take the safe route",
+        "description": "One scrap, with no injury risk.",
+        "minutes": 20,
+        "stamina": 4,
+        "loot": {
+          "scrap": 1
+        }
+      },
+      {
+        "label": "Leave it",
+        "description": "Keep your supplies.",
+        "minutes": 0,
+        "stamina": 0
+      }
+    ]
+  },
+  "stranger": {
+    "title": "A Light Ahead",
+    "icon": "hand-heart",
+    "locations": [
+      "forest",
+      "cabin"
+    ],
+    "text": "A hooded traveller offers two hides for one emergency ration.",
+    "choices": [
+      {
+        "label": "Share a ration",
+        "description": "Two hides and five health.",
+        "minutes": 10,
+        "stamina": 2,
+        "cost": {
+          "ration": 1
+        },
+        "loot": {
+          "hide": 2
+        },
+        "heal": 5
+      },
+      {
+        "label": "Keep your food",
+        "description": "Your journey is still long.",
+        "minutes": 0,
+        "stamina": 0
+      }
+    ]
+  },
+  "cold_snap": {
+    "title": "Wind from the Peaks",
+    "icon": "wind",
+    "locations": [
+      "camp",
+      "mountain",
+      "summit"
+    ],
+    "minDay": 3,
+    "text": "A sudden gust cuts through your clothing.",
+    "choices": [
+      {
+        "label": "Build a small heater",
+        "description": "Two wood. Body temperature +0.4°C.",
+        "minutes": 15,
+        "stamina": 3,
+        "cost": {
+          "wood": 2
+        },
+        "warmth": 0.4
+      },
+      {
+        "label": "Endure the cold",
+        "description": "Body temperature −0.3°C.",
+        "minutes": 0,
+        "stamina": 0,
+        "warmth": -0.3
+      }
+    ]
+  },
+  "memory": {
+    "title": "The Copper Ribbon",
+    "icon": "flag",
+    "locations": [
+      "forest",
+      "river",
+      "mountain"
+    ],
+    "text": "An old trail ribbon moves in the wind. Someone passed this way.",
+    "choices": [
+      {
+        "label": "Follow the marker",
+        "description": "Two berries. Reduce fatigue by four.",
+        "minutes": 20,
+        "stamina": 4,
+        "loot": {
+          "berries": 2
+        },
+        "fatigue": -4
+      },
+      {
+        "label": "Keep the ribbon",
+        "description": "Reduce fatigue by two.",
+        "minutes": 0,
+        "stamina": 0,
+        "fatigue": -2
+      }
+    ]
+  }
+}

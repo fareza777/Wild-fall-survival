@@ -1,0 +1,238 @@
+{
+  "main": [
+    {
+      "id": "first_night",
+      "title": "Before Nightfall",
+      "description": "Build a shelter and fire ring. Light a fire. Reach day two.",
+      "conditions": [
+        {
+          "structure": "shelter",
+          "value": 1
+        },
+        {
+          "structure": "firepit",
+          "value": 1
+        },
+        {
+          "counter": "fires",
+          "value": 1
+        },
+        {
+          "day": 2
+        }
+      ],
+      "reward": {
+        "ration": 2,
+        "water": 2
+      }
+    },
+    {
+      "id": "old_ranger",
+      "title": "The Ranger’s Trail",
+      "description": "Explore the forest, river, then cabin. Find the journal.",
+      "conditions": [
+        {
+          "flag": "journal"
+        }
+      ],
+      "reward": {
+        "herbs": 3,
+        "bandage": 2
+      }
+    },
+    {
+      "id": "scattered_signal",
+      "title": "Fragments of a Signal",
+      "description": "Recover the radio module. Mine four copper ore.",
+      "conditions": [
+        {
+          "flag": "radio_part"
+        },
+        {
+          "counter": "oreMined",
+          "value": 4
+        }
+      ],
+      "reward": {
+        "scrap": 4,
+        "water": 2
+      }
+    },
+    {
+      "id": "voice_in_static",
+      "title": "A Voice in the Static",
+      "description": "Build a copper battery and rescue radio at camp.",
+      "conditions": [
+        {
+          "item": "radio",
+          "value": 1
+        }
+      ],
+      "reward": {
+        "cooked_meat": 2,
+        "tea": 1
+      }
+    },
+    {
+      "id": "last_signal",
+      "title": "The Last Signal",
+      "description": "Transmit from the summit in calm daylight.",
+      "conditions": [
+        {
+          "flag": "rescued"
+        }
+      ],
+      "reward": {
+        "ration": 5,
+        "water": 5
+      }
+    }
+  ],
+  "side": [
+    {
+      "id": "woodkeeper",
+      "title": "Night Reserve",
+      "description": "Gather 20 firewood.",
+      "conditions": [
+        {
+          "counter": "woodGathered",
+          "value": 20
+        }
+      ],
+      "reward": {
+        "fiber": 4
+      }
+    },
+    {
+      "id": "clean_water",
+      "title": "Every Drop",
+      "description": "Boil six bottles of river water.",
+      "conditions": [
+        {
+          "counter": "waterBoiled",
+          "value": 6
+        }
+      ],
+      "reward": {
+        "herbs": 3,
+        "water": 2
+      }
+    },
+    {
+      "id": "field_kitchen",
+      "title": "Field Kitchen",
+      "description": "Cook five meals.",
+      "conditions": [
+        {
+          "counter": "mealsCooked",
+          "value": 5
+        }
+      ],
+      "reward": {
+        "ration": 2
+      }
+    },
+    {
+      "id": "angler",
+      "title": "River Patience",
+      "description": "Catch three trout.",
+      "conditions": [
+        {
+          "counter": "fishCaught",
+          "value": 3
+        }
+      ],
+      "reward": {
+        "fiber": 5,
+        "scrap": 2
+      }
+    },
+    {
+      "id": "tracker",
+      "title": "Read the Tracks",
+      "description": "Complete three successful hunts.",
+      "conditions": [
+        {
+          "counter": "hunts",
+          "value": 3
+        }
+      ],
+      "reward": {
+        "hide": 3
+      }
+    },
+    {
+      "id": "trapper",
+      "title": "While You Sleep",
+      "description": "Harvest two snares.",
+      "conditions": [
+        {
+          "counter": "trapsHarvested",
+          "value": 2
+        }
+      ],
+      "reward": {
+        "herbs": 2,
+        "raw_meat": 1
+      }
+    },
+    {
+      "id": "defender",
+      "title": "Ember Keeper",
+      "description": "Win two encounters.",
+      "conditions": [
+        {
+          "counter": "battlesWon",
+          "value": 2
+        }
+      ],
+      "reward": {
+        "medicine": 1,
+        "hide": 2
+      }
+    },
+    {
+      "id": "builder",
+      "title": "A Place to Return",
+      "description": "Upgrade to a timber cabin.",
+      "conditions": [
+        {
+          "structure": "shelter",
+          "value": 2
+        }
+      ],
+      "reward": {
+        "scrap": 3
+      }
+    },
+    {
+      "id": "seven_dawns",
+      "title": "Seven Dawns",
+      "description": "Reach day eight.",
+      "conditions": [
+        {
+          "day": 8
+        }
+      ],
+      "reward": {
+        "ration": 3,
+        "medicine": 1
+      }
+    },
+    {
+      "id": "cartographer",
+      "title": "Know the Valley",
+      "description": "Visit all eight locations.",
+      "conditions": [
+        {
+          "counter": "locationsVisited",
+          "value": 8
+        }
+      ],
+      "reward": {
+        "water": 3,
+        "cooked_meat": 2
+      }
+    }
+  ]
+}

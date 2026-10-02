@@ -1,0 +1,58 @@
+{
+  "passed": true,
+  "widths": [
+    320,
+    412,
+    760,
+    1440
+  ],
+  "checks": [
+    "English onboarding and responsive title",
+    "gather animation, actual loot, cost preview and duplicate input lock",
+    "eating and drinking motion and consumed inventory",
+    "travel and exact save restoration",
+    "16 decoded foley clips, separate toggles and volumes, background suspend/resume",
+    "craft reveal and camp build state",
+    "battle lunge, actual hit numbers, guard and defeat",
+    "all 36 item cards and five tabs at 320/412/1440px, including larger text",
+    "animation setting and OS reduced motion"
+  ],
+  "audio": {
+    "unlocked": true,
+    "paused": false,
+    "state": "running",
+    "activeLayers": [
+      "wind",
+      "fire"
+    ],
+    "loaded": [
+      "pack",
+      "draw",
+      "tap",
+      "equip",
+      "swing",
+      "chop",
+      "leaf",
+      "step1",
+      "step2",
+      "guard",
+      "hit",
+      "heavy",
+      "craft",
+      "snowstep",
+      "book",
+      "mine"
+    ],
+    "settings": {
+      "sound": true,
+      "ambient": true,
+      "sfxVolume": 0.4,
+      "ambientVolume": 0.32,
+      "vibration": true,
+      "motion": true,
+      "largeText": true
+    }
+  },
+  "errors": [],
+  "missing": []
+}

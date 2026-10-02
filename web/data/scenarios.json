@@ -1,0 +1,66 @@
+{
+  "last_ember": {
+    "name": "Last Ember",
+    "tag": "THE ORIGINAL JOURNEY",
+    "icon": "flame",
+    "description": "A crash. Limited supplies. Find a way home.",
+    "calories": 2200,
+    "hydration": 2100,
+    "temperature": 36.8,
+    "items": {
+      "wood": 3,
+      "stone": 2,
+      "fiber": 2,
+      "water": 2,
+      "ration": 2,
+      "herbs": 1
+    },
+    "weather": "clear",
+    "art": "assets/art/survivors/last_ember.webp"
+  },
+  "riverborn": {
+    "name": "Riverborn",
+    "tag": "A GENTLER START",
+    "icon": "waves",
+    "description": "Extra supplies. The river is already open.",
+    "calories": 2400,
+    "hydration": 2400,
+    "temperature": 36.9,
+    "items": {
+      "wood": 5,
+      "stone": 3,
+      "fiber": 4,
+      "water": 4,
+      "ration": 3,
+      "herbs": 2
+    },
+    "weather": "cloudy",
+    "unlocked": [
+      "river"
+    ],
+    "explored": {
+      "forest": 1
+    },
+    "art": "assets/art/survivors/riverborn.webp"
+  },
+  "cold_trail": {
+    "name": "Cold Trail",
+    "tag": "FOR VETERAN SURVIVORS",
+    "icon": "snowflake",
+    "description": "A late start, rain, and a cold body.",
+    "calories": 1600,
+    "hydration": 1600,
+    "temperature": 35.9,
+    "items": {
+      "wood": 6,
+      "stone": 4,
+      "fiber": 4,
+      "water": 1,
+      "ration": 1,
+      "herbs": 1
+    },
+    "weather": "rain",
+    "startHour": 16,
+    "art": "assets/art/survivors/cold_trail.webp"
+  }
+}

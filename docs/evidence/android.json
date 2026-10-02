@@ -1,0 +1,17 @@
+{
+  "passed": true,
+  "device": "emulator-5580",
+  "api": 36,
+  "checks": [
+    "offline-menu",
+    "new-game",
+    "gather",
+    "five-tabs",
+    "settings",
+    "save-after-force-stop",
+    "native-back",
+    "share-chooser",
+    "local-rating"
+  ],
+  "timeAfterReload": "08:45"
+}

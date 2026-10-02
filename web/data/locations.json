@@ -1,0 +1,346 @@
+{
+  "camp": {
+    "name": "Last Camp",
+    "subtitle": "Keep the ember alive.",
+    "icon": "tent",
+    "biome": "camp",
+    "x": 21,
+    "y": 76,
+    "temperature": 14,
+    "danger": 0,
+    "travel": 0,
+    "neighbors": [
+      "forest",
+      "river",
+      "cabin"
+    ],
+    "description": "Your shelter, workshop, and safest place to sleep.",
+    "actions": [
+      "gather",
+      "forage",
+      "rest",
+      "sleep",
+      "fire"
+    ],
+    "loot": {
+      "wood": [
+        2,
+        3
+      ],
+      "fiber": [
+        1,
+        2
+      ],
+      "stone": [
+        1,
+        2
+      ]
+    },
+    "forage": {
+      "berries": [
+        1,
+        2
+      ],
+      "herbs": [
+        1,
+        1
+      ]
+    },
+    "art": "assets/art/locations/camp.webp"
+  },
+  "forest": {
+    "name": "Ashpine Forest",
+    "subtitle": "Read the trail.",
+    "icon": "tree",
+    "biome": "forest",
+    "x": 36,
+    "y": 56,
+    "temperature": 12,
+    "danger": 0.08,
+    "travel": 25,
+    "neighbors": [
+      "camp",
+      "river",
+      "mountain"
+    ],
+    "description": "Wood, fiber, food, and wildlife. Explore to reach the river.",
+    "actions": [
+      "explore",
+      "gather",
+      "forage",
+      "hunt",
+      "setTrap",
+      "checkTrap",
+      "rest"
+    ],
+    "loot": {
+      "wood": [
+        3,
+        5
+      ],
+      "fiber": [
+        2,
+        4
+      ],
+      "stone": [
+        1,
+        2
+      ]
+    },
+    "forage": {
+      "berries": [
+        2,
+        3
+      ],
+      "mushroom": [
+        1,
+        2
+      ],
+      "herbs": [
+        1,
+        2
+      ]
+    },
+    "art": "assets/art/locations/forest.webp"
+  },
+  "river": {
+    "name": "Stillwater River",
+    "subtitle": "Follow the current.",
+    "icon": "waves",
+    "biome": "river",
+    "x": 65,
+    "y": 73,
+    "temperature": 13,
+    "danger": 0.04,
+    "travel": 30,
+    "neighbors": [
+      "camp",
+      "forest",
+      "cabin"
+    ],
+    "requiresExplore": {
+      "forest": 1
+    },
+    "description": "Water and trout. Explore to find the ranger cabin.",
+    "actions": [
+      "explore",
+      "gather",
+      "water",
+      "fish",
+      "forage",
+      "rest"
+    ],
+    "loot": {
+      "stone": [
+        3,
+        5
+      ],
+      "fiber": [
+        2,
+        3
+      ],
+      "wood": [
+        1,
+        2
+      ]
+    },
+    "forage": {
+      "herbs": [
+        2,
+        3
+      ],
+      "berries": [
+        1,
+        2
+      ]
+    },
+    "art": "assets/art/locations/river.webp"
+  },
+  "cabin": {
+    "name": "Forgotten Cabin",
+    "subtitle": "Someone survived here.",
+    "icon": "house-line",
+    "biome": "cabin",
+    "x": 76,
+    "y": 47,
+    "temperature": 16,
+    "danger": 0.06,
+    "travel": 40,
+    "neighbors": [
+      "camp",
+      "river",
+      "ruins",
+      "mountain"
+    ],
+    "requiresExplore": {
+      "river": 1
+    },
+    "description": "Search for the ranger journal and salvaged metal.",
+    "actions": [
+      "explore",
+      "gather",
+      "rest"
+    ],
+    "loot": {
+      "scrap": [
+        2,
+        4
+      ],
+      "wood": [
+        2,
+        3
+      ],
+      "fiber": [
+        1,
+        2
+      ]
+    },
+    "firstFind": "journal",
+    "art": "assets/art/locations/cabin.webp"
+  },
+  "mountain": {
+    "name": "Ashen Ridge",
+    "subtitle": "Prepare for the cold.",
+    "icon": "mountains",
+    "biome": "mountain",
+    "x": 39,
+    "y": 28,
+    "temperature": 5,
+    "danger": 0.12,
+    "travel": 55,
+    "neighbors": [
+      "forest",
+      "cabin",
+      "cave",
+      "summit"
+    ],
+    "requiresFlag": "journal",
+    "description": "A steep route to the cave and summit. Bring warm clothing.",
+    "actions": [
+      "explore",
+      "gather",
+      "forage",
+      "hunt",
+      "rest"
+    ],
+    "loot": {
+      "stone": [
+        4,
+        6
+      ],
+      "wood": [
+        1,
+        2
+      ],
+      "fiber": [
+        1,
+        2
+      ]
+    },
+    "forage": {
+      "herbs": [
+        2,
+        3
+      ]
+    },
+    "art": "assets/art/locations/mountain.webp"
+  },
+  "cave": {
+    "name": "Echo Cave",
+    "subtitle": "Bring your own light.",
+    "icon": "hexagon",
+    "biome": "cave",
+    "x": 17,
+    "y": 21,
+    "temperature": 7,
+    "danger": 0.14,
+    "travel": 35,
+    "neighbors": [
+      "mountain"
+    ],
+    "requiresExplore": {
+      "mountain": 1
+    },
+    "description": "Equip a torch; carry a working axe to mine copper.",
+    "actions": [
+      "explore",
+      "mine",
+      "rest"
+    ],
+    "loot": {
+      "ore": [
+        2,
+        4
+      ],
+      "stone": [
+        2,
+        3
+      ]
+    },
+    "requiresLight": true,
+    "art": "assets/art/locations/cave.webp"
+  },
+  "ruins": {
+    "name": "North Station",
+    "subtitle": "A signal in the silence.",
+    "icon": "broadcast",
+    "biome": "ruins",
+    "x": 79,
+    "y": 20,
+    "temperature": 9,
+    "danger": 0.16,
+    "travel": 50,
+    "neighbors": [
+      "cabin"
+    ],
+    "requiresFlag": "journal",
+    "description": "Search the ruins for a working radio module.",
+    "actions": [
+      "explore",
+      "gather",
+      "rest"
+    ],
+    "loot": {
+      "scrap": [
+        4,
+        6
+      ],
+      "stone": [
+        2,
+        3
+      ]
+    },
+    "firstFind": "radio_part",
+    "art": "assets/art/locations/ruins.webp"
+  },
+  "summit": {
+    "name": "Hope Summit",
+    "subtitle": "Let the world hear you.",
+    "icon": "flag",
+    "biome": "summit",
+    "x": 51,
+    "y": 8,
+    "temperature": 0,
+    "danger": 0.09,
+    "travel": 65,
+    "neighbors": [
+      "mountain"
+    ],
+    "requiresExplore": {
+      "mountain": 2
+    },
+    "description": "Transmit with a rescue radio in clear or cloudy daylight.",
+    "actions": [
+      "explore",
+      "signal",
+      "rest"
+    ],
+    "loot": {
+      "stone": [
+        1,
+        2
+      ]
+    },
+    "art": "assets/art/locations/summit.webp"
+  }
+}

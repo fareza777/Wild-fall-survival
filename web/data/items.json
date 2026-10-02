@@ -1,0 +1,346 @@
+{
+  "wood": {
+    "name": "Firewood",
+    "category": "resource",
+    "icon": "tree",
+    "weight": 0.35,
+    "description": "Build and fuel your camp. Keep a reserve for night.",
+    "art": "assets/art/items/wood.webp"
+  },
+  "stone": {
+    "name": "Flint stone",
+    "category": "resource",
+    "icon": "diamond",
+    "weight": 0.4,
+    "description": "Tool heads, fire rings, and foundations.",
+    "art": "assets/art/items/stone.webp"
+  },
+  "fiber": {
+    "name": "Wild fiber",
+    "category": "resource",
+    "icon": "plant",
+    "weight": 0.05,
+    "description": "Cordage for shelters, tools, and bandages.",
+    "art": "assets/art/items/fiber.webp"
+  },
+  "herbs": {
+    "name": "Medicinal herbs",
+    "category": "resource",
+    "icon": "leaf",
+    "weight": 0.05,
+    "description": "Brew tea or medicine to treat sickness.",
+    "art": "assets/art/items/herbs.webp"
+  },
+  "scrap": {
+    "name": "Metal scrap",
+    "category": "resource",
+    "icon": "nut",
+    "weight": 0.25,
+    "description": "Salvaged metal for tools, repairs, and the radio.",
+    "art": "assets/art/items/scrap.webp"
+  },
+  "ore": {
+    "name": "Copper ore",
+    "category": "resource",
+    "icon": "hexagon",
+    "weight": 0.4,
+    "description": "Mine in Echo Cave. Powers the rescue radio.",
+    "art": "assets/art/items/ore.webp"
+  },
+  "hide": {
+    "name": "Animal hide",
+    "category": "resource",
+    "icon": "shield",
+    "weight": 0.2,
+    "description": "Hunting material for warm clothing.",
+    "art": "assets/art/items/hide.webp"
+  },
+  "berries": {
+    "name": "Wild berries",
+    "category": "food",
+    "icon": "cherries",
+    "weight": 0.08,
+    "calories": 170,
+    "hydration": 55,
+    "description": "A light, safe source of food and water.",
+    "art": "assets/art/items/berries.webp"
+  },
+  "mushroom": {
+    "name": "Forest mushrooms",
+    "category": "food",
+    "icon": "mushroom",
+    "weight": 0.08,
+    "calories": 100,
+    "risk": 0.16,
+    "description": "Cook into stew. Raw mushrooms can cause sickness.",
+    "art": "assets/art/items/mushroom.webp"
+  },
+  "ration": {
+    "name": "Emergency ration",
+    "category": "food",
+    "icon": "package",
+    "weight": 0.2,
+    "calories": 650,
+    "description": "Compact food for a long day on the trail.",
+    "art": "assets/art/items/ration.webp"
+  },
+  "raw_meat": {
+    "name": "Raw venison",
+    "category": "food",
+    "icon": "bone",
+    "weight": 0.3,
+    "calories": 250,
+    "risk": 0.45,
+    "description": "Cook first. Raw meat carries a high sickness risk.",
+    "art": "assets/art/items/raw_meat.webp"
+  },
+  "cooked_meat": {
+    "name": "Roasted venison",
+    "category": "food",
+    "icon": "bowl-food",
+    "weight": 0.25,
+    "calories": 750,
+    "description": "A hearty meal for demanding journeys.",
+    "art": "assets/art/items/cooked_meat.webp"
+  },
+  "fish": {
+    "name": "Fresh trout",
+    "category": "food",
+    "icon": "fish",
+    "weight": 0.25,
+    "calories": 200,
+    "risk": 0.3,
+    "description": "River catch. Cook before eating.",
+    "art": "assets/art/items/fish.webp"
+  },
+  "cooked_fish": {
+    "name": "Roasted trout",
+    "category": "food",
+    "icon": "fish-simple",
+    "weight": 0.2,
+    "calories": 550,
+    "description": "A light meal rich in energy.",
+    "art": "assets/art/items/cooked_fish.webp"
+  },
+  "stew": {
+    "name": "Woodland stew",
+    "category": "food",
+    "icon": "cooking-pot",
+    "weight": 0.35,
+    "calories": 600,
+    "hydration": 250,
+    "description": "Restores food, water, and a little health.",
+    "heal": 5,
+    "art": "assets/art/items/stew.webp"
+  },
+  "water": {
+    "name": "Clean water",
+    "category": "water",
+    "icon": "drop",
+    "weight": 0.4,
+    "hydration": 650,
+    "description": "Safe drinking water. Refill before travelling.",
+    "art": "assets/art/items/water.webp"
+  },
+  "dirty_water": {
+    "name": "River water",
+    "category": "water",
+    "icon": "waves",
+    "weight": 0.4,
+    "hydration": 600,
+    "risk": 0.35,
+    "description": "Boil at a lit campfire before drinking.",
+    "art": "assets/art/items/dirty_water.webp"
+  },
+  "tea": {
+    "name": "Herbal tea",
+    "category": "medicine",
+    "icon": "coffee",
+    "weight": 0.3,
+    "hydration": 500,
+    "sickness": -30,
+    "warmth": 0.3,
+    "description": "Treats sickness, replenishes water, and warms the body.",
+    "art": "assets/art/items/tea.webp"
+  },
+  "bandage": {
+    "name": "Linen bandage",
+    "category": "medicine",
+    "icon": "first-aid",
+    "weight": 0.06,
+    "injury": -35,
+    "heal": 8,
+    "description": "Treats injuries and restores a little health.",
+    "art": "assets/art/items/bandage.webp"
+  },
+  "medicine": {
+    "name": "Herbal medicine",
+    "category": "medicine",
+    "icon": "pill",
+    "weight": 0.05,
+    "sickness": -50,
+    "heal": 12,
+    "description": "Treats sickness and restores health.",
+    "art": "assets/art/items/medicine.webp"
+  },
+  "knife": {
+    "name": "Survival knife",
+    "category": "gear",
+    "icon": "knife",
+    "slot": "tool",
+    "weight": 0.25,
+    "durability": 80,
+    "damage": 5,
+    "gather": 0,
+    "description": "A reliable starting tool and backup weapon.",
+    "art": "assets/art/items/knife.webp"
+  },
+  "axe": {
+    "name": "Flint axe",
+    "category": "gear",
+    "icon": "axe",
+    "slot": "tool",
+    "weight": 1.1,
+    "durability": 65,
+    "damage": 8,
+    "gather": 1,
+    "description": "More firewood per gather. Carry one for mining.",
+    "art": "assets/art/items/axe.webp"
+  },
+  "iron_axe": {
+    "name": "Salvaged axe",
+    "category": "gear",
+    "icon": "axe",
+    "slot": "tool",
+    "weight": 1.2,
+    "durability": 110,
+    "damage": 11,
+    "gather": 2,
+    "description": "A durable axe with a better firewood yield.",
+    "art": "assets/art/items/iron_axe.webp"
+  },
+  "spear": {
+    "name": "Ashwood spear",
+    "category": "gear",
+    "icon": "sword",
+    "slot": "weapon",
+    "weight": 0.8,
+    "durability": 70,
+    "damage": 13,
+    "hunt": 0.18,
+    "description": "Equip to hunt and face wildlife.",
+    "art": "assets/art/items/spear.webp"
+  },
+  "bow": {
+    "name": "Hunting bow",
+    "category": "gear",
+    "icon": "crosshair",
+    "slot": "weapon",
+    "weight": 0.7,
+    "durability": 90,
+    "damage": 19,
+    "hunt": 0.3,
+    "description": "A stronger weapon. Each attack or hunt uses one arrow.",
+    "art": "assets/art/items/bow.webp"
+  },
+  "arrows": {
+    "name": "Flint arrows",
+    "category": "resource",
+    "icon": "arrow-up-right",
+    "weight": 0.03,
+    "description": "Bow ammunition. One arrow per attack or hunt.",
+    "art": "assets/art/items/arrows.webp"
+  },
+  "jacket": {
+    "name": "Hide jacket",
+    "category": "gear",
+    "icon": "coat-hanger",
+    "slot": "clothing",
+    "weight": 0.9,
+    "durability": 100,
+    "warmth": 8,
+    "armor": 3,
+    "description": "Cold protection and light armor.",
+    "art": "assets/art/items/jacket.webp"
+  },
+  "insulated": {
+    "name": "Alpine coat",
+    "category": "gear",
+    "icon": "coat-hanger",
+    "slot": "clothing",
+    "weight": 1.2,
+    "durability": 140,
+    "warmth": 15,
+    "armor": 5,
+    "description": "Strong cold protection and reinforced armor.",
+    "art": "assets/art/items/insulated.webp"
+  },
+  "fishing_rod": {
+    "name": "Field fishing rod",
+    "category": "gear",
+    "icon": "fish",
+    "slot": "tool",
+    "weight": 0.45,
+    "durability": 75,
+    "description": "Equip in the tool slot to fish.",
+    "art": "assets/art/items/fishing_rod.webp"
+  },
+  "torch": {
+    "name": "Ember torch",
+    "category": "gear",
+    "icon": "flame",
+    "slot": "tool",
+    "weight": 0.35,
+    "durability": 40,
+    "description": "Equip to explore and mine in the cave.",
+    "art": "assets/art/items/torch.webp"
+  },
+  "backpack": {
+    "name": "Field backpack",
+    "category": "resource",
+    "icon": "backpack",
+    "weight": 0.4,
+    "description": "Raises capacity to 23 kg while carried.",
+    "art": "assets/art/items/backpack.webp"
+  },
+  "trap": {
+    "name": "Fiber snare",
+    "category": "resource",
+    "icon": "lasso",
+    "weight": 0.2,
+    "description": "Set in the forest. Ready after four hours; single use.",
+    "art": "assets/art/items/trap.webp"
+  },
+  "journal": {
+    "name": "Ranger journal",
+    "category": "quest",
+    "icon": "notebook",
+    "weight": 0.1,
+    "description": "Reveals the mountain trail and radio station.",
+    "art": "assets/art/items/journal.webp"
+  },
+  "radio_part": {
+    "name": "Radio module",
+    "category": "quest",
+    "icon": "cpu",
+    "weight": 0.2,
+    "description": "Recover from the abandoned northern station.",
+    "art": "assets/art/items/radio_part.webp"
+  },
+  "battery": {
+    "name": "Copper battery",
+    "category": "quest",
+    "icon": "battery-full",
+    "weight": 0.3,
+    "description": "A salvaged power source for the radio.",
+    "art": "assets/art/items/battery.webp"
+  },
+  "radio": {
+    "name": "Rescue radio",
+    "category": "quest",
+    "icon": "broadcast",
+    "weight": 0.5,
+    "description": "Transmit from the summit in calm daylight.",
+    "art": "assets/art/items/radio.webp"
+  }
+}

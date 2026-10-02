@@ -1,0 +1,356 @@
+{
+  "axe": {
+    "name": "Flint axe",
+    "category": "tools",
+    "item": "axe",
+    "cost": {
+      "wood": 3,
+      "stone": 3,
+      "fiber": 2
+    },
+    "minutes": 45,
+    "stamina": 10,
+    "art": "assets/art/items/axe.webp"
+  },
+  "spear": {
+    "name": "Ashwood spear",
+    "category": "weapons",
+    "item": "spear",
+    "cost": {
+      "wood": 3,
+      "stone": 2,
+      "fiber": 2
+    },
+    "minutes": 40,
+    "stamina": 10,
+    "art": "assets/art/items/spear.webp"
+  },
+  "firepit": {
+    "name": "Stone fire ring",
+    "category": "camp",
+    "structure": "firepit",
+    "cost": {
+      "wood": 3,
+      "stone": 4
+    },
+    "minutes": 35,
+    "stamina": 10,
+    "description": "Unlocks cooking. Add wood to light the fire.",
+    "art": "assets/art/structures/firepit.webp"
+  },
+  "shelter": {
+    "name": "Canvas shelter",
+    "category": "camp",
+    "structure": "shelter",
+    "level": 1,
+    "cost": {
+      "wood": 8,
+      "fiber": 6,
+      "stone": 2
+    },
+    "minutes": 90,
+    "stamina": 18,
+    "description": "A dry bed and basic cold protection.",
+    "art": "assets/art/structures/shelter.webp"
+  },
+  "shelter2": {
+    "name": "Timber cabin",
+    "category": "camp",
+    "structure": "shelter",
+    "level": 2,
+    "requiresStructure": {
+      "shelter": 1
+    },
+    "cost": {
+      "wood": 14,
+      "fiber": 8,
+      "stone": 5
+    },
+    "minutes": 150,
+    "stamina": 22,
+    "description": "Better insulation and more restful sleep.",
+    "art": "assets/art/structures/shelter2.webp"
+  },
+  "shelter3": {
+    "name": "Alpine lodge",
+    "category": "camp",
+    "structure": "shelter",
+    "level": 3,
+    "requiresStructure": {
+      "shelter": 2
+    },
+    "cost": {
+      "wood": 20,
+      "fiber": 10,
+      "scrap": 5,
+      "hide": 3
+    },
+    "minutes": 210,
+    "stamina": 28,
+    "description": "Maximum shelter protection for the harshest nights.",
+    "art": "assets/art/structures/shelter3.webp"
+  },
+  "rain_collector": {
+    "name": "Rain collector",
+    "category": "camp",
+    "structure": "rain_collector",
+    "cost": {
+      "wood": 5,
+      "fiber": 6,
+      "scrap": 2
+    },
+    "minutes": 70,
+    "stamina": 12,
+    "description": "Two clean water bottles at dawn during wet weather.",
+    "art": "assets/art/structures/rain_collector.webp"
+  },
+  "garden": {
+    "name": "Woodland garden",
+    "category": "camp",
+    "structure": "garden",
+    "cost": {
+      "wood": 6,
+      "fiber": 3,
+      "herbs": 3
+    },
+    "minutes": 80,
+    "stamina": 14,
+    "description": "Two berries and one herb at dawn.",
+    "art": "assets/art/structures/garden.webp"
+  },
+  "fishing_rod": {
+    "name": "Field fishing rod",
+    "category": "tools",
+    "item": "fishing_rod",
+    "cost": {
+      "wood": 2,
+      "fiber": 5,
+      "scrap": 1
+    },
+    "minutes": 45,
+    "stamina": 8,
+    "art": "assets/art/items/fishing_rod.webp"
+  },
+  "torch": {
+    "name": "Ember torch",
+    "category": "tools",
+    "item": "torch",
+    "cost": {
+      "wood": 2,
+      "fiber": 3
+    },
+    "minutes": 20,
+    "stamina": 5,
+    "art": "assets/art/items/torch.webp"
+  },
+  "iron_axe": {
+    "name": "Salvaged axe",
+    "category": "tools",
+    "item": "iron_axe",
+    "cost": {
+      "wood": 3,
+      "scrap": 6,
+      "fiber": 3
+    },
+    "minutes": 75,
+    "stamina": 14,
+    "requiresFire": true,
+    "art": "assets/art/items/iron_axe.webp"
+  },
+  "bow": {
+    "name": "Hunting bow",
+    "category": "weapons",
+    "item": "bow",
+    "cost": {
+      "wood": 5,
+      "fiber": 8,
+      "hide": 1
+    },
+    "minutes": 70,
+    "stamina": 13,
+    "art": "assets/art/items/bow.webp"
+  },
+  "arrows": {
+    "name": "5 × Flint arrows",
+    "category": "weapons",
+    "item": "arrows",
+    "quantity": 5,
+    "cost": {
+      "wood": 1,
+      "stone": 1,
+      "fiber": 1
+    },
+    "minutes": 15,
+    "stamina": 4,
+    "art": "assets/art/items/arrows.webp"
+  },
+  "jacket": {
+    "name": "Hide jacket",
+    "category": "clothes",
+    "item": "jacket",
+    "cost": {
+      "hide": 3,
+      "fiber": 5
+    },
+    "minutes": 65,
+    "stamina": 10,
+    "art": "assets/art/items/jacket.webp"
+  },
+  "insulated": {
+    "name": "Alpine coat",
+    "category": "clothes",
+    "item": "insulated",
+    "cost": {
+      "hide": 6,
+      "fiber": 8,
+      "herbs": 2
+    },
+    "minutes": 100,
+    "stamina": 14,
+    "art": "assets/art/items/insulated.webp"
+  },
+  "backpack": {
+    "name": "Field backpack",
+    "category": "tools",
+    "item": "backpack",
+    "unique": true,
+    "cost": {
+      "hide": 2,
+      "fiber": 8
+    },
+    "minutes": 50,
+    "stamina": 9,
+    "art": "assets/art/items/backpack.webp"
+  },
+  "trap": {
+    "name": "Fiber snare",
+    "category": "tools",
+    "item": "trap",
+    "cost": {
+      "wood": 2,
+      "fiber": 4
+    },
+    "minutes": 25,
+    "stamina": 6,
+    "art": "assets/art/items/trap.webp"
+  },
+  "bandage": {
+    "name": "2 × Linen bandage",
+    "category": "medicine",
+    "item": "bandage",
+    "quantity": 2,
+    "cost": {
+      "fiber": 4,
+      "herbs": 1
+    },
+    "minutes": 15,
+    "stamina": 3,
+    "art": "assets/art/items/bandage.webp"
+  },
+  "medicine": {
+    "name": "Herbal medicine",
+    "category": "medicine",
+    "item": "medicine",
+    "cost": {
+      "herbs": 4,
+      "water": 1
+    },
+    "minutes": 30,
+    "stamina": 4,
+    "requiresFire": true,
+    "art": "assets/art/items/medicine.webp"
+  },
+  "water": {
+    "name": "2 × Clean water",
+    "category": "cooking",
+    "item": "water",
+    "quantity": 2,
+    "cost": {
+      "dirty_water": 2
+    },
+    "minutes": 15,
+    "stamina": 3,
+    "requiresFire": true,
+    "art": "assets/art/items/water.webp"
+  },
+  "cooked_meat": {
+    "name": "Roasted venison",
+    "category": "cooking",
+    "item": "cooked_meat",
+    "cost": {
+      "raw_meat": 1
+    },
+    "minutes": 25,
+    "stamina": 4,
+    "requiresFire": true,
+    "art": "assets/art/items/cooked_meat.webp"
+  },
+  "cooked_fish": {
+    "name": "Roasted trout",
+    "category": "cooking",
+    "item": "cooked_fish",
+    "cost": {
+      "fish": 1
+    },
+    "minutes": 20,
+    "stamina": 3,
+    "requiresFire": true,
+    "art": "assets/art/items/cooked_fish.webp"
+  },
+  "stew": {
+    "name": "Woodland stew",
+    "category": "cooking",
+    "item": "stew",
+    "cost": {
+      "mushroom": 2,
+      "herbs": 1,
+      "water": 1
+    },
+    "minutes": 30,
+    "stamina": 4,
+    "requiresFire": true,
+    "art": "assets/art/items/stew.webp"
+  },
+  "tea": {
+    "name": "Herbal tea",
+    "category": "medicine",
+    "item": "tea",
+    "cost": {
+      "herbs": 2,
+      "water": 1
+    },
+    "minutes": 15,
+    "stamina": 3,
+    "requiresFire": true,
+    "art": "assets/art/items/tea.webp"
+  },
+  "battery": {
+    "name": "Copper battery",
+    "category": "signal",
+    "item": "battery",
+    "cost": {
+      "ore": 2,
+      "scrap": 3
+    },
+    "minutes": 60,
+    "stamina": 10,
+    "requiresFire": true,
+    "art": "assets/art/items/battery.webp"
+  },
+  "radio": {
+    "name": "Rescue radio",
+    "category": "signal",
+    "item": "radio",
+    "unique": true,
+    "cost": {
+      "radio_part": 1,
+      "battery": 1,
+      "scrap": 4,
+      "ore": 2
+    },
+    "minutes": 120,
+    "stamina": 15,
+    "requiresFlag": "journal",
+    "art": "assets/art/items/radio.webp"
+  }
+}

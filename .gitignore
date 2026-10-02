@@ -1,0 +1,19 @@
+node_modules/
+.build/
+android/keystore/
+*.log
+test-results/
+dist/*.zip
+dist/*1.0.0*
+*.idsig
+*.jks
+*.keystore
+Thumbs.db
+# One-time migration helpers retained locally; the repeatable build uses tools/prepare-*.
+tools/browser-qa.mjs
+tools/english-engine.mjs
+tools/localize-content.mjs
+tools/premium-style.mjs
+tools/update-app.mjs
+tools/modal-body.txt
+tools/package-source.mjs

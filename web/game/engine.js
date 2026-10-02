@@ -1,0 +1,319 @@
+import { addLoot, capacity, count, equipped, hasCost, spend, wear, weight } from './inventory.js';
+import { advanceAction, ambient, clamp, dayOf, difficultyFactor, exertionCost, fireBurnRate, isNight, normalizeStats } from './survival.js';
+import { beginCombat, combatTurn } from './combat.js';
+import { updateQuests } from './quests.js';
+import { englishHistory } from './legacy.js';
+
+const ACTIONS = {
+  gather: { minutes:45, stamina:10 }, forage: { minutes:40, stamina:8 }, explore: { minutes:50, stamina:13 },
+  mine: { minutes:55, stamina:15 }, water: { minutes:25, stamina:5 }, fish: { minutes:60, stamina:9 },
+  hunt: { minutes:75, stamina:18 }, rest: { minutes:60, stamina:0 }, setTrap: { minutes:20, stamina:6 },
+  checkTrap: { minutes:15, stamina:4 }, signal: { minutes:30, stamina:5 }, fire: { minutes:15, stamina:4 }
+};
+const INITIAL_COUNTERS = { woodGathered:0, waterBoiled:0, mealsCooked:0, fishCaught:0, hunts:0, trapsHarvested:0, battlesWon:0, oreMined:0, fires:0, crafted:0, locationsVisited:1, minutesSurvived:0, actions:0 };
+
+export function createState(content, options = {}) {
+  const scenarioId = content.scenarios?.[options.scenario] ? options.scenario : 'last_ember';
+  const scenario = content.scenarios?.[scenarioId] || {};
+  const start = (scenario.startHour || 8) * 60;
+  return {
+    version:1, scenario:scenarioId, difficulty:['story','survivor','relentless'].includes(options.difficulty) ? options.difficulty : 'survivor',
+    permadeath:options.permadeath ?? false, seed:(Number(options.seed) >>> 0) || 78043, time:start, startTime:start,
+    location:'camp', weather:scenario.weather || 'clear', nextWeather:start + 240, dead:false,
+    stats:{ health:100, stamina:85, calories:scenario.calories || 2200, hydration:scenario.hydration || 2100, temperature:scenario.temperature || 36.8, fatigue:12, injury:0, sickness:0 },
+    items:{ ...(scenario.items || { wood:3, stone:2, fiber:2, water:2, ration:2, herbs:1 }) },
+    gear:[{ id:'knife', uid:'knife-1', durability:80 }], equipment:{ tool:'knife-1', weapon:null, clothing:null }, nextGear:2,
+    camp:{ shelter:0, firepit:false, fire:0, rain_collector:false, garden:false },
+    visited:['camp'], discovered:['camp','forest', ...(scenario.unlocked || [])], explored:{ ...(scenario.explored || {}) },
+    flags:{}, counters:{ ...INITIAL_COUNTERS }, quests:{ completed:[] }, skills:{ gathering:0, hunting:0, crafting:0 },
+    traps:[], event:null, combat:null, lastEvent:null, logs:[{ id:0, time:start, text:'You wake in Ashen Valley. Build shelter. Keep the ember alive.', tone:'story' }], nextLog:1
+  };
+}
+
+export class GameEngine {
+  constructor(content, state, options = {}) {
+    this.content = content;
+    this.state = state ? structuredClone(state) : createState(content, options);
+    if(state){this.state.logs=this.state.logs.map(log=>({...log,text:englishHistory(log.text)}));if(this.state.combat)this.state.combat.messages=this.state.combat.messages.map(englishHistory);}
+    this.lastDawn = false;
+    this.lastResult = null;
+  }
+  random() {
+    let n = this.state.seed | 0;
+    n ^= n << 13; n ^= n >>> 17; n ^= n << 5;
+    this.state.seed = n >>> 0;
+    return this.state.seed / 4294967296;
+  }
+  range(min, max) { return min + Math.floor(this.random() * (max - min + 1)); }
+  log(text, tone = 'normal') {
+    this.state.logs.unshift({ id:this.state.nextLog++, time:this.state.time, text, tone });
+    this.state.logs = this.state.logs.slice(0, 80);
+  }
+  loot(loot, options) {
+    const result = addLoot(this.state, this.content, loot, options);
+    const text = Object.entries(result.taken).map(([id, n]) => `${n} ${this.content.items[id].name.toLowerCase()}`).join(', ');
+    if (text) this.log(`Collected: ${text}.`, 'loot');
+    if (Object.keys(result.left).length) this.log('Pack full. Some supplies were left behind. Free space or craft a backpack.', 'warning');
+    this.state.counters.woodGathered += result.taken.wood || 0;
+    return result;
+  }
+  unlocked(id) {
+    const s = this.state, l = this.content.locations[id];
+    if (!l) return false;
+    if (s.discovered.includes(id)) return true;
+    return (!l.requiresFlag || s.flags[l.requiresFlag]) && Object.entries(l.requiresExplore || {}).every(([key, n]) => (s.explored[key] || 0) >= n);
+  }
+  discover() {
+    for (const [id, l] of Object.entries(this.content.locations)) {
+      if (!this.state.discovered.includes(id) && this.unlocked(id)) {
+        this.state.discovered.push(id); this.log(`New route: ${l.name}.`, 'quest');
+      }
+    }
+  }
+  routeTo(id) {
+    if (!this.unlocked(id) || id === this.state.location) return null;
+    const queue = [[this.state.location]], seen = new Set([this.state.location]);
+    while (queue.length) {
+      const route = queue.shift(), current = route.at(-1);
+      for (const neighbor of this.content.locations[current].neighbors) {
+        if (!this.unlocked(neighbor) || seen.has(neighbor)) continue;
+        const next = [...route, neighbor];
+        if (neighbor === id) return { path:next, minutes:next.slice(1).reduce((sum, n, i) => sum + (n === 'camp' ? this.content.locations[next[i]].travel || 25 : this.content.locations[n].travel), 0) };
+        seen.add(neighbor); queue.push(next);
+      }
+    }
+    return null;
+  }
+  danger(id = this.state.location) {
+    return Math.min(0.5, (this.content.locations[id]?.danger || 0) * (1 + (dayOf(this.state) - 1) * 0.065) * difficultyFactor(this.state) * (isNight(this.state) ? 1.6 : 1));
+  }
+  actionCost(action, options = {}) {
+    if (action === 'craft') return this.content.recipes[options.id];
+    if (action === 'travel') { const route=this.routeTo(options.id); return route ? { minutes:route.minutes, stamina:Math.ceil(route.minutes * 0.18) } : null; }
+    if (action === 'sleep') return { minutes:clamp(Number(options.hours) || 6, 1, 8) * 60, stamina:0 };
+    if (action === 'combat') return { minutes:5, stamina:({ attack:6, power:13, defend:0, flee:10 })[options.move] ?? 0 };
+    if (action === 'resolveEvent') return this.content.events[this.state.event]?.choices[options.choice];
+    if (['use','equip','drop','repair'].includes(action)) return { minutes:action === 'repair' ? 30 : 1, stamina:action === 'repair' ? 5 : 0 };
+    return ACTIONS[action];
+  }
+  effort(action, options = {}) { return exertionCost(this.state, this.content, this.actionCost(action, options)?.stamina || 0); }
+  preview(action, options = {}) {
+    const cost = this.actionCost(action, options);
+    if (!cost) return null;
+    const copy = structuredClone(this.state), before = copy.stats;
+    const stats = { ...before };
+    if (action === 'fire') copy.camp.fire = Math.min(960, copy.camp.fire + 360);
+    advanceAction(copy, this.content, action, cost, action === 'travel' ? this.routeTo(options.id) : null);
+    return { minutes:copy.time-this.state.time, stamina:this.effort(action, options), calories:Math.max(0, stats.calories-copy.stats.calories), hydration:Math.max(0, stats.hydration-copy.stats.hydration), stats:copy.stats, dead:copy.dead };
+  }
+  reason(action, options = {}) {
+    const s=this.state, c=this.content, l=c.locations[s.location];
+    if (s.dead) return 'This journey has ended. Start again or restore a checkpoint.';
+    if (s.combat && action !== 'combat' && action !== 'use') return 'Finish the encounter first.';
+    if (s.event && action !== 'resolveEvent') return 'Choose a response to the current event.';
+    if (action === 'resolveEvent' && !s.event) return 'No active event.';
+    if (action === 'combat' && (!s.combat || !['attack','power','defend','flee'].includes(options.move))) return 'Invalid combat move.';
+    const cost=this.actionCost(action,options);
+    if (!cost) return 'Action or route unavailable.';
+    const required=this.effort(action, options);
+    if (s.stats.stamina + 0.001 < required) return `Need ${Math.ceil(required)} stamina. Rest first.`;
+    if (action === 'travel') {
+      if (options.id === s.location) return 'Already here.';
+      if (!this.routeTo(options.id)) return 'Route locked. Explore the previous area.';
+    } else if (action === 'craft') {
+      const r=c.recipes[options.id];
+      if (s.location !== 'camp') return 'Craft at camp.';
+      if (!hasCost(s,r.cost)) return 'More materials needed.';
+      if (r.requiresFire && s.camp.fire < r.minutes * fireBurnRate(s,c)) return 'Fire must last through cooking. Add wood first.';
+      if (r.requiresFlag && !s.flags[r.requiresFlag]) return 'Find the ranger journal first.';
+      if (Object.entries(r.requiresStructure || {}).some(([id,n]) => s.camp[id] < n)) return 'Build the previous shelter upgrade first.';
+      if (r.structure && Number(s.camp[r.structure]) >= (r.level || 1)) return 'Already built.';
+      if (r.unique && count(s,r.item)) return 'Already in your pack.';
+      if (r.item) {
+        const freed=Object.entries(r.cost).reduce((sum,[id,n])=>sum+c.items[id].weight*n,0);
+        if (weight(s,c)-freed+c.items[r.item].weight*(r.quantity || 1) > capacity(s)+0.001 && c.items[r.item].category !== 'quest') return 'Not enough pack space.';
+      }
+    } else if (action === 'use') {
+      const item=c.items[options.id];
+      if (!item || !count(s,options.id)) return 'Item unavailable.';
+      if (!['food','water','medicine'].includes(item.category)) return 'This item cannot be consumed.';
+    } else if (action === 'equip' || action === 'repair') {
+      const gear=s.gear.find(g=>g.uid===options.uid);
+      if (!gear) return 'Equipment unavailable.';
+      if (action === 'equip' && gear.durability <= 0) return 'Equipment broken. Repair at camp.';
+      if (action === 'repair' && (s.location !== 'camp' || !hasCost(s,{scrap:1,fiber:2}))) return 'Repair at camp: one scrap and two fiber.';
+      if (action === 'repair' && gear.durability >= c.items[gear.id].durability) return 'Equipment is fully repaired.';
+    } else if (action === 'drop') {
+      if (options.uid) { if(!s.gear.some(g=>g.uid===options.uid)) return 'Equipment unavailable.'; }
+      else if (!c.items[options.id] || !count(s,options.id)) return 'Item unavailable.';
+      if (c.items[options.id]?.category === 'quest') return 'Quest items must be kept.';
+    } else if (action === 'combat') {
+      // The active encounter owns its available moves; location action lists do not.
+    } else if (action === 'resolveEvent') {
+      if (!hasCost(s,cost.cost)) return 'Missing supplies. Choose another response.';
+    } else {
+      if (!l.actions.includes(action) && action !== 'sleep') return 'Unavailable in this area.';
+      if (action === 'sleep' && s.location !== 'camp') return 'Sleep at camp. You can rest here.';
+      if (action === 'fire' && (!s.camp.firepit || !hasCost(s,{wood:2,fiber:s.camp.fire>0?0:1}))) return 'Build a fire ring. Lighting needs two wood and one fiber.';
+      if (action === 'fire' && s.camp.fire > 720) return 'The fire already has plenty of fuel.';
+      if (l.requiresLight && ['explore','mine'].includes(action) && equipped(s,c,'tool')?.id !== 'torch') return 'Equip a torch to enter the cave.';
+      if (action === 'mine' && !s.gear.some(g=>['axe','iron_axe'].includes(g.id) && g.durability>0)) return 'Carry a working axe to mine.';
+      if (action === 'fish' && equipped(s,c,'tool')?.id !== 'fishing_rod') return 'Equip a fishing rod in the tool slot.';
+      if (action === 'hunt' && !equipped(s,c,'weapon')) return 'Equip a spear or bow to hunt.';
+      if (action === 'hunt' && equipped(s,c,'weapon')?.id === 'bow' && !count(s,'arrows')) return 'Your bow needs arrows.';
+      if (action === 'setTrap' && !count(s,'trap')) return 'Craft a snare at camp.';
+      if (action === 'setTrap' && s.traps.filter(t=>t.location===s.location).length>=3) return 'Three snares per area maximum.';
+      if (action === 'checkTrap' && !s.traps.some(t=>t.location===s.location && s.time-t.time>=240)) return 'No snare ready. Return four hours after setting it.';
+      if (action === 'signal') {
+        if (!count(s,'radio')) return 'Build a rescue radio at camp.';
+        if (isNight(s) || isNight({...s,time:s.time+cost.minutes}) || !['clear','cloudy'].includes(s.weather)) return 'Transmit in clear or cloudy daylight; finish before 19:00.';
+        if (s.flags.rescued) return 'Signal received. Endless survival is unlocked.';
+      }
+    }
+    return null;
+  }
+  perform(action, options = {}) {
+    const denied=this.reason(action,options);
+    if (denied) return { ok:false, message:denied };
+    const s=this.state, c=this.content, l=c.locations[s.location], cost=this.actionCost(action,options);
+    const route=action==='travel'?this.routeTo(options.id):null;
+    const before={time:s.time,stats:{...s.stats},items:{...s.items},gear:s.gear.map(g=>({...g})),combat:s.combat?{...s.combat}:null,location:s.location};
+    this.lastDawn=false;
+    let message='', loot=null, generateEvent=false, tone='normal', battle=null;
+    // Consume ingredients before producing results; advance metabolism before any healing.
+    if (action === 'craft') spend(s,cost.cost);
+    if (action === 'resolveEvent') spend(s,cost.cost);
+    if (action === 'fire') { spend(s,{wood:2,fiber:s.camp.fire>0?0:1}); s.camp.fire=Math.min(960,s.camp.fire+360); }
+    const timeResult=advanceAction(s,c,action,cost,route);
+    if (!s.dead) {
+      if (['gather','forage','mine'].includes(action)) {
+        const table=action==='forage'?l.forage:l.loot;
+        loot={};
+        for (const [id,range] of Object.entries(table || {})) {
+          const bonus=id==='wood'&&action==='gather'?(equipped(s,c,'tool')?.gather || 0):0;
+          loot[id]=this.range(...range)+bonus;
+        }
+        if (action==='mine') {
+          const ax=s.gear.find(g=>['axe','iron_axe'].includes(g.id)&&g.durability>0); ax.durability=Math.max(0,ax.durability-4);
+          if (!ax.durability && s.equipment.tool===ax.uid) s.equipment.tool=null;
+        }
+        if (wear(s,c,'tool',action==='forage'?1:3)) this.log('Your tool broke. Repair it at camp.','warning');
+        s.skills.gathering++; message=({ gather:'Materials gathered.', forage:'Foraging complete.', mine:'Copper veins uncovered.' })[action]; generateEvent=true;
+      } else if (action==='explore') {
+        s.explored[s.location]=(s.explored[s.location]||0)+1;
+        if (l.firstFind && !s.flags[l.firstFind]) { s.flags[l.firstFind]=true; loot={[l.firstFind]:1}; message=`Found ${c.items[l.firstFind].name.toLowerCase()}.`; tone='quest'; }
+        else { const entry=Object.entries(l.loot)[this.range(0,Object.keys(l.loot).length-1)]; loot={[entry[0]]:this.range(...entry[1])}; message=`Explored ${l.name.toLowerCase()}.`; }
+        if (l.requiresLight) wear(s,c,'tool',5);
+        generateEvent=true;
+      } else if (action==='travel') {
+        s.location=options.id;
+        for (const id of route.path) if (!s.visited.includes(id)) s.visited.push(id);
+        s.counters.locationsVisited=s.visited.length;
+        message=`Arrived at ${c.locations[s.location].name.toLowerCase()}.`;
+        generateEvent=true;
+      } else if (action==='craft') {
+        if (cost.structure) s.camp[cost.structure]=cost.level || true;
+        else loot={[cost.item]:cost.quantity || 1};
+        s.counters.crafted++; s.skills.crafting++;
+        if (options.id==='water') s.counters.waterBoiled+=cost.quantity;
+        if (cost.category==='cooking'&&options.id!=='water') s.counters.mealsCooked++;
+        message=`Completed: ${cost.name.toLowerCase()}.`; tone='loot';
+      } else if (action==='fire') {
+        s.counters.fires++;
+        message='Fire fuel added. Rain burns exposed fuel faster.'; tone='warm';
+      } else if (action==='rest'||action==='sleep') message=action==='sleep'?'You wake from sleep.':'Rest complete.';
+      else if (action==='water') { loot={dirty_water:3}; message='Three river-water bottles collected. Boil before drinking.'; }
+      else if (action==='fish') {
+        wear(s,c,'tool',3);
+        if(this.random()<0.78) { const n=this.range(1,2); loot={fish:n}; s.counters.fishCaught+=n; message='Trout caught.'; }
+        else message='The fish escaped.';
+      } else if (action==='hunt') {
+        const weapon=equipped(s,c,'weapon'); wear(s,c,'weapon',4); if(weapon.id==='bow')spend(s,{arrows:1});
+        const chance=clamp(0.5+(weapon.hunt||0)+Math.min(0.12,s.skills.hunting*0.01)-(isNight(s)?0.14:0),0.2,0.92);
+        s.skills.hunting++;
+        if(this.random()<chance) { loot={raw_meat:this.range(1,2),hide:1}; s.counters.hunts++; message='Hunt successful.'; }
+        else message='The animal escaped.';
+        generateEvent=true;
+      } else if (action==='setTrap') {
+        spend(s,{trap:1}); s.traps.push({location:s.location,time:s.time}); message='Snare set. Return in four hours.';
+      } else if (action==='checkTrap') {
+        const index=s.traps.findIndex(t=>t.location===s.location&&s.time-t.time>=240); s.traps.splice(index,1);
+        s.counters.trapsHarvested++; loot={raw_meat:1,hide:1}; message='Snare harvested. Craft another to reset it.';
+      } else if (action==='use') {
+        const item=c.items[options.id]; spend(s,{[options.id]:1});
+        for(const [key,value] of Object.entries({calories:item.calories||0,hydration:item.hydration||0,health:item.heal||0,injury:item.injury||0,sickness:item.sickness||0,temperature:item.warmth||0}))s.stats[key]+=value;
+        if(item.risk&&this.random()<item.risk) { s.stats.sickness+=25; this.log('Raw food or water caused sickness. Treat with tea or medicine.','warning'); }
+        normalizeStats(s);
+        message=`Used ${item.name.toLowerCase()}.`;
+        if(s.combat){battle=combatTurn(s,c,'item',()=>this.random());message+=' '+battle.messages.join(' ');}
+      } else if (action==='equip') {
+        const gear=s.gear.find(g=>g.uid===options.uid); const slot=c.items[gear.id].slot;
+        s.equipment[slot]=s.equipment[slot]===gear.uid?null:gear.uid;
+        message=`${c.items[gear.id].name} ${s.equipment[slot]?'equipped':'packed'}.`;
+      } else if (action==='repair') {
+        spend(s,{scrap:1,fiber:2}); const gear=s.gear.find(g=>g.uid===options.uid);
+        gear.durability=Math.min(c.items[gear.id].durability,gear.durability+40); message='Equipment repaired: up to +40 durability.';
+      } else if (action==='drop') {
+        if(options.uid) { const gear=s.gear.find(g=>g.uid===options.uid); const slot=c.items[gear.id].slot; if(s.equipment[slot]===gear.uid)s.equipment[slot]=null; s.gear=s.gear.filter(g=>g.uid!==options.uid); }
+        else spend(s,{[options.id]:Math.min(count(s,options.id),Math.max(1,Math.floor(Number(options.quantity)||1)))});
+        message='Item dropped.';
+      } else if (action==='resolveEvent') {
+        const event=c.events[s.event]; s.lastEvent=s.event; s.event=null;
+        if(!cost.chance || this.random()<cost.chance)loot=cost.loot;
+        else this.log(cost.failure || 'Nothing found.','warning');
+        if(cost.risk&&this.random()<cost.risk)s.stats.injury+=cost.injury || 10;
+        s.stats.health+=cost.heal||0; s.stats.stamina+=cost.restore||0; s.stats.fatigue+=cost.fatigue||0; s.stats.temperature+=cost.warmth||0;
+        if(cost.combat)beginCombat(s,c,cost.combat);
+        message=`${event.title}: ${cost.label.toLowerCase()}.`;
+      } else if (action==='combat') {
+        const outcome=combatTurn(s,c,options.move,()=>this.random());
+        battle=outcome;
+        message=outcome.messages.join(' ');
+        if(outcome.victory) { s.counters.battlesWon++; loot=outcome.enemy.loot; tone='loot'; }
+      } else if (action==='signal') {
+        s.flags.rescued=true; message='Signal received. Rescue is on its way.'; tone='quest';
+      }
+      if(loot) { const result=this.loot(loot); if(action==='mine')s.counters.oreMined+=result.taken.ore||0; if(action==='water')message=`${result.taken.dirty_water||0} river-water bottles packed. Boil before drinking.`; }
+    }
+    s.counters.actions++;
+    normalizeStats(s);
+    if(message)this.log(message,tone);
+    if(timeResult.dawns&&!s.dead) { this.dawn(timeResult.dawns); this.lastDawn=true; }
+    this.discover();
+    const quests=s.dead?[]:updateQuests(s,c,reward=>this.loot(reward,{force:true}));
+    for(const quest of quests)this.log(`Quest complete: ${quest.title}. Rewards added to your pack.`,'quest');
+    if(!s.dead && s.time>=s.nextWeather) {
+      const eligible=Object.keys(c.weather).filter(id=>!c.weather[id].minDay||dayOf(s)>=c.weather[id].minDay);
+      const next=eligible[this.range(0,eligible.length-1)];
+      if(next!==s.weather)this.log(`Weather: ${c.weather[next].name.toLowerCase()}.`,'weather');
+      s.weather=next; s.nextWeather=s.time+this.range(180,360);
+    }
+    if(generateEvent && !s.dead && !s.combat && s.counters.actions>3)this.encounter();
+    if(s.dead) { s.event=null; s.combat=null; this.log('The ember fades. Your journey ends.','danger'); }
+    const gained={};
+    for(const [id,n] of Object.entries(s.items)){const diff=n-(before.items[id]||0);if(diff>0)gained[id]=diff;}
+    for(const gear of s.gear)if(!before.gear.some(g=>g.uid===gear.uid))gained[gear.id]=(gained[gear.id]||0)+1;
+    this.lastResult={ok:true,message:message || 'Action complete.',quests:quests.map(q=>q.id),dead:s.dead,dawn:this.lastDawn,effects:{minutes:s.time-before.time,stats:Object.fromEntries(Object.entries(s.stats).map(([k,v])=>[k,v-before.stats[k]])),gained,battle:battle?{id:before.combat?.id,damageDealt:battle.damageDealt,damageTaken:battle.damageTaken,victory:battle.victory,fled:battle.fled}:null}};
+    return this.lastResult;
+  }
+  dawn(times) {
+    const s=this.state;
+    for(let i=0;i<times;i++) {
+      if(s.camp.rain_collector && this.content.weather[s.weather].wet)this.loot({water:2},{force:true});
+      if(s.camp.garden)this.loot({berries:2,herbs:1},{force:true});
+    }
+    this.log(`Dawn, day ${dayOf(s)}. The valley grows harsher.`,'story');
+  }
+  encounter() {
+    const s=this.state, c=this.content;
+    if(this.random()<this.danger()) {
+      const choices=Object.keys(c.enemies).filter(id=>!c.enemies[id].minDay||dayOf(s)>=c.enemies[id].minDay);
+      beginCombat(s,c,choices[this.range(0,choices.length-1)]); this.log('Wildlife blocks your path.','danger'); return;
+    }
+    if(this.random()<0.19) {
+      const choices=Object.keys(c.events).filter(id=>id!==s.lastEvent && c.events[id].locations.includes(s.location) && (!c.events[id].minDay||dayOf(s)>=c.events[id].minDay));
+      if(choices.length)s.event=choices[this.range(0,choices.length-1)];
+    }
+  }
+  status() { return { day:dayOf(this.state), temperature:ambient(this.state,this.content), weight:weight(this.state,this.content), capacity:capacity(this.state), danger:this.danger() }; }
+}

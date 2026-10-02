@@ -1,0 +1,4 @@
+import {button,icon} from './helpers.js';
+export function pageSize(kind){const small=typeof window!=='undefined'&&window.innerWidth<=760,short=small&&window.innerHeight<820;return kind==='pack'?(small?short?2:4:6):kind==='craft'?(small?2:4):kind==='actions'?4:1;}
+export function pageOf(entries,page,size){const count=Math.max(1,Math.ceil(entries.length/size)),index=Math.max(0,Math.min(count-1,Number(page)||0));return {entries:entries.slice(index*size,(index+1)*size),index,count,size,total:entries.length};}
+export function pager(p,scope){return p.count<2?'':`<nav class="page-controls" aria-label="${scope} pages">${button(icon('arrow-left',17),'page',{scope,page:p.index-1},'page-arrow',p.index===0)}<span>${p.index+1} <small>/ ${p.count}</small></span>${button(icon('arrow-right',17),'page',{scope,page:p.index+1},'page-arrow',p.index===p.count-1)}</nav>`;}
