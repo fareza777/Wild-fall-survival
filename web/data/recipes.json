@@ -38,6 +38,17 @@
     "description": "Unlocks cooking. Add wood to light the fire.",
     "art": "assets/art/structures/firepit.webp"
   },
+  "fire_cover": {
+    "name": "Fire canopy",
+    "category": "camp",
+    "structure": "fire_cover",
+    "requiresStructure": { "firepit": 1 },
+    "cost": { "wood": 6, "fiber": 5 },
+    "minutes": 60,
+    "stamina": 12,
+    "description": "A high, open-sided roof keeps rain off the outdoor fire. Your sleeping shelter covers only your bed.",
+    "art": "assets/art/structures/fire_cover.webp"
+  },
   "shelter": {
     "name": "Canvas shelter",
     "category": "camp",

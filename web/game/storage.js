@@ -12,6 +12,11 @@ export function validState(state,content) {
   if(typeof state.dead!=='boolean'||typeof state.permadeath!=='boolean'||!['story','survivor','relentless'].includes(state.difficulty))return false;
   if(!Number.isInteger(state.camp.shelter)||state.camp.shelter<0||state.camp.shelter>3||!Number.isFinite(state.camp.fire)||state.camp.fire<0||state.camp.fire>960)return false;
   if(['firepit','garden','rain_collector'].some(key=>typeof state.camp[key]!=='boolean'))return false;
+  if(state.camp.fire_cover!==undefined&&typeof state.camp.fire_cover!=='boolean')return false;
+  if(state.prologue!=null&&(!isObject(state.prologue)||!Number.isInteger(state.prologue.step)||state.prologue.step<0||state.prologue.step>4||typeof state.prologue.complete!=='boolean'))return false;
+  if(state.tutorial!=null&&(!isObject(state.tutorial)||!Number.isInteger(state.tutorial.step)||state.tutorial.step<0||state.tutorial.step>8||typeof state.tutorial.active!=='boolean'))return false;
+  if(state.carcass!=null){const x=state.carcass;if(!isObject(x)||!content.enemies[x.id]||x.location!==state.location||!Number.isFinite(x.time)||x.time>state.time||!Number.isFinite(x.expires)||x.expires<x.time||!isObject(x.loot)||!Object.keys(x.loot).length||Object.entries(x.loot).some(([id,n])=>!['raw_meat','hide'].includes(id)||!Number.isInteger(n)||n<1||n>content.enemies[x.id].harvest.yields[id][1]))return false;}
+  if(state.receipt!=null){const r=state.receipt;if(!isObject(r)||typeof r.kind!=='string'||typeof r.message!=='string'||!isObject(r.options)||!Array.isArray(r.notes)||r.notes.some(n=>typeof n!=='string')||!Array.isArray(r.quests)||!isObject(r.effects)||!Number.isFinite(r.effects.minutes)||r.effects.minutes<0||!isObject(r.effects.stats)||Object.values(r.effects.stats).some(n=>!Number.isFinite(n)))return false;for(const map of [r.effects.gained,r.effects.left])if(!isObject(map)||Object.entries(map).some(([id,n])=>!content.items[id]||!Number.isInteger(n)||n<0))return false;}
   for(const key of ['health','stamina','fatigue','injury','sickness'])if(state.stats[key]<0||state.stats[key]>100)return false;
   if(state.stats.calories<0||state.stats.calories>2800||state.stats.hydration<0||state.stats.hydration>2500||state.stats.temperature<31||state.stats.temperature>40)return false;
   if(Object.entries(state.items).some(([id,n])=>!content.items[id]||!Number.isInteger(n)||n<0))return false;
@@ -38,9 +43,12 @@ export function parseSave(raw,content) {
 function get(key){try{return localStorage.getItem(key);}catch{return null;}}
 function put(key,value){try{localStorage.setItem(key,JSON.stringify(value));return true;}catch{return false;}}
 export function loadSave(content) {
-  let save=parseSave(get(KEY),content);
-  if(!save&&globalThis.Android?.loadBackup){try{save=parseSave(Android.loadBackup(),content);}catch{}}
-  return save;
+  const local=parseSave(get(KEY),content);
+  let native=null;
+  if(globalThis.Android?.loadBackup){try{native=parseSave(Android.loadBackup(),content);}catch{}}
+  // WebView may not flush its disk copy before force-stop. Prefer the newest valid copy.
+  const stamp=save=>Number.isFinite(save?.savedAt)?save.savedAt:0;
+  return native&&(!local||stamp(native)>stamp(local))?native:local;
 }
 export function saveRun(state,checkpoint) {
   const data={state,checkpoint:state.permadeath&&state.dead?null:checkpoint,savedAt:Date.now()};

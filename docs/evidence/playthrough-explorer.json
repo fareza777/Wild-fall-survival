@@ -1,0 +1,34 @@
+{
+  "passed": true,
+  "difficulty": "story",
+  "scenario": "riverborn",
+  "seed": 7103,
+  "days": 11,
+  "actions": 545,
+  "quests": [
+    "woodkeeper",
+    "first_night",
+    "old_ranger",
+    "clean_water",
+    "tracker",
+    "defender",
+    "field_kitchen",
+    "seven_dawns",
+    "scattered_signal",
+    "voice_in_static",
+    "cartographer",
+    "last_signal"
+  ],
+  "health": 99.36100752366681,
+  "stats": {
+    "health": 99.36100752366681,
+    "stamina": 95,
+    "calories": 1742.2060799999892,
+    "hydration": 2238.2484799999947,
+    "temperature": 35.260953203786926,
+    "fatigue": 1.1,
+    "injury": 0,
+    "sickness": 0
+  },
+  "notes": "All resources obtained using public actions; no state injection, free resources, or stat resets."
+}

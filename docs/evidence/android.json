@@ -1,11 +1,15 @@
 {
   "passed": true,
+  "version": "1.2.0",
   "device": "emulator-5580",
   "api": 36,
+  "uiDumpRetries": 0,
   "checks": [
     "offline-menu",
-    "new-game",
+    "new-game-prologue",
+    "highlighted-guide",
     "gather",
+    "unread-result-after-force-stop",
     "five-tabs",
     "settings",
     "save-after-force-stop",

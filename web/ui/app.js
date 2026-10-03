@@ -10,7 +10,10 @@ import { menuView, onboardingView, newGameContent, settingsContent, aboutContent
 import { landscape } from './scenery.js';
 import { sound, suspendAudio, resumeAudio, unlockAudio, configureAudio, updateAmbience, actionSound } from './audio.js';
 import { animateAction, animateHud } from './motion.js';
-import {pageOf,pager} from './layout.js';
+import {pageOf,pager,pageSize} from './layout.js';
+import {storyView} from './story-view.js';
+import {resultView,carcassView} from './results-view.js';
+import {guideStep,progressGuide,showGuide,clearGuide} from './guide.js';
 
 if(!globalThis.structuredClone)globalThis.structuredClone=value=>JSON.parse(JSON.stringify(value));
 const app=document.getElementById('app'),modalRoot=document.getElementById('modal-root'),toastRoot=document.getElementById('toast-root');
@@ -19,6 +22,7 @@ let screen='menu',tab='camp',packFilter='all',craftFilter='camp',mapSelection='f
 let pages={pack:0,craft:0,actions:0,quests:null,logs:0},questGroup='main';
 let modalType=null,modalOptions={},toastTimer,lastFocus=null,busy=false;
 let setup={scenario:'last_ember',difficulty:'survivor',permadeath:false};
+let storyReplay=false,storyIndex=0,storyReturn='menu';
 const preferences=()=>{document.documentElement.classList.toggle('no-motion',!settings.motion||matchMedia('(prefers-reduced-motion: reduce)').matches);document.documentElement.classList.toggle('large-text',settings.largeText);};
 function toast(message,error=false){clearTimeout(toastTimer);toastRoot.innerHTML=`<div class="toast ${error?'error':''}">${esc(message)}</div>`;toastTimer=setTimeout(()=>toastRoot.innerHTML='',error?4000:1800);}
 function haptic(){if(settings.vibration){try{if(globalThis.Android?.haptic)Android.haptic();else navigator.vibrate?.(12);}catch{}}}
@@ -32,20 +36,32 @@ function persist(){
 function render({preserveScroll=false}={}){
   const top=window.scrollY;
   preferences();
-  if(screen==='onboarding')app.innerHTML=onboardingView(onboardStep);
+  if(screen==='story')app.innerHTML=storyView(content,game?.state||{scenario:'last_ember'},storyReplay,storyIndex);
+  else if(screen==='onboarding')app.innerHTML=onboardingView(onboardStep);
   else if(screen==='menu')app.innerHTML=menuView(saved,records);
   else if(game){
+    prepareGuide();
     const views={camp:()=>campView(game,pages.actions),map:()=>mapView(game,mapSelection),pack:()=>packView(game,packFilter,pages.pack),craft:()=>craftView(game,craftFilter,pages.craft),journal:()=>journalView(game,questGroup,pages.quests)};
     app.innerHTML=shell(game,tab,views[tab](),records);
   }
   if(!preserveScroll)window.scrollTo(0,0);else window.scrollTo(0,top);
   renderModal();
-  updateAmbience(screen==='game'?game?.state:null,settings);
+  const storySound=screen==='story'?content.story[storyReplay?storyIndex:game.state.prologue.step].ambience:null;
+  updateAmbience(screen==='game'?game?.state:storySound?{location:storySound.location,weather:storySound.weather||game?.state.weather||'clear',camp:{fire:0}}:null,settings);
+  renderGuide();
 }
+function prepareGuide(){
+ const g=guideStep(game,tab,modalType);if(!g||game.state.receipt||game.state.combat||game.state.event||game.state.carcass)return;
+ if(g.recipe&&tab==='craft'){craftFilter='camp';const rows=Object.entries(content.recipes).filter(([,r])=>r.category==='camp');pages.craft=Math.floor(rows.findIndex(([id])=>id===g.recipe)/pageSize('craft'));}
+ if(g.item&&tab==='pack'){packFilter='food';const rows=Object.entries(game.state.items).filter(([id,n])=>n>0&&['food','water'].includes(content.items[id].category));const index=rows.findIndex(([id])=>id===g.item);pages.pack=Math.floor(Math.max(0,index)/pageSize('pack'));}
+ if(g.map&&tab==='map'&&game.state.location!=='forest')mapSelection='forest';
+}
+function renderGuide(){clearGuide();if(screen==='game'&&!busy&&game?.state.tutorial?.active&&(!modalType||['fire-dialog','craft-dialog','travel-dialog','action-dialog'].includes(modalType)))showGuide(game,tab,modalType);}
 function openModal(type,options={}){
   lastFocus=document.activeElement;modalType=type;modalOptions=options;renderModal();
+  renderGuide();
 }
-function closeModal(){modalType=null;modalOptions={};renderModal();if(lastFocus?.isConnected)lastFocus.focus();}
+function closeModal(){modalType=null;modalOptions={};renderModal();renderGuide();if(lastFocus?.isConnected)lastFocus.focus();}
 function dialogBasics(ic,title,text){return `<div class="dialog-icon">${icon(ic,58)}</div><h2 id="dialog-title">${esc(title)}</h2>${text?`<p class="modal-intro">${esc(text)}</p>`:''}`;}
 function illustratedDialog(path,title,text){return `<div class="dialog-art-stage">${art(path,'dialog-art','',false)}</div><h2 id="dialog-title">${esc(title)}</h2><p class="modal-intro">${esc(text)}</p>`;}
 function costFacts(action,options={}){const p=game.preview(action,options),cost=game.actionCost(action,options);return p?`<div class="dialog-facts cost-preview"><span>${icon('clock',19)}${duration(cost.minutes||0)}</span><span>${icon('lightning',19)}${Math.ceil(p.stamina)}</span><span>${icon('bowl-food',19)}−${Math.ceil(p.calories)} kcal</span><span>${icon('drop',19)}−${Math.ceil(p.hydration)} ml</span></div>${p.dead?'<p class="dialog-reason">Your current condition makes this action fatal. Use supplies first.</p>':''}`:'';}
@@ -57,12 +73,14 @@ function modalBody(){
  case 'settings':return settingsContent(settings);
  case 'about':return aboutContent();
  case 'tutorial':return tutorialContent();
+ case 'result':return resultView(game,pages.results||0);
+ case 'carcass':return carcassView(game);
  case 'history':{const p=pageOf(s.logs,pages.logs,5);return `<span class="overline">ON THE TRAIL</span><h2>Field notes</h2><div class="full-log">${p.entries.map(log=>`<article class="log ${log.tone}"><span>D${dayOf({time:log.time})}<br>${clockText({time:log.time})}</span><p>${esc(log.text)}</p></article>`).join('')}</div>${pager(p,'logs')}`;}
  case 'pause':return dialogBasics('tent','Journey paused','Time advances only when you act. Your journey is saved.')+button('Resume','resume',{},'primary-button full-width')+button('Main menu','menu',{},'secondary-button full-width');
  case 'action-dialog':{const action=modalOptions.kind,[name,ic,desc]=ACTION_INFO[action],reason=game.reason(action);const note=action==='sleep'?'Rest for six hours. Food and water still decrease. Shelter improves recovery.':action==='rest'?'Recover stamina and reduce fatigue for one hour.':action==='explore'?'Discover new routes and rescue clues. Encounters may occur.':action==='gather'||action==='forage'?'Supplies depend on this location and your equipment. Pack space limits what you keep.':desc;return dialogBasics(ic,name,note)+costFacts(action)+denial(reason)+button(`${name} ${icon('arrow-right',18)}`,'perform',{kind:action},'primary-button full-width',!!reason);}
  case 'travel-dialog':{const id=modalOptions.id,l=content.locations[id],reason=game.reason('travel',{id}),route=game.routeTo(id);return `<div class="event-illustration">${landscape(l.biome)}</div><span class="overline">ON THE TRAIL</span><h2 id="dialog-title">${esc(l.name)}</h2><p class="modal-intro">${esc(l.description)}</p>${costFacts('travel',{id})}${route?`<p class="dialog-note route-note">${route.path.map(k=>esc(content.locations[k].name)).join(' → ')}</p>`:''}${denial(reason)}${button(`Travel ${icon('arrow-right',18)}`,'perform',{kind:'travel',id},'primary-button full-width',!!reason)}`;}
  case 'craft-dialog':{const id=modalOptions.id,r=content.recipes[id],item=content.items[r.item],reason=game.reason('craft',{id});return illustratedDialog(r.art,r.name,r.description||item?.description||'')+`<div class="dialog-cost">${costMarkup(r.cost,content,s)}</div>`+costFacts('craft',{id})+denial(reason)+button(`${r.structure?'Build':r.category==='cooking'?'Cook':'Craft'} ${icon('hammer',19)}`,'perform',{kind:'craft',id},'primary-button full-width',!!reason);}
- case 'fire-dialog':{if(!s.camp.firepit)return illustratedDialog(content.recipes.firepit.art,'Start an ember','Build a fire ring, then add fuel.')+button('Build fire ring','craft-dialog',{id:'firepit'},'primary-button full-width');const reason=game.reason('fire');return illustratedDialog(`assets/art/structures/${s.camp.fire>0?'firepit':'firepit_cold'}.webp`,s.camp.fire>0?'Keep the ember alive':'Light the fire',s.camp.fire>0?`${duration(s.camp.fire/fireBurnRate(s,content))} of warmth remains in this weather.`:'Warmth and cooking start here.')+`<div class="dialog-cost">${costMarkup({wood:2,...(s.camp.fire>0?{}:{fiber:1})},content,s)}</div>`+costFacts('fire')+denial(reason)+button('Add fuel','perform',{kind:'fire'},'primary-button full-width',!!reason);}
+ case 'fire-dialog':{if(!s.camp.firepit)return illustratedDialog(content.recipes.firepit.art,'Start an ember','Build a fire ring, then add fuel.')+button('Build fire ring','craft-dialog',{id:'firepit'},'primary-button full-width');const reason=game.reason('fire');return illustratedDialog(`assets/art/structures/${s.camp.fire>0?'firepit':'firepit_cold'}.webp`,s.camp.fire>0?'Keep the ember alive':'Light the fire',s.camp.fire>0?`${duration(s.camp.fire)} of warmth remains.`:'Warmth and cooking start here.')+`<p class="dialog-note">${s.camp.fire_cover?'Fire canopy built · protected from rain.':'Exposed fire · rain puts it out, even with a sleeping shelter.'}</p><div class="dialog-cost">${costMarkup({wood:2,...(s.camp.fire>0?{}:{fiber:1})},content,s)}</div>`+costFacts('fire')+denial(reason)+button('Add fuel','perform',{kind:'fire'},'primary-button full-width',!!reason)+(!s.camp.fire_cover?button('Build fire canopy','craft-dialog',{id:'fire_cover'},'secondary-button full-width'):'');}
  case 'shelter-dialog':{const id=s.camp.shelter===0?'shelter':s.camp.shelter===1?'shelter2':'shelter3';return illustratedDialog(content.recipes[['shelter','shelter','shelter2','shelter3'][s.camp.shelter]].art,['Build a refuge','Canvas shelter','Timber cabin','Alpine lodge'][s.camp.shelter],'A dry bed. Cold protection. Better recovery.')+(s.camp.shelter<3?button('View upgrade','craft-dialog',{id},'primary-button full-width'):'<p class="dialog-note">Maximum shelter level.</p>');}
  case 'item-info':{const id=modalOptions.id,item=content.items[id],gear=s.gear.find(g=>g.uid===modalOptions.uid),consumable=['food','water','medicine'].includes(item.category);return illustratedDialog(item.art,item.name,item.description)+`<div class="dialog-facts"><span>${item.weight} kg each</span>${gear?`<span>${gear.durability} / ${item.durability} durability</span>`:`<span>×${s.items[id]||0} in pack</span>`}${item.calories?`<span>+${item.calories} kcal</span>`:''}${item.hydration?`<span>+${item.hydration} ml</span>`:''}${item.heal?`<span>+${item.heal} health</span>`:''}${item.injury?`<span>${item.injury} injury</span>`:''}${item.sickness?`<span>${item.sickness} sickness</span>`:''}${item.damage?`<span>${item.damage} attack base</span>`:''}${item.warmth&&item.category==='gear'?`<span>+${item.warmth}°C protection</span>`:''}${item.armor?`<span>${item.armor} armor</span>`:''}${item.risk?`<span class="text-danger">${Math.round(item.risk*100)}% sickness risk</span>`:''}</div><div class="item-dialog-buttons">${consumable?button('Use one','perform',{kind:'use',id},'primary-button'):gear?button(s.equipment[item.slot]===gear.uid?'Unequip':'Equip','perform',{kind:'equip',uid:gear.uid},'primary-button',gear.durability<=0):''}${gear?button('Repair','perform',{kind:'repair',uid:gear.uid},'secondary-button',!!game.reason('repair',{uid:gear.uid})):''}</div>${item.category!=='quest'?button(`${icon('trash',17)}Drop ${gear?'gear':'one'}`,'perform',{kind:'drop',id,...(gear?{uid:gear.uid}:{})},'drop-button'):''}`;}
  case 'equipment':{const list=s.gear.filter(g=>content.items[g.id].slot===modalOptions.slot);return dialogBasics({tool:'axe',weapon:'sword',clothing:'coat-hanger'}[modalOptions.slot],'Choose your gear','One item per slot. Repair at camp.')+`<div class="event-options">${list.length?list.map(gear=>button(`${itemArt(content.items[gear.id],'gear-choice-art')}<span><b>${esc(content.items[gear.id].name)}</b><small>${gear.durability} / ${content.items[gear.id].durability} ${s.equipment[modalOptions.slot]===gear.uid?'· Equipped':''}</small></span>${icon('caret-right',18)}`,'item-info',{id:gear.id,uid:gear.uid},'event-choice')).join(''):'<p class="dialog-note">No gear for this slot. Visit the workbench.</p>'}</div>`;}
@@ -81,14 +99,14 @@ function renderModal(){
   if(screen==='game'&&game){
     if(game.state.dead&&modalType!=='new-game')modalType='death';
     else if(!['pause','settings','about','tutorial','rate'].includes(modalType)){
-      if(game.state.combat)modalType='combat';else if(game.state.event)modalType='event';
+      if(game.state.receipt)modalType='result';else if(game.state.carcass)modalType='carcass';else if(game.state.combat)modalType='combat';else if(game.state.event)modalType='event';
     }
   }
   if(!modalType){modalRoot.innerHTML='';document.body.classList.remove('modal-open');app.inert=false;app.removeAttribute('aria-hidden');return;}
-  const locked=['death','event','combat'].includes(modalType);
+  const locked=['death','event','combat','result','carcass'].includes(modalType);
   const scroll=modalRoot.querySelector('.modal')?.scrollTop||0;
   const previous=modalRoot.dataset.type;
-  modalRoot.innerHTML=`<div class="modal-overlay" data-ui="modal-backdrop"><section class="modal ${modalType==='combat'?'combat-modal':''}" role="dialog" aria-modal="true" aria-label="${esc(({ 'new-game':'New journey', settings:'Settings', about:'About WILDFALL', tutorial:'Field guide', event:'Event', combat:'Encounter', death:'Journey ended' })[modalType]||'Journey choices')}" tabindex="-1">${!locked?button(icon('x',20),'close-modal',{},'modal-close',false):''}${modalBody()}</section></div>`;
+  modalRoot.innerHTML=`<div class="modal-overlay" data-ui="modal-backdrop"><section class="modal ${modalType==='combat'?'combat-modal':['result','carcass'].includes(modalType)?'result-modal':''}" role="dialog" aria-modal="true" aria-label="${esc(({ 'new-game':'New journey', settings:'Settings', about:'About WILDFALL', tutorial:'Field guide', event:'Event', combat:'Encounter', result:'Action results',carcass:'Harvest carcass',death:'Journey ended' })[modalType]||'Journey choices')}" tabindex="-1">${!locked?button(icon('x',20),'close-modal',{},'modal-close',false):''}${modalBody()}</section></div>`;
   modalRoot.dataset.type=modalType;
   document.body.classList.add('modal-open');
   app.inert=true;app.setAttribute('aria-hidden','true');
@@ -105,45 +123,55 @@ async function share(){
   }catch(error){if(error.name!=='AbortError')toast('Share is available in the Android app.',true);}
 }
 async function act(kind,options={}){
-  if(busy||!game)return;
+  if(busy||!game||game.state.receipt)return;
   busy=true;
+  clearGuide();
   try{
     const before=structuredClone(game.state),wasRescued=game.state.flags.rescued,result=game.perform(kind,options);
     if(!result.ok){toast(result.message,true);sound('danger',settings.sound);return;}
+    progressGuide(game.state,kind,options);pages.results=0;
     if(result.dawn)checkpoint=structuredClone(game.state);
     if(game.state.dead&&game.state.permadeath)checkpoint=null;
     if(!wasRescued&&game.state.flags.rescued)records.rescues++;
     persist();haptic();
+    updateAmbience(game.state,settings);
     actionSound(kind,options,result,before,content,settings);
     document.body.classList.add('action-busy');
     try{await animateAction(kind,options,result,before,content,settings);}finally{document.body.classList.remove('action-busy');}
     modalType=null;
     if(kind==='travel'){tab='camp';mapSelection=game.state.location;pages.actions=0;}
-    if(!wasRescued&&game.state.flags.rescued)modalType='victory';
     render({preserveScroll:kind!=='travel'});
     animateHud(before,game.state,settings.motion);
-    if(result.effects.battle?.victory)toast('Encounter won. Supplies collected.');
     if(!game.state.dead&&!game.state.combat&&!game.state.event&&!modalType)toast(result.quests.length?`Quest complete: ${content.quests.main.concat(content.quests.side).find(q=>q.id===result.quests[0]).title}`:result.message);
-  }finally{busy=false;document.body.classList.remove('action-busy');}
+  }finally{busy=false;document.body.classList.remove('action-busy');renderGuide();}
 }
 function ui(action,data){
   switch(action){
     case 'tab':tab=data.tab;closeModal();render();break;
     case 'menu':persist();screen='menu';modalType=null;render();break;
-    case 'continue':if(saved){game=new GameEngine(content,saved.state);checkpoint=saved.checkpoint;screen='game';modalType=null;render();}break;
+    case 'continue':if(saved){game=new GameEngine(content,saved.state);checkpoint=saved.checkpoint;screen=game.state.prologue&&!game.state.prologue.complete?'story':'game';storyReplay=false;modalType=null;persist();render();}break;
     case 'new-game':setup={scenario:'last_ember',difficulty:'survivor',permadeath:false};openModal('new-game');break;
     case 'scenario':setup.scenario=data.id;renderModal();break;
     case 'difficulty':setup.difficulty=data.id;renderModal();break;
     case 'permadeath':setup.permadeath=!setup.permadeath;renderModal();break;
-    case 'start-game':game=new GameEngine(content,null,{...setup,seed:crypto.getRandomValues(new Uint32Array(1))[0]||2026});checkpoint=structuredClone(game.state);records.runs++;screen='game';tab='camp';modalType=null;pages={pack:0,craft:0,actions:0,quests:null,logs:0};packFilter='all';craftFilter='camp';questGroup='main';persist();render();break;
+    case 'start-game':game=new GameEngine(content,null,{...setup,seed:crypto.getRandomValues(new Uint32Array(1))[0]||2026});game.state.prologue={step:0,complete:false};game.state.tutorial={step:0,active:true,usedWater:false,usedFood:false};checkpoint=structuredClone(game.state);records.runs++;screen='story';storyReplay=false;tab='camp';modalType=null;pages={pack:0,craft:0,actions:0,quests:null,logs:0,results:0};packFilter='all';craftFilter='camp';questGroup='main';persist();render();break;
+    case 'story-next':if(storyReplay)storyIndex=Math.min(4,storyIndex+1);else{game.state.prologue.step=Math.min(4,game.state.prologue.step+1);persist();}render();break;
+    case 'story-back':if(storyReplay)storyIndex=Math.max(0,storyIndex-1);else{game.state.prologue.step=Math.max(0,game.state.prologue.step-1);persist();}render();break;
+    case 'story-skip':game.state.prologue.complete=true;if(checkpoint?.prologue)checkpoint.prologue.complete=true;screen='game';persist();render();break;
+    case 'story-replay':storyReturn=screen;storyReplay=true;storyIndex=0;screen='story';modalType=null;render();break;
+    case 'story-close':storyReplay=false;screen=storyReturn;render();break;
+    case 'guide-replay':if(!game&&saved){game=new GameEngine(content,saved.state);checkpoint=saved.checkpoint;}if(!game||game.state.dead){openModal('new-game');break;}screen='game';if(game.state.prologue)game.state.prologue.complete=true;if(checkpoint?.prologue)checkpoint.prologue.complete=true;game.state.tutorial={step:0,active:true,usedWater:false,usedFood:false};tab='camp';modalType=null;persist();render();break;
+    case 'guide-next':if(game.state.tutorial.step===8)game.state.tutorial.active=false;else game.state.tutorial.step++;persist();render();break;
+    case 'skip-guide':game.state.tutorial.active=false;persist();render();break;
+    case 'acknowledge-result':{const rescued=game.state.receipt?.kind==='signal'&&game.state.flags.rescued;game.state.receipt=null;modalType=rescued?'victory':null;persist();render();break;}
     case 'pack-filter':packFilter=data.filter;pages.pack=0;render();break;
     case 'craft-filter':craftFilter=data.filter;pages.craft=0;render();break;
     case 'page':pages[data.scope]=Number(data.page);render();break;
     case 'quest-group':questGroup=data.group;pages.quests=null;render();break;
     case 'select-location':mapSelection=data.id;render({preserveScroll:true});break;
-    case 'perform':act(data.kind,{id:data.id,uid:data.uid,choice:data.choice===undefined?undefined:Number(data.choice),move:data.move});break;
-    case 'close-modal':if(!['event','combat','death'].includes(modalType))closeModal();break;
-    case 'modal-backdrop':if(!['event','combat','death'].includes(modalType))closeModal();break;
+    case 'perform':act(data.kind,{id:data.id,uid:data.uid,choice:data.choice===undefined?undefined:Number(data.choice),move:data.move,part:data.part});break;
+    case 'close-modal':if(!['event','combat','death','result','carcass'].includes(modalType))closeModal();break;
+    case 'modal-backdrop':if(!['event','combat','death','result','carcass'].includes(modalType))closeModal();break;
     case 'resume':modalType=null;renderModal();break;
     case 'recover':if(checkpoint&&!game.state.permadeath){game=new GameEngine(content,checkpoint);game.log('Restored the latest dawn checkpoint.','story');persist();modalType=null;render();}break;
     case 'toggle-setting':settings[data.key]=!settings[data.key];saveSettings(settings);preferences();configureAudio(settings);renderModal();break;
@@ -175,6 +203,9 @@ document.addEventListener('keydown',event=>{
 });
 globalThis.wildfallBack=()=>{
   if(busy)return;
+  if(screen==='story'){if(storyReplay)ui('story-close',{});else ui('story-skip',{});return;}
+  if(modalType==='result')return;
+  if(modalType==='carcass'){openModal('pause');return;}
   if(['event','combat'].includes(modalType)){openModal('pause');return;}
   if(modalType==='death'){screen='menu';modalType=null;render();return;}
   if(modalType){closeModal();return;}
@@ -190,11 +221,12 @@ window.addEventListener('pagehide',persist);
 let resizeTimer;window.addEventListener('resize',()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(()=>{if(!busy&&screen==='game')render({preserveScroll:true});},150);});
 
 async function boot(){
-  const names=['items','recipes','locations','weather','enemies','events','scenarios','quests'];
+  const names=['items','recipes','locations','weather','enemies','events','scenarios','quests','story'];
   content=Object.fromEntries(await Promise.all(names.map(async name=>{const response=await fetch(`data/${name}.json`);if(!response.ok)throw new Error('Could not load '+name+'.');return [name,await response.json()];})));
   saved=loadSave(content);
   let onboarded=false;try{onboarded=localStorage.getItem('wildfall-onboarded')==='1';}catch{}
-  screen=onboarded||saved?'menu':'onboarding';
+  screen='menu';
+  content.story.forEach(scene=>{const preload=new Image();preload.src=scene.art;});
   await new Promise(resolve=>setTimeout(resolve,600));render();
 }
 boot().catch(error=>{app.innerHTML=`<div class="splash">${icon('warning',40)}<h2>The valley is not ready.</h2><p>${esc(error.message)}</p><p>Close and reopen to try again.</p></div>`;});

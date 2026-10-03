@@ -7,7 +7,7 @@
     1440
   ],
   "checks": [
-    "English onboarding and responsive title",
+    "English menu and responsive title",
     "gather animation, actual loot, cost preview and duplicate input lock",
     "eating and drinking motion and consumed inventory",
     "travel and exact save restoration",
@@ -26,20 +26,20 @@
       "fire"
     ],
     "loaded": [
-      "pack",
-      "draw",
       "tap",
+      "pack",
       "equip",
       "swing",
       "chop",
+      "draw",
       "leaf",
-      "step1",
       "step2",
-      "guard",
+      "step1",
+      "snowstep",
       "hit",
+      "guard",
       "heavy",
       "craft",
-      "snowstep",
       "book",
       "mine"
     ],

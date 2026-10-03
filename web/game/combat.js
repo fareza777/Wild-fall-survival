@@ -5,7 +5,7 @@ export function beginCombat(state, content, enemyId) {
   const enemy = content.enemies[enemyId];
   if (!enemy) return;
   const scale = 1 + Math.min(0.8, (dayOf(state) - 1) * 0.025);
-  state.combat = { id: enemyId, health: Math.round(enemy.health * scale), maxHealth: Math.round(enemy.health * scale), turn: 0, stunned: false, messages: [`${enemy.name} blocks your path.`] };
+  state.combat = { id: enemyId, health: Math.round(enemy.health * scale), maxHealth: Math.round(enemy.health * scale), turn: 0, startedAt:state.time, startingStats:{...state.stats}, stunned: false, messages: [`${enemy.name} blocks your path.`] };
 }
 export function combatTurn(state, content, move, random) {
   const fight = state.combat;

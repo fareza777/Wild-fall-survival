@@ -26,7 +26,7 @@
     "icon": "cloud-rain",
     "temp": -4,
     "wet": true,
-    "description": "Wet exposure. Actions cost 15% more stamina.",
+    "description": "Extinguishes exposed fires. Wet exposure. Actions cost 15% more stamina.",
     "stamina": 1.15
   },
   "storm": {
@@ -34,7 +34,7 @@
     "icon": "cloud-lightning",
     "temp": -7,
     "wet": true,
-    "description": "Severe weather. Actions cost 30% more stamina.",
+    "description": "Extinguishes exposed fires. Severe cold. Actions cost 30% more stamina.",
     "stamina": 1.3,
     "minDay": 3
   },

@@ -11,7 +11,8 @@ page.on('response',r=>{if(r.status()>=400)missing.push(r.url());});
 const save=()=>page.evaluate(()=>JSON.parse(localStorage.getItem('wildfall-save-v1')).state);
 const audio=()=>page.evaluate(async()=>(await import('/ui/audio.js')).audioDiagnostics());
 const motion=()=>page.evaluate(async()=>(await import('/ui/motion.js')).motionDiagnostics());
-async function settle(){await page.waitForFunction(()=>!document.body.classList.contains('action-busy'));await page.waitForTimeout(450);}
+async function settle(){await page.waitForFunction(()=>!document.body.classList.contains('action-busy'));await page.waitForTimeout(450);const ack=page.locator('[data-ui="acknowledge-result"]');if(await ack.count())await ack.click();}
+async function encounters(){for(let i=0;i<20;i++){const s=await save();if(s.event)await page.locator('.event-options [data-kind="resolveEvent"]:not([disabled])').last().click();else if(s.combat)await page.getByRole('button',{name:/^Retreat /}).click();else if(s.carcass)await page.getByRole('button',{name:'Leave carcass',exact:true}).click();else return;await settle();}throw new Error('Encounter did not resolve');}
 async function shot(name){await page.evaluate(async()=>{await document.fonts.ready;await Promise.all([...document.images].filter(i=>i.loading!=='lazy').map(i=>i.decode().catch(()=>{})));});await page.screenshot({path:`test-results/premium-${name}.png`});}
 async function nav(name){await page.locator('.bottom-nav').getByRole('button',{name,exact:true}).click();}
 async function findRecipe(id){for(let i=0;i<10;i++){if(await page.locator(`[data-recipe="${id}"]`).count())return page.locator(`[data-recipe="${id}"]`);await page.locator('.page-controls [data-scope="craft"]').last().click();}throw new Error('Recipe missing '+id);}
@@ -37,18 +38,17 @@ async function fixture(mode){
 }
 try{
   await page.goto('http://127.0.0.1:4173');
-  await page.getByRole('heading',{name:'Find your way.'}).waitFor();await shot('onboarding-phone');
-  await page.getByRole('button',{name:'Next',exact:true}).click();await page.getByRole('heading',{name:'Every step costs.'}).waitFor();
-  await page.getByRole('button',{name:'Next',exact:true}).click();await page.getByRole('heading',{name:'Survive another night.'}).waitFor();
-  await page.getByRole('button',{name:'Begin',exact:true}).click();await shot('menu-phone');
+  await page.getByRole('button',{name:'New journey',exact:true}).waitFor();await shot('menu-phone');
   for(const width of [320,412,760,1440]){
     await page.setViewportSize({width,height:915});await page.evaluate(()=>document.fonts.ready);
     assert.equal(await page.locator('.menu-content h1').evaluate(h=>h.scrollWidth<=h.clientWidth+1),true,`Title fits ${width}px`);
   }
-  await page.setViewportSize({width:412,height:915});checks.push('English onboarding and responsive title');
+  await page.setViewportSize({width:412,height:915});checks.push('English menu and responsive title');
   await page.getByRole('button',{name:'New journey',exact:true}).click();
   assert.equal(await page.locator('.scenario-portrait').count(),3);
   await shot('new-journey-phone');await page.getByRole('button',{name:'Enter the valley',exact:true}).click();
+  await page.getByRole('heading',{name:'The last flight.',exact:true}).waitFor();await shot('prologue-phone');await page.getByRole('button',{name:'Skip story',exact:true}).click();
+  await page.getByRole('button',{name:'Got it',exact:true}).click();await shot('guided-onboarding-phone');await page.getByRole('button',{name:'Skip',exact:true}).click();
   await page.getByRole('heading',{name:'Last Camp',exact:true}).waitFor();await shot('camp-phone');
   await page.locator('[data-ui="action-dialog"][data-kind="sleep"]').click();
   assert.equal(await page.locator('.cost-preview span').count(),4);
@@ -67,10 +67,10 @@ try{
   checks.push('eating and drinking motion and consumed inventory');
   await nav('Explore');await page.locator('.map-node[data-id="forest"]').click();
   await page.getByRole('button',{name:'Travel',exact:true}).click();await page.getByRole('button',{name:'Travel',exact:true}).click();
-  await page.locator('.fx-travel').waitFor();await settle();await page.getByRole('heading',{name:'Ashpine Forest',exact:true}).waitFor();
+  await page.locator('.fx-travel').waitFor();await settle();assert.equal((await save()).location,'forest');await encounters();await page.getByRole('heading',{name:'Ashpine Forest',exact:true}).waitFor();
   before=await save();await page.reload();await page.getByRole('button',{name:/Continue/}).click();assert.deepEqual(await save(),before);checks.push('travel and exact save restoration');
   await page.waitForFunction(async()=>{const d=(await import('/ui/audio.js')).audioDiagnostics();return d.loaded.length===16&&d.state==='running';});
-  assert.ok((await audio()).activeLayers.includes('wind'));
+  await page.waitForFunction(async()=>(await import('/ui/audio.js')).audioDiagnostics().activeLayers.includes('wind'),{},{timeout:5000});
   await page.locator('.mobile-settings').click();await shot('settings-phone');
   await page.getByRole('button',{name:/Sound effects Natural/}).click();assert.equal((await audio()).settings.sound,false);
   await page.getByRole('button',{name:/Nature ambience Wind/}).click();assert.equal((await audio()).settings.ambient,false);

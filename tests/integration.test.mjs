@@ -24,14 +24,15 @@ test('travel neither borrows the camp roof nor returns before its final environm
  assert.equal(a.perform('travel',{id:'forest'}).ok,true);
  assert.equal(a.state.stats.temperature,b.state.stats.temperature);assert.equal(a.state.stats.temperature,p.stats.temperature);
 });
-test('exposed campfire burns faster in rain even when the survivor is away',()=>{
+test('rain extinguishes an exposed campfire while away; a sleeping shelter does not cover it',()=>{
  const g=game();g.state.location='forest';g.state.weather='rain';g.state.camp.fire=120;
- advanceTime(g.state,c,60,0);assert.equal(g.state.camp.fire,30);
- g.state.camp.shelter=1;g.state.camp.fire=120;advanceTime(g.state,c,60,0);assert.equal(g.state.camp.fire,60);assert.equal(fireBurnRate(g.state,c),1);
+ advanceTime(g.state,c,60,0);assert.equal(g.state.camp.fire,0);
+ g.state.camp.shelter=1;g.state.camp.fire=120;advanceTime(g.state,c,60,0);assert.equal(g.state.camp.fire,0);
+ g.state.camp.fire_cover=true;g.state.camp.fire=120;advanceTime(g.state,c,60,0);assert.equal(g.state.camp.fire,60);assert.equal(fireBurnRate(g.state,c),1);
 });
 test('cooking checks the full fuel budget at the weather burn rate',()=>{
- const g=game();g.state.weather='rain';g.state.camp.fire=20;g.state.items.dirty_water=2;
- assert.ok(g.reason('craft',{id:'water'}));g.state.camp.fire=22.5;assert.equal(g.reason('craft',{id:'water'}),null);
+ const g=game();g.state.weather='rain';g.state.camp.fire_cover=true;g.state.camp.fire=14;g.state.items.dirty_water=2;
+ assert.ok(g.reason('craft',{id:'water'}));g.state.camp.fire=15;assert.equal(g.reason('craft',{id:'water'}),null);
  assert.equal(g.perform('craft',{id:'water'}).ok,true);assert.equal(g.state.camp.fire,0);
 });
 test('refueling extends the fire before the action elapses; preview and fuel agree',()=>{

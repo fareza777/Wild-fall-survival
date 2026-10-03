@@ -12,6 +12,7 @@ test('seeded public-action runs preserve save, resource, stat, and durability in
    const s=g.state;let candidates=[];
    if(s.combat)candidates=['attack','power','defend','flee'].map(move=>['combat',{move}]);
    else if(s.event)candidates=c.events[s.event].choices.map((_,choice)=>['resolveEvent',{choice}]);
+   else if(s.carcass)candidates=[['harvestCarcass',{part:'all'}],['leaveCarcass',{}]];
    else{
     candidates=c.locations[s.location].actions.map(a=>[a,{}]);
     candidates.push(...Object.keys(c.locations).map(id=>['travel',{id}]),...Object.keys(c.recipes).map(id=>['craft',{id}]),...Object.keys(s.items).map(id=>['use',{id}]),...s.gear.map(x=>['equip',{uid:x.uid}]),...s.gear.map(x=>['repair',{uid:x.uid}]));

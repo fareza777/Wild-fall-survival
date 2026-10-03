@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "difficulty": "survivor",
+  "checks": [
+    "five generated story scenes; clock frozen, phone layout, English story",
+    "2.2-second gather; result held for manual Continue, backdrop cannot dismiss, exact reload restoration",
+    "guided camp, safe supplies, forest search and rescue journal completed using 24 public actions",
+    "rain kills exposed fire under a lodge; canopy builds, lights and renders a covered fire",
+    "wolf battle victory held; separate skin and meat harvesting with no duplicate loot",
+    "capacity-limited wolf harvest reports left items; default result screens fit 320×640 and 412×915",
+    "exhausted winner can rest, use supplies, and harvest; carcass timer advances and recovery sheet fits 320×640"
+  ],
+  "tutorialActions": 24,
+  "errors": [],
+  "missing": []
+}

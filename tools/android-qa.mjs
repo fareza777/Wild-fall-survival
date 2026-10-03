@@ -4,15 +4,24 @@ import { readFile,writeFile } from 'node:fs/promises';
 import assert from 'node:assert/strict';
 const execute=promisify(execFile),adb=process.env.ADB||'C:/Android/Sdk/platform-tools/adb.exe',device=process.env.ANDROID_SERIAL||'emulator-5580';
 const delay=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+let uiDumpRetries=0;
 const command=async args=>(await execute(adb,['-s',device,...args],{timeout:30000,maxBuffer:2*1024*1024})).stdout;
 function nodes(xml){return (xml.match(/<node\s[^>]+>/g)||[]).map(tag=>Object.fromEntries([...tag.matchAll(/([\w-]+)="([^"]*)"/g)].map(m=>[m[1],m[2].replaceAll('&amp;','&').replaceAll('&quot;','"')])));}
 async function dump(){
+  let lastError;
   for(let i=0;i<4;i++){
-    await command(['shell','uiautomator','dump','/sdcard/wildfall-qa.xml']);
-    const xml=await command(['shell','cat','/sdcard/wildfall-qa.xml']);
-    if(nodes(xml).some(n=>n.text||n['content-desc']))return xml;
+    try{
+      await command(['shell','uiautomator','dump','/sdcard/wildfall-qa.xml']);
+      const xml=await command(['shell','cat','/sdcard/wildfall-qa.xml']);
+      if(nodes(xml).some(n=>n.text||n['content-desc']))return xml;
+    }catch(error){
+      // Retry a killed helper; never use an accessibility file from a failed dump.
+      if(error.code!==137)throw error;
+      lastError=error;uiDumpRetries++;
+    }
     await delay(700);
   }
+  if(lastError)throw lastError;
   throw new Error('Android accessibility tree did not become ready');
 }
 async function tap(label,{contains=false}={}){
@@ -36,9 +45,14 @@ async function screenshot(name){await command(['shell','screencap','-p','/sdcard
 await command(['shell','svc','wifi','disable']);
 try{
   await tap('New journey');await tap('Enter the valley');
+  await see('The last flight.');await screenshot('android-prologue');await tap('Skip story');await tap('Got it');await screenshot('android-guided');await tap('Skip');
   await see('Last Camp');
   await screenshot('android-game');
   await tap('Gather',{contains:true});
+  await see('ACTION COST');await screenshot('android-results');
+  await command(['shell','am','force-stop','com.ashenvalley.wildfall']);
+  await command(['shell','am','start','-n','com.ashenvalley.wildfall/.MainActivity']);await delay(1200);
+  await tap('Continue',{contains:true});await see('ACTION COST');await tap('Continue',{contains:true});
   const after=await see('08:45');
   for(const label of ['Explore','Pack','Craft','Journal','Camp']){await tap(label);await dump();}
   await tap('Settings');await see('Sound effects');await screenshot('android-settings');
@@ -57,6 +71,6 @@ try{
   const logs=await command(['logcat','-d','-t','700']);
   assert.ok(!/FATAL EXCEPTION[\s\S]{0,300}com\.ashenvalley\.wildfall/.test(logs),'No native game crash');
   const api=Number((await command(['shell','getprop','ro.build.version.sdk'])).trim());
-  await writeFile('test-results/android-report.json',JSON.stringify({passed:true,device,api,checks:['offline-menu','new-game','gather','five-tabs','settings','save-after-force-stop','native-back','share-chooser','local-rating'],timeAfterReload:'08:45'},null,2));
+  await writeFile('test-results/android-report.json',JSON.stringify({passed:true,version:'1.2.0',device,api,uiDumpRetries,checks:['offline-menu','new-game-prologue','highlighted-guide','gather','unread-result-after-force-stop','five-tabs','settings','save-after-force-stop','native-back','share-chooser','local-rating'],timeAfterReload:'08:45'},null,2));
   console.log('Android QA passed: offline gameplay, tabs, settings, native Back, force-stop persistence, share chooser, local rating.');
 }finally{await command(['shell','svc','wifi','enable']);}

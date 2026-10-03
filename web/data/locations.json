@@ -38,12 +38,12 @@
     },
     "forage": {
       "berries": [
-        1,
-        2
+        0,
+        4
       ],
       "herbs": [
-        1,
-        1
+        0,
+        2
       ]
     },
     "art": "assets/art/locations/camp.webp"
@@ -89,12 +89,12 @@
     },
     "forage": {
       "berries": [
-        2,
-        3
+        1,
+        5
       ],
       "mushroom": [
-        1,
-        2
+        0,
+        3
       ],
       "herbs": [
         1,

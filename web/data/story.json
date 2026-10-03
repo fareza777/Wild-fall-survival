@@ -1,0 +1,56 @@
+[
+  {
+    "id": "departure",
+    "title": "The last flight.",
+    "text": "You are flying supplies across Ashen Valley. Below, the last road disappears into the mountains.",
+    "art": "assets/art/story/departure.webp",
+    "ambience": {
+      "location": "mountain",
+      "weather": "cloudy"
+    }
+  },
+  {
+    "id": "storm",
+    "title": "Into the white.",
+    "text": "A sudden squall swallows the ridge. Your radio dies as the aircraft loses height.",
+    "art": "assets/art/story/storm.webp",
+    "ambience": {
+      "location": "mountain",
+      "weather": "storm"
+    }
+  },
+  {
+    "id": "wreck",
+    "title": "No way back.",
+    "text": "The wreck settles among the pines. You survive, but the valley is silent and the way out is gone.",
+    "art": "assets/art/story/wreck.webp",
+    "ambience": {
+      "location": "forest",
+      "weather": "cloudy"
+    }
+  },
+  {
+    "id": "awakening",
+    "title": "What remains.",
+    "text": "You salvage a knife and a few supplies. Shelter, safe water, and warmth come before any journey.",
+    "variants": {
+      "riverborn": "You wake beside the river and recover an extra supply bag. Shelter, safe water, and warmth come first.",
+      "cold_trail": "By dusk, rain has soaked your clothes. You salvage a knife and a few supplies. Make a dry camp before night."
+    },
+    "art": "assets/art/story/awakening.webp",
+    "ambience": {
+      "location": "forest",
+      "weather": null
+    }
+  },
+  {
+    "id": "signal",
+    "title": "One signal.",
+    "text": "A ranger trail leads to an abandoned station. Find a radio, reach the summit, and call for rescue.",
+    "art": "assets/art/story/signal.webp",
+    "ambience": {
+      "location": "mountain",
+      "weather": "clear"
+    }
+  }
+]

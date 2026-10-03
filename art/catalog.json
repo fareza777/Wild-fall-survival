@@ -691,5 +691,59 @@
     "original": "art/generated/brand/emblem.png",
     "output": "web/assets/icon.webp",
     "width": 256
+  },
+  {
+    "key": "story/departure",
+    "kind": "world",
+    "prompt": "Original premium atmospheric 2D wilderness survival narrative illustration, cinematic PORTRAIT 2:3 composition for a phone. a lone rugged bush aircraft flying above a vast alpine wilderness, distant ivory mountain ridges, charcoal pine valleys and a sliver of pale morning sky, aircraft small against immense landscape, quiet fragile isolation. Sophisticated painterly realism, fine tactile detail, layered slate mist, restrained obsidian, charcoal, bone ivory and ember copper palette. NO GREEN, teal, purple, neon. Main subject clearly visible in middle 60 percent; darker uncluttered lower quarter for a text overlay. Every human must have their entire face and all skin fully concealed by a deep black hood and mask; no eyes, no facial features. No lettering, text, UI, watermark, frame or logos. Beautiful serious grounded survival atmosphere.",
+    "transparent": false,
+    "original": "art/generated/story/departure.png",
+    "output": "web/assets/art/story/departure.webp",
+    "width": 960
+  },
+  {
+    "key": "story/storm",
+    "kind": "world",
+    "prompt": "Original premium atmospheric 2D wilderness survival narrative illustration, cinematic PORTRAIT 2:3 composition for a phone. a tiny rugged bush aircraft banking between towering alpine peaks inside a violent slate-gray snow squall, layered storm clouds, wind-driven rain, luminous bone-white ridgeline, restrained cinematic danger, no explosion. Sophisticated painterly realism, fine tactile detail, layered slate mist, restrained obsidian, charcoal, bone ivory and ember copper palette. NO GREEN, teal, purple, neon. Main subject clearly visible in middle 60 percent; darker uncluttered lower quarter for a text overlay. Every human must have their entire face and all skin fully concealed by a deep black hood and mask; no eyes, no facial features. No lettering, text, UI, watermark, frame or logos. Beautiful serious grounded survival atmosphere.",
+    "transparent": false,
+    "original": "art/generated/story/storm.png",
+    "output": "web/assets/art/story/storm.webp",
+    "width": 960
+  },
+  {
+    "key": "story/wreck",
+    "kind": "world",
+    "prompt": "Original premium atmospheric 2D wilderness survival narrative illustration, cinematic PORTRAIT 2:3 composition for a phone. a damaged bush aircraft resting among broken charcoal pines in a misty mountain valley, bent wing and scattered small supply crates, light settling on cold wet ground, aftermath without flames, no blood and no bodies. Sophisticated painterly realism, fine tactile detail, layered slate mist, restrained obsidian, charcoal, bone ivory and ember copper palette. NO GREEN, teal, purple, neon. Main subject clearly visible in middle 60 percent; darker uncluttered lower quarter for a text overlay. Every human must have their entire face and all skin fully concealed by a deep black hood and mask; no eyes, no facial features. No lettering, text, UI, watermark, frame or logos. Beautiful serious grounded survival atmosphere.",
+    "transparent": false,
+    "original": "art/generated/story/wreck.png",
+    "output": "web/assets/art/story/wreck.webp",
+    "width": 960
+  },
+  {
+    "key": "story/awakening",
+    "kind": "world",
+    "prompt": "Original premium atmospheric 2D wilderness survival narrative illustration, cinematic PORTRAIT 2:3 composition for a phone. a small solitary survivor seen FROM BEHIND beside a damaged aircraft, wearing a charcoal coat, deep pitch-black hood and FULL black face covering, kneeling to salvage a knife and modest supplies, face and all skin completely invisible, cold pale dawn light among ash-gray trees. Sophisticated painterly realism, fine tactile detail, layered slate mist, restrained obsidian, charcoal, bone ivory and ember copper palette. NO GREEN, teal, purple, neon. Main subject clearly visible in middle 60 percent; darker uncluttered lower quarter for a text overlay. Every human must have their entire face and all skin fully concealed by a deep black hood and mask; no eyes, no facial features. No lettering, text, UI, watermark, frame or logos. Beautiful serious grounded survival atmosphere.",
+    "transparent": false,
+    "original": "art/generated/story/awakening.png",
+    "output": "web/assets/art/story/awakening.webp",
+    "width": 960
+  },
+  {
+    "key": "story/signal",
+    "kind": "world",
+    "prompt": "Original premium atmospheric 2D wilderness survival narrative illustration, cinematic PORTRAIT 2:3 composition for a phone. a distant abandoned mountain radio mast visible beyond a long winding ranger trail, foreground small solitary survivor seen FROM BEHIND wearing a charcoal coat, deep black hood and FULL black face covering, face and skin completely invisible, vast ivory peaks, soft copper sunrise on the horizon, fragile hope. Sophisticated painterly realism, fine tactile detail, layered slate mist, restrained obsidian, charcoal, bone ivory and ember copper palette. NO GREEN, teal, purple, neon. Main subject clearly visible in middle 60 percent; darker uncluttered lower quarter for a text overlay. Every human must have their entire face and all skin fully concealed by a deep black hood and mask; no eyes, no facial features. No lettering, text, UI, watermark, frame or logos. Beautiful serious grounded survival atmosphere.",
+    "transparent": false,
+    "original": "art/generated/story/signal.png",
+    "output": "web/assets/art/story/signal.webp",
+    "width": 960
+  },
+  {
+    "key": "structures/fire_cover",
+    "kind": "structure",
+    "prompt": "Original premium 2D survival game collectible inventory illustration, square composition, one centered complete object occupying 78% of frame with generous empty margin. a compact outdoor fire shelter: four rough wooden posts supporting a taut sloping dark charcoal waxed canvas rain canopy, HIGH roof with generous open sides and ventilation, small cold stone fire ring beneath the roof, absolutely NO flame or embers, complete structure clearly visible three-quarter view. Sophisticated painterly realism, beautiful tactile material textures, restrained cinematic soft rim lighting. Obsidian, slate gray, bone ivory and ember copper palette. NO GREEN, no teal, no purple, no neon. Isolated on fully transparent background, subtle contact shadow only, no ground plane or scenery. No text, lettering, UI, frame, badge or watermark. Crisp silhouette, not cropped. No people, skin, eyes or faces.",
+    "transparent": true,
+    "original": "art/generated/structures/fire_cover.png",
+    "output": "web/assets/art/structures/fire_cover.webp",
+    "width": 384
   }
 ]

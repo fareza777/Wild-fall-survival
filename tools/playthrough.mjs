@@ -6,7 +6,7 @@ import assert from 'node:assert/strict';
 const c=Object.fromEntries(await Promise.all(['items','recipes','locations','weather','enemies','events','scenarios','quests'].map(async n=>[n,JSON.parse(await readFile(`web/data/${n}.json`,'utf8'))])));
 const options={seed:Number(process.argv[4])||7103,difficulty:process.argv[2]||'story',scenario:process.argv[3]||'riverborn'};
 const g=new GameEngine(c,null,options),s=g.state;
-let steps=0;
+let steps=0,treating=false,feeding=false;
 function perform(action,options={}){
   if(++steps>1800)throw new Error('Playthrough exceeded action budget');
   const result=g.perform(action,options);
@@ -16,13 +16,14 @@ function perform(action,options={}){
   return result;
 }
 function pending(){
-  while(s.event||s.combat){
+  while(s.event||s.combat||s.carcass){
+    if(s.carcass){perform(g.reason('harvestCarcass',{part:'all'})?'leaveCarcass':'harvestCarcass',{part:'all'});continue;}
     if(s.event){const choice=c.events[s.event].choices.findIndex(x=>!x.stamina&&!x.cost);perform('resolveEvent',{choice});}
     else{
       const weapon=s.gear.find(x=>x.uid===s.equipment.weapon&&x.durability>0);
-      if(s.stats.health<40&&s.items.bandage)perform('use',{id:'bandage'});
+      if(s.stats.health<60&&s.items.bandage)perform('use',{id:'bandage'});
       else if((!weapon||s.stats.health<45||s.combat.id==='bear')&&s.stats.stamina>15)perform('combat',{move:'flee'});
-      else perform('combat',{move:s.stats.stamina<15?'defend':'attack'});
+      else perform('combat',{move:s.stats.stamina<15?'defend':'power'});
     }
   }
 }
@@ -33,11 +34,23 @@ function useSupplies(){
     if(s.stats.hydration<650&&s.items.dirty_water){perform('use',{id:'dirty_water'});continue;}
     if(s.stats.injury>15&&s.items.bandage){perform('use',{id:'bandage'});continue;}
     if(s.stats.sickness>15&&s.items.medicine){perform('use',{id:'medicine'});continue;}
+    if(s.stats.health<75&&s.items.bandage){perform('use',{id:'bandage'});continue;}
     break;
   }
 }
 function ready(action,options={}){
   pending();useSupplies();
+  if(!feeding&&s.location==='camp'&&['travel','sleep'].includes(action)&&s.stats.calories<1300){feeding=true;try{campFood();}finally{feeding=false;}}
+  if(action==='travel'&&s.location==='camp'&&(s.items.bandage||0)<2&&(s.items.fiber||0)>=4&&(s.items.herbs||0)>=1){craft('bandage');useSupplies();}
+  if(!treating&&s.location==='camp'&&s.stats.sickness>12&&['gather','forage','rest','sleep','travel'].includes(action)){
+    treating=true;try{craft('medicine');perform('use',{id:'medicine'});}finally{treating=false;}
+  }
+  if(action==='sleep'){
+    const budget=g.preview('sleep',options);
+    if(s.stats.calories<budget.calories+500)campFood();
+    if(s.stats.hydration<budget.hydration+500)water();
+    useSupplies();
+  }
   if(s.stats.health<60&&s.location==='camp'&&action!=='rest'&&action!=='sleep'){
     for(let i=0;i<12&&s.stats.health<85&&s.stats.calories>1000&&s.stats.hydration>1000;i++){perform('rest');useSupplies();}
   }
@@ -65,7 +78,7 @@ function campFood(){
   }
   if(s.items.raw_meat){fire();while(s.items.raw_meat){act('craft',{id:'cooked_meat'});useSupplies();}}
 }
-function fire(){travel('camp');if(!s.camp.firepit)craft('firepit');while(s.camp.fire<400){materials({wood:2,fiber:s.camp.fire>0?0:1});act('fire');}}
+function fire(){travel('camp');if(!s.camp.firepit)craft('firepit');if(!s.camp.fire_cover)craft('fire_cover');while(s.camp.fire<400){materials({wood:2,fiber:s.camp.fire>0?0:1});act('fire');}}
 function water(){
   if((s.items.water||0)>=3)return;
   fire();travel('river');trim(['dirty_water']);makeRoom(3.6,['dirty_water']);act('water');act('water');act('water');travel('camp');
@@ -89,6 +102,7 @@ function materials(cost){
     else if(id==='hide'){travel('forest');act('hunt');}
     else if(id==='ore'){travel('cave');const torch=s.gear.find(x=>x.id==='torch'&&x.durability>0);act('equip',{uid:torch.uid});if(s.equipment.tool!==torch.uid)act('equip',{uid:torch.uid});act('mine');}
     else if(id==='herbs'){travel('camp');act('forage');}
+    else if(id==='water')water();
     else throw new Error('Unknown sourcing step '+id);
     if(s.stats.calories<600&&!s.items.ration&&!s.items.berries){travel('camp');act('forage');}
     if(weight(s,c)>capacity(s)-.1){
@@ -118,6 +132,7 @@ act('sleep',{hours:8});useSupplies();
 travel('forest');act('explore');travel('river');act('explore');act('water');travel('cabin');act('explore');act('gather');
 water();campFood();
 craft('jacket');equip('jacket');campFood();water();craft('backpack');
+if(s.difficulty!=='story'){craft('insulated');equip('insulated');campFood();water();}
 craft('torch');travel('ruins');act('explore');act('gather');campFood();water();fire();maintain('axe');maintain('spear');act('sleep',{hours:6});expeditionFood();
 travel('mountain');act('explore');act('explore');travel('cave');equip('torch');act('explore');act('mine');act('mine');
 travel('camp');water();campFood();fire();craft('battery');craft('radio');

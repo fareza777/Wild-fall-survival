@@ -68,8 +68,8 @@ test('locked location cannot be visited; exploring forest opens the river', () =
 
 test('shelter and fire prevent cold damage while unprotected sleeping risks hypothermia', () => {
   const protectedGame=game(), exposed=game();
-  for (const g of [protectedGame,exposed]) { healthy(g); g.state.time=20*60; g.state.weather='rain'; }
-  protectedGame.state.camp.shelter=2; protectedGame.state.camp.fire=500;
+  for (const g of [protectedGame,exposed]) { healthy(g); g.state.time=20*60; g.state.weather='rain';g.state.nextWeather=10000; }
+  protectedGame.state.camp.shelter=2; protectedGame.state.camp.fire=500;protectedGame.state.camp.fire_cover=true;
   assert.equal(protectedGame.perform('sleep',{hours:6}).ok,true);
   assert.equal(exposed.perform('sleep',{hours:6}).ok,true);
   assert.ok(protectedGame.state.stats.temperature>exposed.state.stats.temperature);
@@ -128,7 +128,8 @@ test('combat is turn-based; strong prepared weapon can finish an enemy', () => {
   g.state.combat={id:'wolf',health:1,maxHealth:38,turn:0,messages:[]};
   assert.equal(g.perform('combat',{move:'attack'}).ok,true);
   assert.equal(g.state.combat,null); assert.equal(g.state.counters.battlesWon,1);
-  assert.ok(g.state.items.hide>=1);
+  assert.ok(g.state.carcass.loot.hide>=1);
+  assert.equal(g.state.items.hide,undefined);
 });
 
 test('unknown combat commands are refused without charging a turn', () => {
