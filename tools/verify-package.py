@@ -5,7 +5,7 @@ import json
 import subprocess
 
 root = Path(__file__).resolve().parent.parent
-apk = root / 'dist' / 'WILDFALL-Last-Ember-1.2.0.apk'
+apk = root / 'dist' / 'WILDFALL-Last-Ember-1.3.0.apk'
 with ZipFile(apk) as archive:
     assert archive.testzip() is None, 'APK archive CRC failed'
     names = archive.namelist()

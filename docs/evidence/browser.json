@@ -20,6 +20,7 @@
   "audio": {
     "unlocked": true,
     "paused": false,
+    "narrating": false,
     "state": "running",
     "activeLayers": [
       "wind",
@@ -28,26 +29,27 @@
     "loaded": [
       "tap",
       "pack",
+      "chop",
+      "leaf",
       "equip",
       "swing",
-      "chop",
       "draw",
-      "leaf",
-      "step2",
       "step1",
+      "step2",
       "snowstep",
       "hit",
       "guard",
       "heavy",
-      "craft",
       "book",
-      "mine"
+      "mine",
+      "craft"
     ],
     "settings": {
       "sound": true,
       "ambient": true,
       "sfxVolume": 0.4,
       "ambientVolume": 0.32,
+      "narration": true,
       "vibration": true,
       "motion": true,
       "largeText": true

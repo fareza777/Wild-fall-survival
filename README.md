@@ -2,13 +2,13 @@
 
 An original, fully offline 2D wilderness survival game for Android. Read the land, build a refuge, and repair a radio to find your way home.
 
-**v1.2.0 — A Wilder Beginning.** Five illustrated story scenes, a guided first camp, weather-aware fire, varied gathering and field dressing after battle. English interface, charcoal and copper art, compact mobile panels, physical foley and nature ambience. **No music, melodies, instrument samples, or tonal UI beeps.**
+**v1.3.0 — Voices in the Wilderness.** Offline English cinematic narration, stable character and difficulty selection, a supply-aware tutorial and gradually revealed Journal chapters. Five illustrated story scenes, weather-aware fire, varied gathering and field dressing after battle. English interface, charcoal and copper art, compact mobile panels, physical foley and nature ambience. **No music, melodies, instrument samples, or tonal UI beeps.**
 
 <img src="docs/media/story.webp" width="260" alt="Original illustrated prologue"> <img src="docs/media/guide.webp" width="260" alt="Tutorial highlighting the actual gather control"> <img src="docs/media/harvest.webp" width="260" alt="Wolf carcass with harvesting and recovery choices">
 
 ## Install
 
-[Download the APK](https://github.com/fareza777/survival-wild-ember/releases/download/v1.2.0/WILDFALL-Last-Ember-1.2.0.apk), or use `dist/WILDFALL-Last-Ember-1.2.0.apk` (6.19 MiB). The checksum is in `dist/SHA256.txt`.
+[Download the APK](https://github.com/fareza777/survival-wild-ember/releases/download/v1.3.0/WILDFALL-Last-Ember-1.3.0.apk), or use `dist/WILDFALL-Last-Ember-1.3.0.apk` (7.00 MiB). The checksum is in `dist/SHA256.txt`. Install over the previous build to retain compatible saves and settings.
 
 Requires Android 8.0+ (API 26) and Android System WebView 108+. Universal ARM/x86 APK; no network permission, account, ads, or runtime downloads. Open the APK on your phone and allow installation from your file manager if Android prompts you. This standalone build uses the project's development certificate; it is not a Play Store release.
 
@@ -21,9 +21,11 @@ Requires Android 8.0+ (API 26) and Android System WebView 108+. Universal ARM/x8
 - Gathering, foraging, hunting, fishing, timed snares, cooking, durable equipment, repair and pack capacity.
 - Three shelter levels, a separate fire canopy, fire and fuel, a rain collector, a garden, radio rescue and endless survival.
 - Turn-based battle: attack, power strike, guard, retreat and supply use. Equipment, arrows, preparation and stamina matter.
-- Five generated prologue scenes, nine guided first steps, replayable story and tutorial, settings, guide, about, native Android sharing and local rating.
+- Five generated prologue scenes with English voice-over and scenario-specific lines, nine guided first steps, replayable story and tutorial, settings, guide, about, native Android sharing and local rating.
 
-The camp keeps primary actions within reach. Gather, eat, drink and eligible crafting take one tap. Inventory and recipes use short pages and category menus; quests show one objective at a time. Detailed item and action information opens on demand. Reduced motion, larger text, haptics, effects volume and ambience volume are configurable.
+The camp keeps primary actions within reach. Gather, eat, drink and eligible crafting take one tap. Inventory and recipes use short pages and category menus. Journal shows completed chapters and the current main objective; future chapters remain undisclosed. Side objectives appear through discoveries and survival milestones. Detailed item and action information opens on demand. Reduced motion, larger text, haptics, effects volume, ambience volume and narration are configurable.
+
+Character and difficulty controls update in place, preserving the panel, artwork, focus and scroll position. The tutorial remembers safe food and drink already used during construction, highlights substitutes such as herbal tea, and guides depleted supplies through foraging, collecting river water and boiling it. Compatible old tutorials stuck at the supply lesson recover from their actual saved consumption history. The guide uses the same costs and survival rules as normal play; it grants no free supplies or immunity from harsh conditions.
 
 Gathering takes about 2.2 seconds with motion enabled. The result lists the actual supplies packed, anything left behind and the action cost; it stays open until **Continue**. Unread results survive closing the app. Sparse, steady and rich finds use the saved RNG, with weather, darkness, fatigue and tools affecting yield. Reloading cannot reroll a result.
 
@@ -53,6 +55,7 @@ npm test
 npm run check
 npm run qa
 npm run qa:refinements
+npm run qa:chapters
 ```
 
 Browser QA uses Playwright. If Chromium is not installed, run `npx playwright install chromium`; alternatively set `PLAYWRIGHT_CHROMIUM_EXECUTABLE`. On Windows the test also locates an existing Playwright browser cache. Android QA uses `ADB` and `ANDROID_SERIAL` (defaults: `C:/Android/Sdk/platform-tools/adb.exe` and `emulator-5580`) with an installed, running APK:
@@ -64,7 +67,7 @@ node tools/refinements-qa.mjs survivor
 python tools/verify-package.py
 ```
 
-The Explorer rescue demonstration obtains supplies through public gameplay actions, without injecting resources or resetting statistics: seed 7103 reaches rescue on day 11 after 545 actions. The guided tutorial also completes using normal actions in Explorer and Survivor. Controlled browser fixtures separately test particular combat, rain, pack-capacity, art and audio states. See [verification evidence](docs/VERIFICATION.md) for scope and results. Balance across all seeds still benefits from human playtesting; automated rules coverage is not a universal winning strategy.
+The Explorer rescue demonstration obtains supplies through public gameplay actions, without injecting resources or resetting statistics: seed 7103 reaches rescue on day 13 after 653 actions. All three scenarios complete their guided tutorials in Explorer and Survivor through the public highlighted controls. Separate fixtures verify old stuck saves, substitute drinks, boiling and a river refill. Controlled browser fixtures also test particular combat, rain, pack-capacity, art and audio states. See [verification evidence](docs/VERIFICATION.md) for scope and results. Balance across all seeds still benefits from human playtesting; automated rules coverage is not a universal winning strategy.
 
 ## Build Android
 
@@ -82,7 +85,7 @@ The pipeline compiles resources and Java, converts to DEX, bundles all local web
 
 83 original generated assets cover every item, enemy, environment, survivor, camp structure, gameplay symbol, story scene, title illustration and app emblem. All human faces are completely concealed. Originals and individual prompts are retained in `art/generated/` and [art/catalog.json](art/catalog.json). Runtime WebP assets are resized and format-converted only. `npm run assets` repeats conversion using Sharp; camp structures, the canopy and fire are separate layers driven by game state.
 
-16 selected physical foley clips come from Kenney RPG Audio and Impact Sounds (CC0). Wind, rain, flowing water and fire use original filtered broadband noise. Ambience crossfades with location, weather, fuel and prologue scenes; all audio pauses in the background. Both sound channels have independent controls. Full credits are in [audio/SOURCES.md](web/assets/audio/SOURCES.md). `tools/prepare-audio.mjs` documents the exact sample mapping; runtime clips are already included.
+16 selected physical foley clips come from Kenney RPG Audio and Impact Sounds (CC0). Wind, rain, flowing water and fire use original filtered broadband noise. Seven English narration clips were generated with ElevenLabs, using George and `eleven_multilingual_v2`. Recordings and a script manifest are bundled for offline playback. Narration follows the scene and chosen scenario, ducks nature ambience, stops on Skip, and pauses in the background. Mute and replay controls are available in the prologue; settings retain the voice preference. Full credits are in [audio/SOURCES.md](web/assets/audio/SOURCES.md). `tools/prepare-audio.mjs` documents the foley mapping. `tools/generate-narration.py` requests a key through a hidden terminal prompt; no API credential is bundled in the repository or APK.
 
 Utility interface icons: Phosphor (MIT). Fonts: Outfit, Cormorant Garamond and the legacy Barlow Condensed fallback (SIL OFL). Their licenses are bundled. Original project source is MIT; third-party licenses remain applicable. No reference-game assets or UI were copied.
 

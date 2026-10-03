@@ -11,7 +11,8 @@ async function dump(){
   let lastError;
   for(let i=0;i<4;i++){
     try{
-      await command(['shell','uiautomator','dump','/sdcard/wildfall-qa.xml']);
+      const output=await command(['shell','uiautomator','dump','/sdcard/wildfall-qa.xml']);
+      if(!output.includes('dumped to:')){uiDumpRetries++;await delay(700);continue;}
       const xml=await command(['shell','cat','/sdcard/wildfall-qa.xml']);
       if(nodes(xml).some(n=>n.text||n['content-desc']))return xml;
     }catch(error){
@@ -33,7 +34,9 @@ async function tap(label,{contains=false}={}){
   }
   if(!candidates.length){await writeFile('test-results/android-failed-ui.xml',xml);throw new Error(`No Android button: ${label}. Available: ${nodes(xml).filter(n=>n.clickable==='true').map(n=>n.text||n['content-desc']).join(' | ')}`);}
   const node=candidates.at(-1),v=node.bounds.match(/\d+/g).map(Number);
-  await command(['shell','input','tap',String(Math.floor((v[0]+v[2])/2)),String(Math.floor((v[1]+v[3])/2))]);
+  const x=String(Math.floor((v[0]+v[2])/2)),y=String(Math.floor((v[1]+v[3])/2));
+  // A short stationary gesture avoids a queued tap becoming a long press on a loaded emulator.
+  await command(['shell','input','touchscreen','swipe',x,y,x,y,'60']);
   await delay(1500);
 }
 async function see(label){
@@ -44,8 +47,9 @@ async function see(label){
 async function screenshot(name){await command(['shell','screencap','-p','/sdcard/wildfall-qa.png']);await command(['pull','/sdcard/wildfall-qa.png',`test-results/${name}.png`]);}
 await command(['shell','svc','wifi','disable']);
 try{
-  await tap('New journey');await tap('Enter the valley');
-  await see('The last flight.');await screenshot('android-prologue');await tap('Skip story');await tap('Got it');await screenshot('android-guided');await tap('Skip');
+  await tap('New journey');await tap('Riverborn',{contains:true});await tap('Last Ember',{contains:true});await tap('Explorer');await tap('Survivor');await screenshot('android-choices');await tap('Enter the valley');
+  await see('NARRATING');await see('The last flight.');await screenshot('android-prologue');await tap('Mute narration');await see('VOICE OFF');await tap('Enable narration');await tap('Replay narration');await see('NARRATING');await tap('Skip story');await tap('Got it');await screenshot('android-guided');await tap('Skip');
+  assert.ok(!(await dump()).includes('Guided survival tutorial'),'Skip must close the guide before gameplay');
   await see('Last Camp');
   await screenshot('android-game');
   await tap('Gather',{contains:true});
@@ -71,6 +75,6 @@ try{
   const logs=await command(['logcat','-d','-t','700']);
   assert.ok(!/FATAL EXCEPTION[\s\S]{0,300}com\.ashenvalley\.wildfall/.test(logs),'No native game crash');
   const api=Number((await command(['shell','getprop','ro.build.version.sdk'])).trim());
-  await writeFile('test-results/android-report.json',JSON.stringify({passed:true,version:'1.2.0',device,api,uiDumpRetries,checks:['offline-menu','new-game-prologue','highlighted-guide','gather','unread-result-after-force-stop','five-tabs','settings','save-after-force-stop','native-back','share-chooser','local-rating'],timeAfterReload:'08:45'},null,2));
+  await writeFile('test-results/android-report.json',JSON.stringify({passed:true,version:'1.3.0',device,api,uiDumpRetries,checks:['offline-menu','stable-character-difficulty-controls','new-game-prologue','offline-narration-playing-mute-replay','highlighted-guide','gather','unread-result-after-force-stop','five-tabs','settings','save-after-force-stop','native-back','share-chooser','local-rating'],timeAfterReload:'08:45'},null,2));
   console.log('Android QA passed: offline gameplay, tabs, settings, native Back, force-stop persistence, share chooser, local rating.');
 }finally{await command(['shell','svc','wifi','enable']);}

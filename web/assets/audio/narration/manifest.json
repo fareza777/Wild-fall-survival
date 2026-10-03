@@ -1,0 +1,66 @@
+{
+  "provider": "ElevenLabs",
+  "voice": "George",
+  "voiceId": "JBFqnCBsd6RMkjVDRZzb",
+  "model": "eleven_multilingual_v2",
+  "format": "mp3_44100_128",
+  "settings": {
+    "stability": 0.62,
+    "similarity_boost": 0.75,
+    "style": 0.15,
+    "use_speaker_boost": true,
+    "speed": 0.94
+  },
+  "music": false,
+  "clips": {
+    "departure": {
+      "script": "The last flight. You are flying supplies across Ashen Valley. Below, the last road disappears into the mountains.",
+      "requestHash": "2454e2f6b340413d96a9c2ed1a3a0cb7c929d07db031b64a14fcac3b32ea4bd7",
+      "sha256": "e4aa6b20f38ae1d7c2b32f3c216510e0ffd8c8d7ed13e60795d24864022bd90a",
+      "bytes": 108713,
+      "generatedAt": "2026-10-03T13:14:08.140401+00:00"
+    },
+    "storm": {
+      "script": "Into the white. A sudden squall swallows the ridge. Your radio dies as the aircraft loses height.",
+      "requestHash": "3df7ec0b8cefde4bf941e1d4715382d181450500432e60e006ba8594dbee18ae",
+      "sha256": "3e9e64849ae2ed36f837fd860ea5fb74c572d206dfd112bf11845a51ed824691",
+      "bytes": 107459,
+      "generatedAt": "2026-10-03T13:14:10.024292+00:00"
+    },
+    "wreck": {
+      "script": "No way back. The wreck settles among the pines. You survive, but the valley is silent and the way out is gone.",
+      "requestHash": "cec41f610b44b33ce4c60d7412aa7f1f6d99a54398cbfe649c5ed88fb2ac4e78",
+      "sha256": "cc0165de0eb46fe8c7ad1ef1326dfb760c4c1dee393c33c53d7b06818bff8309",
+      "bytes": 124595,
+      "generatedAt": "2026-10-03T13:14:11.919541+00:00"
+    },
+    "awakening": {
+      "script": "What remains. You salvage a knife and a few supplies. Shelter, safe water, and warmth come before any journey.",
+      "requestHash": "4989076444d0703baaec72081d9ed4f12badfe1fa3e8cc94fc3a64099cea2de1",
+      "sha256": "295580ab5ea9be08f59cfae92da7daad9b719662c875b0a9bb32fc6676503684",
+      "bytes": 129611,
+      "generatedAt": "2026-10-03T13:14:13.826640+00:00"
+    },
+    "awakening_riverborn": {
+      "script": "What remains. You wake beside the river and recover an extra supply bag. Shelter, safe water, and warmth come first.",
+      "requestHash": "8f9d1b0e3998c283385992e74dbb480e3296d212f7b12704538d083cbee820a0",
+      "sha256": "dc4b4018d7628835d698c0645e49af5412bbe8209c27f2e68b864d8a78b7794f",
+      "bytes": 125013,
+      "generatedAt": "2026-10-03T13:14:15.759648+00:00"
+    },
+    "awakening_cold_trail": {
+      "script": "What remains. By dusk, rain has soaked your clothes. You salvage a knife and a few supplies. Make a dry camp before night.",
+      "requestHash": "381daf7f8339cce5bf65062a4932ba2f8d3ec7f50d76e6f12bf5a16bf28a9325",
+      "sha256": "21695f4529d37a531f1272c34e8301ce373aeef3f59b2937f8da064540543aa7",
+      "bytes": 139224,
+      "generatedAt": "2026-10-03T13:14:17.557088+00:00"
+    },
+    "signal": {
+      "script": "One signal. A ranger trail leads to an abandoned station. Find a radio, reach the summit, and call for rescue.",
+      "requestHash": "3e31429bee52f3f5b16f8523b2ca539d401065f2b0172500406314687b540003",
+      "sha256": "3caf14d53ca60a58b8b4b67ec7c6d60475918d27dc1032c35d770022ea3a4be1",
+      "bytes": 117908,
+      "generatedAt": "2026-10-03T13:14:19.203048+00:00"
+    }
+  }
+}

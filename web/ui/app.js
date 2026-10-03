@@ -6,14 +6,15 @@ import { icon, art, itemArt, esc, button, actionButton, duration, survived, cost
 import { shell, campView, ACTION_INFO } from './game-view.js';
 import { mapView, journalView } from './journey-view.js';
 import { packView, craftView } from './inventory-view.js';
-import { menuView, onboardingView, newGameContent, settingsContent, aboutContent, tutorialContent } from './menus.js';
+import { menuView, onboardingView, newGameContent, updateNewGameContent, settingsContent, updateSettingsContent, aboutContent, tutorialContent } from './menus.js';
 import { landscape } from './scenery.js';
-import { sound, suspendAudio, resumeAudio, unlockAudio, configureAudio, updateAmbience, actionSound } from './audio.js';
+import { sound, suspendAudio, resumeAudio, unlockAudio, configureAudio, updateAmbience, actionSound, setNarrationDucking } from './audio.js';
+import {createNarrator} from './narration.js';
 import { animateAction, animateHud } from './motion.js';
 import {pageOf,pager,pageSize} from './layout.js';
-import {storyView} from './story-view.js';
+import {storyView,updateStoryVoice,updateStoryNarration} from './story-view.js';
 import {resultView,carcassView} from './results-view.js';
-import {guideStep,progressGuide,showGuide,clearGuide} from './guide.js';
+import {guideStep,progressGuide,reconcileGuide,showGuide,clearGuide} from './guide.js';
 
 if(!globalThis.structuredClone)globalThis.structuredClone=value=>JSON.parse(JSON.stringify(value));
 const app=document.getElementById('app'),modalRoot=document.getElementById('modal-root'),toastRoot=document.getElementById('toast-root');
@@ -23,6 +24,8 @@ let pages={pack:0,craft:0,actions:0,quests:null,logs:0},questGroup='main';
 let modalType=null,modalOptions={},toastTimer,lastFocus=null,busy=false;
 let setup={scenario:'last_ember',difficulty:'survivor',permadeath:false};
 let storyReplay=false,storyIndex=0,storyReturn='menu';
+const narrator=createNarrator({onPlaying:active=>{setNarrationDucking(active);updateStoryNarration(app,active,settings.narration);}});
+function syncNarration(){if(screen==='story'){narrator.update(content.story[storyReplay?storyIndex:game.state.prologue.step],game?.state.scenario||saved?.state.scenario,settings.narration);updateStoryNarration(app,narrator.status().playing,settings.narration);}else narrator.stop();}
 const preferences=()=>{document.documentElement.classList.toggle('no-motion',!settings.motion||matchMedia('(prefers-reduced-motion: reduce)').matches);document.documentElement.classList.toggle('large-text',settings.largeText);};
 function toast(message,error=false){clearTimeout(toastTimer);toastRoot.innerHTML=`<div class="toast ${error?'error':''}">${esc(message)}</div>`;toastTimer=setTimeout(()=>toastRoot.innerHTML='',error?4000:1800);}
 function haptic(){if(settings.vibration){try{if(globalThis.Android?.haptic)Android.haptic();else navigator.vibrate?.(12);}catch{}}}
@@ -36,7 +39,7 @@ function persist(){
 function render({preserveScroll=false}={}){
   const top=window.scrollY;
   preferences();
-  if(screen==='story')app.innerHTML=storyView(content,game?.state||{scenario:'last_ember'},storyReplay,storyIndex);
+  if(screen==='story')app.innerHTML=storyView(content,game?.state||saved?.state||{scenario:'last_ember'},storyReplay,storyIndex,settings.narration);
   else if(screen==='onboarding')app.innerHTML=onboardingView(onboardStep);
   else if(screen==='menu')app.innerHTML=menuView(saved,records);
   else if(game){
@@ -47,16 +50,19 @@ function render({preserveScroll=false}={}){
   if(!preserveScroll)window.scrollTo(0,0);else window.scrollTo(0,top);
   renderModal();
   const storySound=screen==='story'?content.story[storyReplay?storyIndex:game.state.prologue.step].ambience:null;
-  updateAmbience(screen==='game'?game?.state:storySound?{location:storySound.location,weather:storySound.weather||game?.state.weather||'clear',camp:{fire:0}}:null,settings);
+  updateAmbience(screen==='game'?game?.state:storySound?{location:storySound.location,weather:storySound.weather||game?.state.weather||saved?.state.weather||'clear',camp:{fire:0}}:null,settings);
+  syncNarration();
   renderGuide();
 }
 function prepareGuide(){
+ if(reconcileGuide(game.state,content))persist();
  const g=guideStep(game,tab,modalType);if(!g||game.state.receipt||game.state.combat||game.state.event||game.state.carcass)return;
- if(g.recipe&&tab==='craft'){craftFilter='camp';const rows=Object.entries(content.recipes).filter(([,r])=>r.category==='camp');pages.craft=Math.floor(rows.findIndex(([id])=>id===g.recipe)/pageSize('craft'));}
- if(g.item&&tab==='pack'){packFilter='food';const rows=Object.entries(game.state.items).filter(([id,n])=>n>0&&['food','water'].includes(content.items[id].category));const index=rows.findIndex(([id])=>id===g.item);pages.pack=Math.floor(Math.max(0,index)/pageSize('pack'));}
- if(g.map&&tab==='map'&&game.state.location!=='forest')mapSelection='forest';
+ if(g.recipe&&tab==='craft'){craftFilter=content.recipes[g.recipe].category;const rows=Object.entries(content.recipes).filter(([,r])=>r.category===craftFilter);pages.craft=Math.floor(Math.max(0,rows.findIndex(([id])=>id===g.recipe))/pageSize('craft'));}
+ if(g.item&&tab==='pack'){packFilter=g.drop?'all':['food','water'].includes(content.items[g.item].category)?'food':content.items[g.item].category;const rows=Object.entries(game.state.items).filter(([id,n])=>n>0&&(packFilter==='all'||(packFilter==='food'?['food','water'].includes(content.items[id].category):content.items[id].category===packFilter)));const index=rows.findIndex(([id])=>id===g.item);pages.pack=Math.floor(Math.max(0,index)/pageSize('pack'));}
+ if(g.map&&tab==='map')mapSelection=g.location;
+ if(g.action&&tab==='camp'){const actions=game.state.location==='camp'?['gather','forage','rest','sleep']:content.locations[game.state.location].actions.filter(id=>!['fire','rest'].includes(id));pages.actions=Math.floor(Math.max(0,actions.indexOf(g.action))/pageSize('actions'));}
 }
-function renderGuide(){clearGuide();if(screen==='game'&&!busy&&game?.state.tutorial?.active&&(!modalType||['fire-dialog','craft-dialog','travel-dialog','action-dialog'].includes(modalType)))showGuide(game,tab,modalType);}
+function renderGuide(){clearGuide();if(screen==='game'&&!busy&&game?.state.tutorial?.active&&(!modalType||['fire-dialog','craft-dialog','travel-dialog','action-dialog','item-info'].includes(modalType)))showGuide(game,tab,modalType);}
 function openModal(type,options={}){
   lastFocus=document.activeElement;modalType=type;modalOptions=options;renderModal();
   renderGuide();
@@ -98,16 +104,19 @@ function modalBody(){
 function renderModal(){
   if(screen==='game'&&game){
     if(game.state.dead&&modalType!=='new-game')modalType='death';
-    else if(!['pause','settings','about','tutorial','rate'].includes(modalType)){
+    else if(!['new-game','pause','settings','about','tutorial','rate'].includes(modalType)){
       if(game.state.receipt)modalType='result';else if(game.state.carcass)modalType='carcass';else if(game.state.combat)modalType='combat';else if(game.state.event)modalType='event';
     }
   }
-  if(!modalType){modalRoot.innerHTML='';document.body.classList.remove('modal-open');app.inert=false;app.removeAttribute('aria-hidden');return;}
+  if(!modalType){modalRoot.innerHTML='';delete modalRoot.dataset.type;document.body.classList.remove('modal-open');app.inert=false;app.removeAttribute('aria-hidden');return;}
+  if(modalType==='new-game'&&modalRoot.dataset.type==='new-game'&&modalRoot.querySelector('.modal')){updateNewGameContent(modalRoot,setup);return;}
+  if(modalType==='settings'&&modalRoot.dataset.type==='settings'&&modalRoot.querySelector('.modal')){updateSettingsContent(modalRoot,settings);return;}
   const locked=['death','event','combat','result','carcass'].includes(modalType);
   const scroll=modalRoot.querySelector('.modal')?.scrollTop||0;
   const previous=modalRoot.dataset.type;
   modalRoot.innerHTML=`<div class="modal-overlay" data-ui="modal-backdrop"><section class="modal ${modalType==='combat'?'combat-modal':['result','carcass'].includes(modalType)?'result-modal':''}" role="dialog" aria-modal="true" aria-label="${esc(({ 'new-game':'New journey', settings:'Settings', about:'About WILDFALL', tutorial:'Field guide', event:'Event', combat:'Encounter', result:'Action results',carcass:'Harvest carcass',death:'Journey ended' })[modalType]||'Journey choices')}" tabindex="-1">${!locked?button(icon('x',20),'close-modal',{},'modal-close',false):''}${modalBody()}</section></div>`;
   modalRoot.dataset.type=modalType;
+  if(modalType==='new-game')updateNewGameContent(modalRoot,setup);
   document.body.classList.add('modal-open');
   app.inert=true;app.setAttribute('aria-hidden','true');
   if(previous===modalType)modalRoot.querySelector('.modal').scrollTop=scroll;
@@ -129,7 +138,7 @@ async function act(kind,options={}){
   try{
     const before=structuredClone(game.state),wasRescued=game.state.flags.rescued,result=game.perform(kind,options);
     if(!result.ok){toast(result.message,true);sound('danger',settings.sound);return;}
-    progressGuide(game.state,kind,options);pages.results=0;
+    progressGuide(game.state,kind,options,content);pages.results=0;
     if(result.dawn)checkpoint=structuredClone(game.state);
     if(game.state.dead&&game.state.permadeath)checkpoint=null;
     if(!wasRescued&&game.state.flags.rescued)records.rescues++;
@@ -154,13 +163,15 @@ function ui(action,data){
     case 'scenario':setup.scenario=data.id;renderModal();break;
     case 'difficulty':setup.difficulty=data.id;renderModal();break;
     case 'permadeath':setup.permadeath=!setup.permadeath;renderModal();break;
-    case 'start-game':game=new GameEngine(content,null,{...setup,seed:crypto.getRandomValues(new Uint32Array(1))[0]||2026});game.state.prologue={step:0,complete:false};game.state.tutorial={step:0,active:true,usedWater:false,usedFood:false};checkpoint=structuredClone(game.state);records.runs++;screen='story';storyReplay=false;tab='camp';modalType=null;pages={pack:0,craft:0,actions:0,quests:null,logs:0,results:0};packFilter='all';craftFilter='camp';questGroup='main';persist();render();break;
+    case 'start-game':game=new GameEngine(content,null,{...setup,seed:crypto.getRandomValues(new Uint32Array(1))[0]||2026});game.state.prologue={step:0,complete:false};game.state.tutorial={step:0,active:true,version:2,usedWater:false,usedFood:false};checkpoint=structuredClone(game.state);records.runs++;screen='story';storyReplay=false;tab='camp';modalType=null;pages={pack:0,craft:0,actions:0,quests:null,logs:0,results:0};packFilter='all';craftFilter='camp';questGroup='main';persist();render();break;
+    case 'story-voice':settings.narration=!settings.narration;saveSettings(settings);updateStoryVoice(app,settings.narration);syncNarration();break;
+    case 'story-replay-voice':narrator.replay();break;
     case 'story-next':if(storyReplay)storyIndex=Math.min(4,storyIndex+1);else{game.state.prologue.step=Math.min(4,game.state.prologue.step+1);persist();}render();break;
     case 'story-back':if(storyReplay)storyIndex=Math.max(0,storyIndex-1);else{game.state.prologue.step=Math.max(0,game.state.prologue.step-1);persist();}render();break;
     case 'story-skip':game.state.prologue.complete=true;if(checkpoint?.prologue)checkpoint.prologue.complete=true;screen='game';persist();render();break;
     case 'story-replay':storyReturn=screen;storyReplay=true;storyIndex=0;screen='story';modalType=null;render();break;
     case 'story-close':storyReplay=false;screen=storyReturn;render();break;
-    case 'guide-replay':if(!game&&saved){game=new GameEngine(content,saved.state);checkpoint=saved.checkpoint;}if(!game||game.state.dead){openModal('new-game');break;}screen='game';if(game.state.prologue)game.state.prologue.complete=true;if(checkpoint?.prologue)checkpoint.prologue.complete=true;game.state.tutorial={step:0,active:true,usedWater:false,usedFood:false};tab='camp';modalType=null;persist();render();break;
+    case 'guide-replay':if(!game&&saved){game=new GameEngine(content,saved.state);checkpoint=saved.checkpoint;}if(!game||game.state.dead){openModal('new-game');break;}screen='game';if(game.state.prologue)game.state.prologue.complete=true;if(checkpoint?.prologue)checkpoint.prologue.complete=true;game.state.tutorial={step:0,active:true,version:2,usedWater:false,usedFood:false};tab='camp';modalType=null;persist();render();break;
     case 'guide-next':if(game.state.tutorial.step===8)game.state.tutorial.active=false;else game.state.tutorial.step++;persist();render();break;
     case 'skip-guide':game.state.tutorial.active=false;persist();render();break;
     case 'acknowledge-result':{const rescued=game.state.receipt?.kind==='signal'&&game.state.flags.rescued;game.state.receipt=null;modalType=rescued?'victory':null;persist();render();break;}
@@ -174,7 +185,7 @@ function ui(action,data){
     case 'modal-backdrop':if(!['event','combat','death','result','carcass'].includes(modalType))closeModal();break;
     case 'resume':modalType=null;renderModal();break;
     case 'recover':if(checkpoint&&!game.state.permadeath){game=new GameEngine(content,checkpoint);game.log('Restored the latest dawn checkpoint.','story');persist();modalType=null;render();}break;
-    case 'toggle-setting':settings[data.key]=!settings[data.key];saveSettings(settings);preferences();configureAudio(settings);renderModal();break;
+    case 'toggle-setting':settings[data.key]=!settings[data.key];saveSettings(settings);preferences();configureAudio(settings);syncNarration();renderModal();break;
     case 'share':share();break;
     case 'rating':records.rating=Number(data.value);saveRecords(records);renderModal();haptic();break;
     case 'onboarding-next':onboardStep=Math.min(2,onboardStep+1);render();break;
@@ -213,8 +224,10 @@ globalThis.wildfallBack=()=>{
   if(screen==='onboarding'){screen='menu';render();return;}
   openModal('exit');
 };
-globalThis.wildfallPause=()=>{persist();suspendAudio();};
-document.addEventListener('visibilitychange',()=>{if(document.hidden)globalThis.wildfallPause();else resumeAudio();});
+globalThis.wildfallPause=()=>{persist();narrator.suspend();suspendAudio();};
+globalThis.wildfallResume=()=>{resumeAudio();narrator.resume();};
+document.addEventListener('visibilitychange',()=>{if(document.hidden)globalThis.wildfallPause();else globalThis.wildfallResume();});
+window.addEventListener('pagehide',()=>narrator.stop());
 document.addEventListener('input',event=>{const key=event.target.dataset.volume;if(!['sfxVolume','ambientVolume'].includes(key))return;settings[key]=Math.max(0,Math.min(1,Number(event.target.value)/100));saveSettings(settings);configureAudio(settings);event.target.closest('label').querySelector('output').value=Math.round(settings[key]*100)+'%';});
 document.addEventListener('change',event=>{const scope=event.target.dataset.filter;if(scope==='pack'){packFilter=event.target.value;pages.pack=0;}else if(scope==='craft'){craftFilter=event.target.value;pages.craft=0;}else return;render();});
 window.addEventListener('pagehide',persist);

@@ -22,8 +22,8 @@ function pending(){
     else{
       const weapon=s.gear.find(x=>x.uid===s.equipment.weapon&&x.durability>0);
       if(s.stats.health<60&&s.items.bandage)perform('use',{id:'bandage'});
-      else if((!weapon||s.stats.health<45||s.combat.id==='bear')&&s.stats.stamina>15)perform('combat',{move:'flee'});
-      else perform('combat',{move:s.stats.stamina<15?'defend':'power'});
+      else if((!weapon||s.stats.health<45||s.combat.id==='bear')&&s.stats.stamina>15&&!g.reason('combat',{move:'flee'}))perform('combat',{move:'flee'});
+      else perform('combat',{move:g.reason('combat',{move:'power'})?'defend':'power'});
     }
   }
 }

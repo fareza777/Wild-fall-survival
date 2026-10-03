@@ -88,6 +88,7 @@ public final class MainActivity extends Activity {
     if (file.endsWith(".webp")) return "image/webp";
     if (file.endsWith(".png")) return "image/png";
     if (file.endsWith(".ogg")) return "audio/ogg";
+    if (file.endsWith(".mp3")) return "audio/mpeg";
     if (file.endsWith(".ttf")) return "font/ttf";
     return "application/octet-stream";
   }
@@ -95,7 +96,7 @@ public final class MainActivity extends Activity {
   @Override public void onBackPressed() { goBack(); }
   @Override public void onWindowFocusChanged(boolean focused) { super.onWindowFocusChanged(focused); if(focused)immersive(); }
   @Override protected void onPause() { if(web!=null){web.evaluateJavascript("window.wildfallPause && window.wildfallPause()",null);web.onPause();}super.onPause(); }
-  @Override protected void onResume() { super.onResume();if(web!=null)web.onResume();immersive(); }
+  @Override protected void onResume() { super.onResume();if(web!=null){web.onResume();web.evaluateJavascript("window.wildfallResume && window.wildfallResume()",null);}immersive(); }
   @Override protected void onDestroy() { if(web!=null){web.removeJavascriptInterface("Android");web.destroy();web=null;}super.onDestroy(); }
   private final class NativeBridge {
     @JavascriptInterface public void saveBackup(String json) { if(json!=null&&json.length()<600000)preferences.edit().putString("backup",json).apply(); }

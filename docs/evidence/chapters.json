@@ -1,0 +1,110 @@
+{
+  "passed": true,
+  "version": "1.3.0",
+  "checks": [
+    "stable character/difficulty selection: same panel, portraits, animation and focus",
+    "seven real MP3s decoded; subtitles/variant match, mute, replay, scene replacement, background pause/resume, skip stops speech; no external runtime calls",
+    "six fresh Explorer/Survivor tutorials completed through highlighted public controls, including one-bottle Cold Trail",
+    "old stuck saves migrate; safe tea/berries, boiling carried water and collecting/refilling from the river finish via public UI",
+    "Journal reveals completed/current main chapters and discovered side objectives only; next chapter opens after real quest completion"
+  ],
+  "tutorials": [
+    {
+      "label": "last_ember/story",
+      "actions": 17,
+      "day": 1
+    },
+    {
+      "label": "last_ember/survivor",
+      "actions": 17,
+      "day": 1
+    },
+    {
+      "label": "riverborn/story",
+      "actions": 15,
+      "day": 1
+    },
+    {
+      "label": "riverborn/survivor",
+      "actions": 15,
+      "day": 1
+    },
+    {
+      "label": "cold_trail/story",
+      "actions": 21,
+      "day": 2
+    },
+    {
+      "label": "cold_trail/survivor",
+      "actions": 23,
+      "day": 2
+    },
+    {
+      "label": "old-stuck",
+      "actions": 2,
+      "day": 1
+    },
+    {
+      "label": "tea",
+      "actions": 4,
+      "day": 1
+    },
+    {
+      "label": "boil",
+      "actions": 4,
+      "day": 1
+    },
+    {
+      "label": "refill",
+      "actions": 11,
+      "day": 1
+    }
+  ],
+  "audioClips": [
+    {
+      "path": "assets/audio/narration/departure.mp3",
+      "duration": 6.733770833333334,
+      "rms": 0.0641760097036718,
+      "clipped": 0
+    },
+    {
+      "path": "assets/audio/narration/storm.mp3",
+      "duration": 6.640895833333333,
+      "rms": 0.06110811693618632,
+      "clipped": 0
+    },
+    {
+      "path": "assets/audio/narration/wreck.mp3",
+      "duration": 7.709020833333334,
+      "rms": 0.06044684854982551,
+      "clipped": 0
+    },
+    {
+      "path": "assets/audio/narration/awakening.mp3",
+      "duration": 8.034104166666667,
+      "rms": 0.0618773595221798,
+      "clipped": 0
+    },
+    {
+      "path": "assets/audio/narration/awakening_riverborn.mp3",
+      "duration": 7.755458333333333,
+      "rms": 0.061422101175939194,
+      "clipped": 0
+    },
+    {
+      "path": "assets/audio/narration/awakening_cold_trail.mp3",
+      "duration": 8.6378125,
+      "rms": 0.0589287190524102,
+      "clipped": 0
+    },
+    {
+      "path": "assets/audio/narration/signal.mp3",
+      "duration": 7.2910625,
+      "rms": 0.060591882370516444,
+      "clipped": 0
+    }
+  ],
+  "errors": [],
+  "missing": [],
+  "external": []
+}

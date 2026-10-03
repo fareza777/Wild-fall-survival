@@ -91,6 +91,7 @@
   "side": [
     {
       "id": "woodkeeper",
+      "unlock": [{"structure":"shelter","value":1}],
       "title": "Night Reserve",
       "description": "Gather 20 firewood.",
       "conditions": [
@@ -105,6 +106,7 @@
     },
     {
       "id": "clean_water",
+      "unlock": [{"visited":"river"}],
       "title": "Every Drop",
       "description": "Boil six bottles of river water.",
       "conditions": [
@@ -120,6 +122,7 @@
     },
     {
       "id": "field_kitchen",
+      "unlock": [{"counter":"mealsCooked","value":1}],
       "title": "Field Kitchen",
       "description": "Cook five meals.",
       "conditions": [
@@ -134,6 +137,7 @@
     },
     {
       "id": "angler",
+      "unlock": [{"counter":"fishCaught","value":1}],
       "title": "River Patience",
       "description": "Catch three trout.",
       "conditions": [
@@ -149,6 +153,7 @@
     },
     {
       "id": "tracker",
+      "unlock": [{"counter":"hunts","value":1}],
       "title": "Read the Tracks",
       "description": "Complete three successful hunts.",
       "conditions": [
@@ -163,6 +168,7 @@
     },
     {
       "id": "trapper",
+      "unlock": [{"counter":"trapsHarvested","value":1}],
       "title": "While You Sleep",
       "description": "Harvest two snares.",
       "conditions": [
@@ -178,6 +184,7 @@
     },
     {
       "id": "defender",
+      "unlock": [{"counter":"battlesWon","value":1}],
       "title": "Ember Keeper",
       "description": "Win two encounters.",
       "conditions": [
@@ -193,6 +200,7 @@
     },
     {
       "id": "builder",
+      "unlock": [{"flag":"journal"}],
       "title": "A Place to Return",
       "description": "Upgrade to a timber cabin.",
       "conditions": [
@@ -207,6 +215,7 @@
     },
     {
       "id": "seven_dawns",
+      "unlock": [{"day":4}],
       "title": "Seven Dawns",
       "description": "Reach day eight.",
       "conditions": [
@@ -221,6 +230,7 @@
     },
     {
       "id": "cartographer",
+      "unlock": [{"counter":"locationsVisited","value":4}],
       "title": "Know the Valley",
       "description": "Visit all eight locations.",
       "conditions": [

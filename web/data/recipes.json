@@ -43,9 +43,9 @@
     "category": "camp",
     "structure": "fire_cover",
     "requiresStructure": { "firepit": 1 },
-    "cost": { "wood": 6, "fiber": 5 },
-    "minutes": 60,
-    "stamina": 12,
+      "cost": { "wood": 4, "fiber": 3 },
+      "minutes": 45,
+      "stamina": 8,
     "description": "A high, open-sided roof keeps rain off the outdoor fire. Your sleeping shelter covers only your bed.",
     "art": "assets/art/structures/fire_cover.webp"
   },

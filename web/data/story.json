@@ -7,7 +7,8 @@
     "ambience": {
       "location": "mountain",
       "weather": "cloudy"
-    }
+    },
+    "voice": "assets/audio/narration/departure.mp3"
   },
   {
     "id": "storm",
@@ -17,7 +18,8 @@
     "ambience": {
       "location": "mountain",
       "weather": "storm"
-    }
+    },
+    "voice": "assets/audio/narration/storm.mp3"
   },
   {
     "id": "wreck",
@@ -27,7 +29,8 @@
     "ambience": {
       "location": "forest",
       "weather": "cloudy"
-    }
+    },
+    "voice": "assets/audio/narration/wreck.mp3"
   },
   {
     "id": "awakening",
@@ -41,6 +44,11 @@
     "ambience": {
       "location": "forest",
       "weather": null
+    },
+    "voice": "assets/audio/narration/awakening.mp3",
+    "voiceVariants": {
+      "riverborn": "assets/audio/narration/awakening_riverborn.mp3",
+      "cold_trail": "assets/audio/narration/awakening_cold_trail.mp3"
     }
   },
   {
@@ -51,6 +59,7 @@
     "ambience": {
       "location": "mountain",
       "weather": "clear"
-    }
+    },
+    "voice": "assets/audio/narration/signal.mp3"
   }
 ]

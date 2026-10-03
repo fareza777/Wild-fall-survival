@@ -1,7 +1,7 @@
 import { createState } from './engine.js';
 
 const KEY='wildfall-save-v1', PREF='wildfall-preferences-v1', RECORD='wildfall-records-v1';
-export const defaultSettings={sound:true,ambient:true,sfxVolume:.65,ambientVolume:.32,vibration:true,motion:true,largeText:false};
+export const defaultSettings={sound:true,ambient:true,narration:true,sfxVolume:.65,ambientVolume:.32,vibration:true,motion:true,largeText:false};
 const isObject=x=>x!==null&&typeof x==='object'&&!Array.isArray(x);
 export function validState(state,content) {
   if(!isObject(state)||state.version!==1||!content.locations[state.location]||!content.weather[state.weather])return false;
