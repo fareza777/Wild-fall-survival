@@ -6,7 +6,7 @@ export const dayOf = state => Math.floor(state.time / 1440) + 1;
 export const hourOf = state => Math.floor((state.time % 1440) / 60);
 export const isNight = state => hourOf(state) < 6 || hourOf(state) >= 19;
 export const clockText = state => `${String(hourOf(state)).padStart(2, '0')}:${String(Math.floor(state.time % 60)).padStart(2, '0')}`;
-export const difficultyFactor = state => ({ story: 0.72, survivor: 1, relentless: 1.28 }[state.difficulty] || 1);
+export const difficultyFactor = state => state.tutorial?.active ? 0.6 : ({ story: 0.72, survivor: 1, relentless: 1.28 }[state.difficulty] || 1);
 export const exertionCost = (state, content, stamina = 0) => stamina * (content.weather[state.weather]?.stamina || 1) * (1 + state.stats.injury / 180);
 export const fireBurnRate = () => 1;
 export const exposedToRain = (state,content) => !!content.weather[state.weather]?.wet && !state.camp.fire_cover;

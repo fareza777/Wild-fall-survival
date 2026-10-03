@@ -1,63 +1,118 @@
 {
   "passed": true,
-  "version": "1.3.0",
+  "version": "1.3.1",
   "checks": [
     "stable character/difficulty selection: same panel, portraits, animation and focus",
     "seven real MP3s decoded; subtitles/variant match, mute, replay, scene replacement, background pause/resume, skip stops speech; no external runtime calls",
-    "six fresh Explorer/Survivor tutorials completed through highlighted public controls, including one-bottle Cold Trail",
-    "old stuck saves migrate; safe tea/berries, boiling carried water and collecting/refilling from the river finish via public UI",
+    "nine fresh tutorials across all scenarios and difficulties complete without battles or random events, using public highlighted controls; every handoff retains at least 40 stamina",
+    "old stuck saves and wolf ambushes recover; safe tea/berries, boiling/refilling and low-stamina travel finish via public UI",
     "Journal reveals completed/current main chapters and discovered side objectives only; next chapter opens after real quest completion"
   ],
   "tutorials": [
     {
       "label": "last_ember/story",
-      "actions": 17,
-      "day": 1
+      "actions": 20,
+      "day": 2,
+      "stamina": 82,
+      "health": 100
     },
     {
       "label": "last_ember/survivor",
-      "actions": 17,
-      "day": 1
+      "actions": 20,
+      "day": 2,
+      "stamina": 82,
+      "health": 100
+    },
+    {
+      "label": "last_ember/relentless",
+      "actions": 20,
+      "day": 2,
+      "stamina": 82,
+      "health": 100
     },
     {
       "label": "riverborn/story",
-      "actions": 15,
-      "day": 1
+      "actions": 20,
+      "day": 2,
+      "stamina": 82,
+      "health": 100
     },
     {
       "label": "riverborn/survivor",
-      "actions": 15,
-      "day": 1
+      "actions": 20,
+      "day": 2,
+      "stamina": 82,
+      "health": 100
+    },
+    {
+      "label": "riverborn/relentless",
+      "actions": 20,
+      "day": 2,
+      "stamina": 82,
+      "health": 100
     },
     {
       "label": "cold_trail/story",
-      "actions": 21,
-      "day": 2
+      "actions": 18,
+      "day": 2,
+      "stamina": 79.3,
+      "health": 100
     },
     {
       "label": "cold_trail/survivor",
-      "actions": 23,
-      "day": 2
+      "actions": 18,
+      "day": 2,
+      "stamina": 79.3,
+      "health": 100
+    },
+    {
+      "label": "cold_trail/relentless",
+      "actions": 18,
+      "day": 2,
+      "stamina": 79.3,
+      "health": 100
     },
     {
       "label": "old-stuck",
       "actions": 2,
-      "day": 1
+      "day": 1,
+      "stamina": 67,
+      "health": 100
     },
     {
       "label": "tea",
       "actions": 4,
-      "day": 1
+      "day": 1,
+      "stamina": 67,
+      "health": 100
     },
     {
       "label": "boil",
       "actions": 4,
-      "day": 1
+      "day": 1,
+      "stamina": 64,
+      "health": 100
     },
     {
       "label": "refill",
       "actions": 11,
-      "day": 1
+      "day": 1,
+      "stamina": 48,
+      "health": 100
+    },
+    {
+      "label": "tired-travel",
+      "actions": 4,
+      "day": 1,
+      "stamina": 50,
+      "health": 100
+    },
+    {
+      "label": "old-ambush",
+      "actions": 4,
+      "day": 1,
+      "stamina": 61,
+      "health": 100
     }
   ],
   "audioClips": [

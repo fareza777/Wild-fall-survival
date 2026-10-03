@@ -59,20 +59,20 @@ test('hidden objective conditions cannot grant an undiscovered reward',()=>{
  let rewards=0;assert.deepEqual(updateQuests(g.state,content,()=>rewards++),[]);assert.equal(rewards,0);
  g.state.visited.push('river');assert.equal(updateQuests(g.state,content,()=>rewards++).length,1);assert.equal(rewards,1);
 });
-test('48 fresh guided combinations complete; six harsh Cold Trail runs finish or reach a real survival death without a softlock',()=>{
+test('all 54 guided scenario/difficulty/seed combinations finish without ambushes and with energy for normal play',()=>{
  for(const scenario of Object.keys(c.scenarios))for(const difficulty of ['story','survivor','relentless'])for(const seed of [7103,2026,53,8731,112,992]){
   const g=new GameEngine(c,null,{scenario,difficulty,seed}),s=g.state;s.tutorial={step:1,version:2,active:true,usedWater:false,usedFood:false};
-  for(let i=0;i<240&&s.tutorial.step<8&&!s.dead;i++){
+  for(let i=0;i<320&&s.tutorial.active&&!s.dead;i++){
    if(s.receipt){s.receipt=null;continue;}
+   assert.equal(s.combat,null);assert.equal(s.event,null);
    let kind,options={};
-   if(s.event){kind='resolveEvent';options.choice=c.events[s.event].choices.findIndex(choice=>!choice.cost&&!choice.stamina);}
-   else if(s.combat){kind='combat';options.move=g.reason('combat',{move:'flee'})?'defend':'flee';}
-   else if(s.carcass)kind='leaveCarcass';
-   else{const next=guideStep(g,'camp',null);if(next.item){kind=next.drop?'drop':'use';options.id=next.item;}else if(next.recipe){kind='craft';options.id=next.recipe;}else if(next.map){kind='travel';options.id=next.location;}else kind=next.action;}
+   const next=guideStep(g,'camp',null);
+   if(next.finish){s.tutorial.active=false;break;}
+   if(next.item){kind=next.drop?'drop':'use';options.id=next.item;}else if(next.recipe){kind='craft';options.id=next.recipe;}else if(next.map){kind='travel';options.id=next.location;}else kind=next.action;
    const result=g.perform(kind,options);assert.ok(result.ok,JSON.stringify({scenario,difficulty,seed,i,step:s.tutorial.step,kind,options,reason:result.message}));progressGuide(s,kind,options,c);
   }
   const detail=JSON.stringify({scenario,difficulty,seed,stats:s.stats,items:s.items,step:s.tutorial.step});
-  if(scenario!=='cold_trail'||difficulty!=='relentless')assert.equal(s.dead,false,detail);
-  assert.ok(s.tutorial.step===8||s.dead,detail);if(s.dead)assert.equal(s.stats.health,0);
+  assert.equal(s.dead,false,detail);assert.equal(s.tutorial.active,false,detail);
+  assert.equal(s.tutorial.step,8,detail);assert.ok(s.stats.stamina>=40,detail);
  }
 });

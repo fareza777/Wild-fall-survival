@@ -1,5 +1,5 @@
 import {button,esc,icon} from './helpers.js';
-import {isNight} from '../game/survival.js';
+import {isNight,exertionCost} from '../game/survival.js';
 import {fireBurnRate} from '../game/survival.js';
 import {weight,capacity} from '../game/inventory.js';
 const nav=tab=>`button[data-ui="tab"][data-tab="${tab}"]`;
@@ -11,13 +11,19 @@ function supply(game,drink){
 }
 export function reconcileGuide(state,content){
  const t=state.tutorial;if(!t?.active)return false;const before=JSON.stringify(t);
+ const interrupted=!state.dead&&!!(state.combat||state.event);
+ if(interrupted){
+  state.combat=null;state.event=null;
+  state.logs.unshift({id:state.nextLog++,time:state.time,text:'The trail settles while you finish your first steps.',tone:'story'});
+  state.logs=state.logs.slice(0,80);
+ }
  if(t.version!==2){
   // v1.2 recorded early drinks in history, but forgot their tutorial flags.
   for(const [id,item] of Object.entries(content.items))if(state.logs.some(log=>log.text.startsWith(`Used ${item.name.toLowerCase()}.`))){if(safeDrink(item))t.usedWater=true;if(safeFood(item))t.usedFood=true;}
   t.version=2;
  }
  if(t.step===6&&t.usedWater&&t.usedFood)t.step=7;
- return before!==JSON.stringify(t);
+ return interrupted||before!==JSON.stringify(t);
 }
 export function progressGuide(state,kind,options={},content){
   const t=state.tutorial;if(!t?.active)return;
@@ -37,7 +43,10 @@ function guidedAction(game,tab,modal,action,title,text,options={}){
  return {selector:modal==='action-dialog'?`button[data-ui="perform"][data-kind="${action}"]`:tab==='camp'?`button[data-action="${action}"],button[data-ui="action-dialog"][data-kind="${action}"]`:nav('camp'),title,text,action};
 }
 function travelHint(game,tab,modal,id,title,text){
- if(game.state.stats.stamina<game.effort('travel',{id}))return restHint(tab,modal);
+ const forecast=game.preview('travel',{id});
+ const nextAction=id==='forest'?'explore':id==='river'?'water':null;
+ const nextEffort=nextAction&&forecast?exertionCost({...game.state,weather:forecast.weather,stats:forecast.stats},game.content,game.actionCost(nextAction).stamina):0;
+ if(forecast&&forecast.stats.stamina<Math.max(30,nextEffort+15))return {...restHint(tab,modal),title:'Rest before the trail.',text:'Recover energy before travelling. Keep enough for the next action.'};
  return {selector:modal==='travel-dialog'?`button[data-ui="perform"][data-kind="travel"][data-id="${id}"]`:tab==='map'?`button[data-ui="travel-dialog"][data-id="${id}"]`:nav('map'),title,text,map:true,location:id};
 }
 function roomHint(game,tab,modal,needed={},space=2.4){
@@ -113,7 +122,7 @@ export function guideStep(game,tab,modal){
     if(needsWater)return supplyHint(game,tab,modal,true);
     if(needsFood)return supplyHint(game,tab,modal,false);
   }
-  if(step===0)return {selector:'.hud',title:'Your reserves.',text:'Every action spends time, energy, food, and water. The clock waits for you.',next:true};
+  if(step===0)return {selector:'.hud',title:'Your reserves.',text:'Gentle needs. Quiet trails. Every action costs time and energy. Your chosen difficulty begins after the guide.',next:true};
   if(step===1)return guidedAction(game,tab,modal,'gather','Find your first supplies.','Tap Gather for wood, stone, and fiber. Read the result, then press Continue.');
   if(step>=2&&step<=5){
     const id=({2:'shelter',3:'firepit',4:'fire_cover'})[step];
@@ -131,9 +140,15 @@ export function guideStep(game,tab,modal){
       if(s.stats.calories<night.calories+400)return supplyHint(game,tab,modal,false);
       return guidedAction(game,tab,modal,'sleep','Wait for daylight.','Sleep in your dry camp, then leave after dawn. Food and water still decrease.');
     }
-    return atForest?guidedAction(game,tab,modal,'explore','Find a way home.','Explore to uncover routes and clues. Travel and searching are separate actions.'):travelHint(game,tab,modal,'forest','Find a way home.','Choose Ashpine Forest and travel. Prepare for wildlife away from camp.');
+    return atForest?guidedAction(game,tab,modal,'explore','Find a way home.','Explore to uncover routes and clues. The trail stays quiet during your first steps.'):travelHint(game,tab,modal,'forest','Find a way home.','Choose Ashpine Forest and travel. Wildlife stays away while you learn.');
   }
-  return {selector:nav('journal'),title:'Your next chapter.',text:'Open Journal for your current objective. New clues and side quests appear as you progress. You are ready.',next:true,finish:true};
+  if(s.stats.stamina<40){
+    const rest=game.preview('rest');
+    if(s.stats.hydration<rest.hydration+400)return supplyHint(game,tab,modal,true);
+    if(s.stats.calories<rest.calories+500)return supplyHint(game,tab,modal,false);
+    return {...restHint(tab,modal),title:'Ready for the wilderness.',text:'Rest before finishing the guide. Begin your next chapter with energy to spare.'};
+  }
+  return {selector:nav('journal'),title:'Your next chapter.',text:'Open Journal for your objective. Finish the guide to begin normal wilderness encounters.',next:true,finish:true};
 }
 let current=null;
 export function clearGuide(){document.getElementById('guide-root')?.remove();current?.classList.remove('guide-target');current=null;}

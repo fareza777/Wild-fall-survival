@@ -6,7 +6,7 @@
 - [x] Save/checkpoint storage and corruption handling.
 - [x] Native Android host, splash, launcher resources, build/sign pipeline.
 - [x] Content validation, simulation tests, browser and Android smoke checks.
-- [x] APK 1.3.0, checksum, complete repository source, and documentation.
+- [x] APK 1.3.1, checksum, complete repository source, and documentation.
 - [x] 83 generated assets, English UI, concealed survivor faces and charcoal/copper theme.
 - [x] Compact camp actions, adaptive item pages, short recipe pages and single-objective journal.
 - [x] Simulation-backed action/battle motion, reduced motion, physical foley and nature ambience without music.
@@ -14,10 +14,13 @@
 - [x] Five illustrated story scenes and nine live guided first steps, with skip/replay.
 - [x] Rain extinguishing, separate fire canopy, interrupted cooking and accurate dawn production.
 - [x] Randomized gather and carcass yields, held results, separate meat/skin, spoilage, blade wear and exhausted-victor recovery.
-- [x] Newest-valid-save selection, unread result recovery after Android force-stop and 77 regression tests.
+- [x] Newest-valid-save selection, unread result recovery after Android force-stop and 85 regression tests.
 - [x] Stable character/difficulty selection without replacing artwork, focus or the setup panel.
 - [x] Seven bundled ElevenLabs English voice clips, matching subtitles and scenario variants, mute/replay and background suspension; no music or runtime network requests.
 - [x] Adaptive tutorial supplies, safe substitutes, boiling/refilling guidance and migration of old stuck saves.
 - [x] Progressive main chapters and discovery-driven side objectives, sharing reveal conditions with the quest reward engine.
-- [x] Six fresh Explorer/Survivor tutorials and four recovery fixtures completed through public highlighted controls.
+- [x] Nine fresh tutorials covering all scenarios and difficulties, plus six recovery fixtures, completed through public highlighted controls.
+- [x] Quiet guided trails, gentle needs, automatic rest guidance before travel and at least 40 stamina at the final handoff.
+- [x] Old tutorial ambush/event recovery without false victories, bonus loot, time rewinds or stat resets.
+- [x] All 54 sampled scenario/difficulty/seed combinations finish safely; normal difficulty and encounters resume on Finish or Skip.
 - [x] Final Android APK: 13 offline checks, actual narration playback/mute/replay, native controls and exact result/save restoration after force-stop.

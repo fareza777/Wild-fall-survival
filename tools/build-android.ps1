@@ -45,7 +45,7 @@ if (-not (Test-Path -LiteralPath $taskKeystore)) {
   New-Item -ItemType Directory -Path (Split-Path -Parent $taskKeystore) -Force | Out-Null
   Run-BuildTool (Join-Path $JavaPath 'bin\keytool.exe') @('-genkeypair','-keystore',$taskKeystore,'-storepass','android','-keypass','android','-alias','wildfall','-keyalg','RSA','-keysize','2048','-validity','10000','-dname','CN=Wildfall Development, OU=Indie Games, O=Ashen Valley, C=ID')
 }
-$taskOutput = Join-Path $taskRoot 'dist\WILDFALL-Last-Ember-1.3.0.apk'
+$taskOutput = Join-Path $taskRoot 'dist\WILDFALL-Last-Ember-1.3.1.apk'
 Run-BuildTool (Join-Path $taskTools 'apksigner.bat') @('sign','--ks',$taskKeystore,'--ks-key-alias','wildfall','--ks-pass','pass:android','--key-pass','pass:android','--out',$taskOutput,(Join-Path $taskResolved 'aligned.apk'))
 Run-BuildTool (Join-Path $taskTools 'apksigner.bat') @('verify','--verbose',$taskOutput)
 Run-BuildTool (Join-Path $taskTools 'zipalign.exe') @('-c','4',$taskOutput)
@@ -53,6 +53,6 @@ $taskHashProvider = [Security.Cryptography.SHA256]::Create()
 $taskStream = [IO.File]::OpenRead($taskOutput)
 try { $taskHashText = [BitConverter]::ToString($taskHashProvider.ComputeHash($taskStream)).Replace('-', '').ToLower() }
 finally { $taskStream.Dispose(); $taskHashProvider.Dispose() }
-[IO.File]::WriteAllText((Join-Path $taskRoot 'dist\SHA256.txt'), ($taskHashText + '  WILDFALL-Last-Ember-1.3.0.apk' + [Environment]::NewLine))
+[IO.File]::WriteAllText((Join-Path $taskRoot 'dist\SHA256.txt'), ($taskHashText + '  WILDFALL-Last-Ember-1.3.1.apk' + [Environment]::NewLine))
 Write-Output "APK ready: $taskOutput"
 Write-Output "Size: $([math]::Round((Get-Item -LiteralPath $taskOutput).Length / 1MB, 2)) MB"

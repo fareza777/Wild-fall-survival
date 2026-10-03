@@ -87,6 +87,7 @@ export class GameEngine {
     return null;
   }
   danger(id = this.state.location) {
+    if(this.state.tutorial?.active)return 0;
     return Math.min(0.5, (this.content.locations[id]?.danger || 0) * (1 + (dayOf(this.state) - 1) * 0.065) * difficultyFactor(this.state) * (isNight(this.state) ? 1.6 : 1));
   }
   actionCost(action, options = {}) {
@@ -108,7 +109,7 @@ export class GameEngine {
     const stats = { ...before };
     if (action === 'fire') copy.camp.fire = Math.min(960, copy.camp.fire + 360);
     const result=advanceAction(copy, this.content, action, cost, action === 'travel' ? this.routeTo(options.id) : null);
-    return { minutes:copy.time-this.state.time, stamina:result.exertion, calories:Math.max(0, stats.calories-copy.stats.calories), hydration:Math.max(0, stats.hydration-copy.stats.hydration), stats:copy.stats, dead:copy.dead };
+    return { minutes:copy.time-this.state.time, stamina:result.exertion, calories:Math.max(0, stats.calories-copy.stats.calories), hydration:Math.max(0, stats.hydration-copy.stats.hydration), stats:copy.stats, weather:copy.weather, dead:copy.dead };
   }
   reason(action, options = {}) {
     const s=this.state, c=this.content, l=c.locations[s.location];
@@ -330,6 +331,8 @@ export class GameEngine {
   }
   encounter() {
     const s=this.state, c=this.content;
+    // First steps teach camp and travel before wildlife and random choices.
+    if(s.tutorial?.active)return;
     if(this.random()<this.danger()) {
       const choices=Object.keys(c.enemies).filter(id=>!c.enemies[id].minDay||dayOf(s)>=c.enemies[id].minDay);
       beginCombat(s,c,choices[this.range(0,choices.length-1)]); this.log('Wildlife blocks your path.','danger'); return;

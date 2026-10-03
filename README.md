@@ -2,13 +2,13 @@
 
 An original, fully offline 2D wilderness survival game for Android. Read the land, build a refuge, and repair a radio to find your way home.
 
-**v1.3.0 — Voices in the Wilderness.** Offline English cinematic narration, stable character and difficulty selection, a supply-aware tutorial and gradually revealed Journal chapters. Five illustrated story scenes, weather-aware fire, varied gathering and field dressing after battle. English interface, charcoal and copper art, compact mobile panels, physical foley and nature ambience. **No music, melodies, instrument samples, or tonal UI beeps.**
+**v1.3.1 — A Quiet First Trail.** Onboarding now teaches camp and travel without wildlife ambushes or random interruptions. It uses gentle survival needs, rests before leaving, and finishes with energy for normal play. Offline English cinematic narration, stable setup controls, gradual Journal chapters, weather-aware fire, varied gathering and field dressing remain included. **No music, melodies, instrument samples, or tonal UI beeps.**
 
 <img src="docs/media/story.webp" width="260" alt="Original illustrated prologue"> <img src="docs/media/guide.webp" width="260" alt="Tutorial highlighting the actual gather control"> <img src="docs/media/harvest.webp" width="260" alt="Wolf carcass with harvesting and recovery choices">
 
 ## Install
 
-[Download the APK](https://github.com/fareza777/survival-wild-ember/releases/download/v1.3.0/WILDFALL-Last-Ember-1.3.0.apk), or use `dist/WILDFALL-Last-Ember-1.3.0.apk` (7.00 MiB). The checksum is in `dist/SHA256.txt`. Install over the previous build to retain compatible saves and settings.
+[Download the APK](https://github.com/fareza777/survival-wild-ember/releases/download/v1.3.1/WILDFALL-Last-Ember-1.3.1.apk), or use `dist/WILDFALL-Last-Ember-1.3.1.apk` (7.00 MiB). The checksum is in `dist/SHA256.txt`. Install over the previous build to retain compatible saves and settings.
 
 Requires Android 8.0+ (API 26) and Android System WebView 108+. Universal ARM/x86 APK; no network permission, account, ads, or runtime downloads. Open the APK on your phone and allow installation from your file manager if Android prompts you. This standalone build uses the project's development certificate; it is not a Play Store release.
 
@@ -25,7 +25,9 @@ Requires Android 8.0+ (API 26) and Android System WebView 108+. Universal ARM/x8
 
 The camp keeps primary actions within reach. Gather, eat, drink and eligible crafting take one tap. Inventory and recipes use short pages and category menus. Journal shows completed chapters and the current main objective; future chapters remain undisclosed. Side objectives appear through discoveries and survival milestones. Detailed item and action information opens on demand. Reduced motion, larger text, haptics, effects volume, ambience volume and narration are configurable.
 
-Character and difficulty controls update in place, preserving the panel, artwork, focus and scroll position. The tutorial remembers safe food and drink already used during construction, highlights substitutes such as herbal tea, and guides depleted supplies through foraging, collecting river water and boiling it. Compatible old tutorials stuck at the supply lesson recover from their actual saved consumption history. The guide uses the same costs and survival rules as normal play; it grants no free supplies or immunity from harsh conditions.
+Character and difficulty controls update in place, preserving the panel, artwork, focus and scroll position. During guided first steps, wildlife and random events wait and route danger displays Quiet. Food, water and exposure use a gentle factor of 0.6; the chosen difficulty resumes immediately on Ready or Skip. Time, stamina, materials, weather and equipment wear still apply. The guide forecasts travel plus energy for the next action, asks for a real rest when needed, and hands over normal play with at least 40 stamina.
+
+The tutorial remembers safe food and drink already used during construction, highlights substitutes such as herbal tea, and guides empty bottles through collecting and boiling river water. Compatible old tutorials recover earlier consumption. A saved tutorial ambush or queued event clears on Continue so the highlighted lesson can resume, without granting a victory or loot, resetting statistics, or rewinding time. Normal encounters resume when the guide ends.
 
 Gathering takes about 2.2 seconds with motion enabled. The result lists the actual supplies packed, anything left behind and the action cost; it stays open until **Continue**. Unread results survive closing the app. Sparse, steady and rich finds use the saved RNG, with weather, darkness, fatigue and tools affecting yield. Reloading cannot reroll a result.
 
@@ -67,7 +69,7 @@ node tools/refinements-qa.mjs survivor
 python tools/verify-package.py
 ```
 
-The Explorer rescue demonstration obtains supplies through public gameplay actions, without injecting resources or resetting statistics: seed 7103 reaches rescue on day 13 after 653 actions. All three scenarios complete their guided tutorials in Explorer and Survivor through the public highlighted controls. Separate fixtures verify old stuck saves, substitute drinks, boiling and a river refill. Controlled browser fixtures also test particular combat, rain, pack-capacity, art and audio states. See [verification evidence](docs/VERIFICATION.md) for scope and results. Balance across all seeds still benefits from human playtesting; automated rules coverage is not a universal winning strategy.
+Nine fresh public tutorial runs cover all three scenarios and all three difficulties, with no battles or random interruptions; each finishes with at least 40 stamina. Simulation tests cover 54 scenario/difficulty/seed combinations. Separate public UI fixtures verify old stuck saves, an existing wolf ambush, low-stamina travel, substitute drinks, boiling and a river refill. Controlled browser fixtures also verify normal combat, rain, pack capacity, art and audio. The prior Explorer rescue demonstration remains in the evidence: seed 7103, 653 public actions, rescue on day 13. See [verification evidence](docs/VERIFICATION.md) for scope and results.
 
 ## Build Android
 

@@ -1,9 +1,9 @@
 {
   "passed": true,
-  "version": "1.3.0",
+  "version": "1.3.1",
   "device": "emulator-5580",
   "api": 36,
-  "uiDumpRetries": 15,
+  "uiDumpRetries": 8,
   "checks": [
     "offline-menu",
     "stable-character-difficulty-controls",

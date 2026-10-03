@@ -4,7 +4,7 @@ import {launchBrowser} from './browser-runtime.mjs';
 const browser=await launchBrowser();
 const context=await browser.newContext({viewport:{width:412,height:915},isMobile:true,hasTouch:true});
 await mkdir('test-results',{recursive:true});
-await context.addInitScript(()=>{localStorage.setItem('wildfall-onboarded','1');crypto.getRandomValues=a=>{a.fill(7103);return a;};if(window.name.startsWith('chapter-fixture:')){localStorage.setItem('wildfall-save-v1',window.name.slice(16));window.name='';}});
+await context.addInitScript(()=>{localStorage.setItem('wildfall-onboarded','1');crypto.getRandomValues=a=>{a.fill(1);return a;};if(window.name.startsWith('chapter-fixture:')){localStorage.setItem('wildfall-save-v1',window.name.slice(16));window.name='';}});
 const page=await context.newPage();
 const errors=[],external=[],missing=[],checks=[],tutorials=[];
 page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(!r.url().startsWith('http://127.0.0.1:4173/'))external.push(r.url());});page.on('response',r=>{if(r.status()>=400)missing.push(r.url());});
@@ -18,17 +18,16 @@ async function guide(label){
  let actions=0;
  for(let i=0;i<320&&(await save()).tutorial.active;i++){
   const s=await save();assert.equal(s.dead,false,'Guided journey died: '+label+' '+JSON.stringify(s.stats));
+  assert.equal(s.combat,null,'Tutorial must not start a battle: '+label);assert.equal(s.event,null,'Tutorial must not interrupt with random choices: '+label);
   if(await page.locator('[data-ui="acknowledge-result"]').count()){await page.locator('[data-ui="acknowledge-result"]').click();continue;}
-  if(s.event){await page.locator('[data-kind="resolveEvent"]:not([disabled])').last().click();await finished();actions++;continue;}
-  if(s.combat){const retreat=page.getByRole('button',{name:/^Retreat /});if(await retreat.isDisabled())await page.getByRole('button',{name:/^Guard /}).click();else await retreat.click();await finished();actions++;continue;}
   if(s.carcass){await page.getByRole('button',{name:'Leave carcass',exact:true}).click();await finished();actions++;continue;}
   if(s.tutorial.step===0){await page.getByRole('button',{name:'Got it',exact:true}).click();continue;}
-  if(s.tutorial.step===8){await page.locator('.guide-target').click();await page.getByRole('button',{name:'Ready',exact:true}).click();break;}
+  if(s.tutorial.step===8&&await page.getByRole('button',{name:'Ready',exact:true}).count()){assert.ok(s.stats.stamina>=40,'Finish with stamina ready for normal play');await page.locator('.guide-target').click();await page.getByRole('button',{name:'Ready',exact:true}).click();break;}
   const target=page.locator('.guide-target');assert.equal(await target.count(),1,JSON.stringify({label,step:s.tutorial.step,stats:s.stats,items:s.items}));
   assert.equal(await target.isDisabled(),false);const action=await target.evaluate(el=>!!el.dataset.action||el.dataset.ui==='perform');
   await target.click();if(action){actions++;await finished();}
  }
- assert.equal((await save()).tutorial.active,false,'Guide must finish: '+label);tutorials.push({label,actions,day:Math.floor((await save()).time/1440)+1});
+ const final=await save();assert.equal(final.tutorial.active,false,'Guide must finish: '+label);assert.ok(final.stats.stamina>=40);tutorials.push({label,actions,day:Math.floor(final.time/1440)+1,stamina:final.stats.stamina,health:final.stats.health});
 }
 async function fixture(kind){
  await page.evaluate(async kind=>{
@@ -39,6 +38,8 @@ async function fixture(kind){
   if(kind==='tea'){s.items={tea:1,berries:3};}
   if(kind==='boil'){s.items={dirty_water:2,berries:3};s.tutorial.usedFood=true;}
   if(kind==='refill'){s.items={ration:2,wood:8,fiber:5};s.tutorial.usedFood=true;}
+  if(kind==='tired-travel'){s.tutorial.step=7;s.tutorial.usedFood=true;s.tutorial.usedWater=true;s.stats.stamina=20;}
+  if(kind==='old-ambush'){s.tutorial={step:7,active:false,version:2,usedFood:true,usedWater:true};s.seed=1;s.counters.actions=4;s.stats.stamina=7;g.perform('travel',{id:'forest'});if(s.combat?.id!=='wolf')throw new Error('Fixture must reproduce the original wolf ambush');s.tutorial.active=true;}
   if(kind==='chapter-two'){s.tutorial.active=false;s.time=1440;s.counters.fires=1;g.perform('rest');s.receipt=null;}
   window.name='chapter-fixture:'+JSON.stringify({state:s,checkpoint:structuredClone(s)});
  },kind);
@@ -68,18 +69,20 @@ try{
  await page.getByRole('button',{name:'Replay narration',exact:true}).click();assert.ok((await voice()).time<.25);await shot('voiced-prologue');
  await page.getByRole('button',{name:'Make camp',exact:true}).click();assert.equal((await voice()).src,null);assert.equal((await sound()).narrating,false);checks.push('seven real MP3s decoded; subtitles/variant match, mute, replay, scene replacement, background pause/resume, skip stops speech; no external runtime calls');
  await page.evaluate(()=>{localStorage.setItem('wildfall-preferences-v1',JSON.stringify({motion:false,sound:false,ambient:false,narration:false}));});
- for(const scenario of ['last_ember','riverborn','cold_trail'])for(const difficulty of ['story','survivor']){
+ for(const scenario of ['last_ember','riverborn','cold_trail'])for(const difficulty of ['story','survivor','relentless']){
   await page.evaluate(()=>localStorage.removeItem('wildfall-save-v1'));await page.reload();await page.locator('[data-ui="new-game"]').click();await page.locator(`[data-ui="scenario"][data-id="${scenario}"]`).click();await page.locator(`[data-ui="difficulty"][data-id="${difficulty}"]`).click();await page.locator('[data-ui="start-game"]').click();await page.locator('[data-ui="story-skip"]').click();await guide(scenario+'/'+difficulty);
  }
- checks.push('six fresh Explorer/Survivor tutorials completed through highlighted public controls, including one-bottle Cold Trail');
- for(const kind of ['old-stuck','tea','boil','refill']){
+ checks.push('nine fresh tutorials across all scenarios and difficulties complete without battles or random events, using public highlighted controls; every handoff retains at least 40 stamina');
+ for(const kind of ['old-stuck','tea','boil','refill','tired-travel','old-ambush']){
   await fixture(kind);if(kind==='old-stuck'){assert.equal((await save()).tutorial.version,2);assert.equal((await save()).tutorial.step,7);}if(kind==='tea'){await page.locator('.guide-target').click();await page.locator('[data-action="use"][data-id="tea"]').waitFor();await shot('tea-guide');}
+  if(kind==='tired-travel'){assert.equal(await page.locator('.guide-target').getAttribute('data-action'),'rest');await shot('stamina-before-travel');}
+  if(kind==='old-ambush'){assert.equal((await save()).combat,null);assert.equal((await save()).stats.stamina,2);}
   await guide(kind);
  }
- checks.push('old stuck saves migrate; safe tea/berries, boiling carried water and collecting/refilling from the river finish via public UI');
+ checks.push('old stuck saves and wolf ambushes recover; safe tea/berries, boiling/refilling and low-stamina travel finish via public UI');
  await page.evaluate(()=>localStorage.removeItem('wildfall-save-v1'));await page.reload();await page.locator('[data-ui="new-game"]').click();await page.locator('[data-ui="start-game"]').click();await page.locator('[data-ui="story-skip"]').click();await page.locator('[data-ui="skip-guide"]').click();await page.locator('.bottom-nav [data-ui="tab"][data-tab="journal"]').click();await page.getByRole('heading',{name:'Before Nightfall',exact:true}).waitFor();
  for(const title of ['The Ranger’s Trail','Fragments of a Signal','A Voice in the Static','The Last Signal'])assert.equal(await page.getByText(title,{exact:true}).count(),0);
  await page.locator('[data-ui="quest-group"][data-group="side"]').click();await page.getByRole('heading',{name:'Unwritten pages.',exact:true}).waitFor();await shot('unwritten-journal');await fixture('chapter-two');await page.locator('.bottom-nav [data-ui="tab"][data-tab="journal"]').click();await page.getByRole('heading',{name:'The Ranger’s Trail',exact:true}).waitFor();assert.equal(await page.getByText('Fragments of a Signal',{exact:true}).count(),0);await shot('next-chapter');checks.push('Journal reveals completed/current main chapters and discovered side objectives only; next chapter opens after real quest completion');
  assert.deepEqual(errors,[]);assert.deepEqual(missing,[]);assert.deepEqual(external,[]);
- await writeFile('test-results/chapters-report.json',JSON.stringify({passed:true,version:'1.3.0',checks,tutorials,audioClips,errors,missing,external},null,2));console.log(JSON.stringify({passed:true,checks,tutorials},null,2));
+ await writeFile('test-results/chapters-report.json',JSON.stringify({passed:true,version:'1.3.1',checks,tutorials,audioClips,errors,missing,external},null,2));console.log(JSON.stringify({passed:true,checks,tutorials},null,2));
 }finally{await browser.close();}

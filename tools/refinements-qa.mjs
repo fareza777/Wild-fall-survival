@@ -41,9 +41,8 @@ try{
   await writeFile('test-results/refinements-progress.json',JSON.stringify({iteration:i,state:await save(),type:await page.locator('#modal-root').getAttribute('data-type')},null,2));
   const s=await save();if(s.dead)throw new Error('Guided survivor died: '+JSON.stringify(s.stats));
   const ackButton=page.locator('[data-ui="acknowledge-result"]');if(await ackButton.count()){await ack();continue;}
-  if(s.event){await page.locator('.event-options [data-kind="resolveEvent"]:not([disabled])').last().click();tutorialActions++;await finished();continue;}
-  if(s.combat){await page.getByRole('button',{name:/^Retreat /}).click();tutorialActions++;await finished();continue;}
-  if(s.tutorial.step===8){await shot('guided-rescue');await page.getByRole('button',{name:'Ready',exact:true}).click();break;}
+  assert.equal(s.event,null,'No random interruption during onboarding');assert.equal(s.combat,null,'No tutorial ambush');
+  if(s.tutorial.step===8&&await page.getByRole('button',{name:'Ready',exact:true}).count()){assert.ok(s.stats.stamina>=40);await shot('guided-rescue');await page.getByRole('button',{name:'Ready',exact:true}).click();break;}
   const target=page.locator('.guide-target');assert.equal(await target.count(),1,'Every guided stage has a visible control: '+JSON.stringify({step:s.tutorial.step,stats:s.stats,items:s.items}));
   const wasAction=await target.evaluate(el=>!!el.dataset.action||el.dataset.ui==='perform');await target.click();if(wasAction){tutorialActions++;await finished();}
  }
