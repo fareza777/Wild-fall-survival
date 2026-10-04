@@ -8,7 +8,7 @@ An original, fully offline 2D wilderness survival game for Android. Read the lan
 
 ## Install
 
-[Download the APK](https://github.com/fareza777/survival-wild-ember/releases/download/v1.3.1/WILDFALL-Last-Ember-1.3.1.apk), or use `dist/WILDFALL-Last-Ember-1.3.1.apk` (7.00 MiB). The checksum is in `dist/SHA256.txt`. Install over the previous build to retain compatible saves and settings.
+[Download the APK](https://github.com/fareza777/Wild-fall-survival/releases/download/v1.3.1/WILDFALL-Last-Ember-1.3.1.apk), or use `dist/WILDFALL-Last-Ember-1.3.1.apk` (7.00 MiB). The checksum is in `dist/SHA256.txt`. Install over the previous build to retain compatible saves and settings.
 
 Requires Android 8.0+ (API 26) and Android System WebView 108+. Universal ARM/x86 APK; no network permission, account, ads, or runtime downloads. Open the APK on your phone and allow installation from your file manager if Android prompts you. This standalone build uses the project's development certificate; it is not a Play Store release.
 
