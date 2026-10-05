@@ -196,7 +196,7 @@
     "art": "assets/art/items/bow.webp"
   },
   "arrows": {
-    "name": "5 \u00c3\u2014 Flint arrows",
+    "name": "Flint arrows ×5",
     "category": "weapons",
     "item": "arrows",
     "quantity": 5,
@@ -272,7 +272,7 @@
     "art": "assets/art/items/trap.webp"
   },
   "bandage": {
-    "name": "2 \u00c3\u2014 Linen bandage",
+    "name": "Linen bandages ×2",
     "category": "medicine",
     "item": "bandage",
     "quantity": 2,
@@ -301,7 +301,7 @@
     ]
   },
   "water": {
-    "name": "2 \u00c3\u2014 Clean water",
+    "name": "Clean water ×2",
     "category": "cooking",
     "item": "water",
     "quantity": 2,
@@ -431,7 +431,7 @@
     "category": "tools",
     "item": "canteen",
     "cost": {
-      "hide": 1,
+      "scrap": 1,
       "fiber": 2
     },
     "minutes": 20,

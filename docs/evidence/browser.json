@@ -29,20 +29,20 @@
     "loaded": [
       "tap",
       "swing",
-      "leaf",
       "draw",
-      "equip",
-      "step1",
       "chop",
-      "hit",
-      "snowstep",
-      "guard",
-      "pack",
+      "leaf",
       "step2",
+      "step1",
+      "snowstep",
+      "pack",
+      "hit",
       "heavy",
-      "book",
+      "equip",
+      "mine",
       "craft",
-      "mine"
+      "book",
+      "guard"
     ],
     "settings": {
       "sound": true,
@@ -57,5 +57,5 @@
   },
   "errors": [],
   "missing": [],
-  "version": "1.4.0"
+  "version": "1.4.1"
 }

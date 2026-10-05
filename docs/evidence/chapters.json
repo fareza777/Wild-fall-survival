@@ -1,6 +1,6 @@
 {
   "passed": true,
-  "version": "1.4.0",
+  "version": "1.4.1",
   "checks": [
     "stable character/difficulty selection: same panel, portraits, animation and focus",
     "seven real MP3s decoded; subtitles/variant match, mute, replay, scene replacement, background pause/resume, skip stops speech; no external runtime calls",
@@ -11,93 +11,93 @@
   "tutorials": [
     {
       "label": "last_ember/story",
-      "actions": 20,
+      "actions": 25,
       "day": 2,
       "stamina": 82,
       "health": 100
     },
     {
       "label": "last_ember/survivor",
-      "actions": 20,
+      "actions": 25,
       "day": 2,
       "stamina": 82,
       "health": 100
     },
     {
       "label": "last_ember/relentless",
-      "actions": 20,
+      "actions": 25,
       "day": 2,
       "stamina": 82,
       "health": 100
     },
     {
       "label": "riverborn/story",
-      "actions": 20,
+      "actions": 29,
       "day": 2,
       "stamina": 82,
       "health": 100
     },
     {
       "label": "riverborn/survivor",
-      "actions": 20,
+      "actions": 29,
       "day": 2,
       "stamina": 82,
       "health": 100
     },
     {
       "label": "riverborn/relentless",
-      "actions": 20,
+      "actions": 29,
       "day": 2,
       "stamina": 82,
       "health": 100
     },
     {
       "label": "cold_trail/story",
-      "actions": 18,
+      "actions": 31,
       "day": 2,
-      "stamina": 79.3,
+      "stamina": 54.13999999999999,
       "health": 100
     },
     {
       "label": "cold_trail/survivor",
-      "actions": 18,
+      "actions": 31,
       "day": 2,
-      "stamina": 79.3,
+      "stamina": 54.13999999999999,
       "health": 100
     },
     {
       "label": "cold_trail/relentless",
-      "actions": 18,
+      "actions": 31,
       "day": 2,
-      "stamina": 79.3,
+      "stamina": 54.13999999999999,
       "health": 100
     },
     {
       "label": "old-stuck",
-      "actions": 2,
+      "actions": 17,
       "day": 1,
-      "stamina": 67,
+      "stamina": 49,
       "health": 100
     },
     {
       "label": "tea",
-      "actions": 4,
+      "actions": 17,
       "day": 1,
-      "stamina": 67,
+      "stamina": 49,
       "health": 100
     },
     {
       "label": "boil",
-      "actions": 4,
+      "actions": 17,
       "day": 1,
-      "stamina": 64,
+      "stamina": 46,
       "health": 100
     },
     {
       "label": "refill",
-      "actions": 11,
-      "day": 1,
-      "stamina": 48,
+      "actions": 34,
+      "day": 2,
+      "stamina": 82,
       "health": 100
     },
     {
@@ -109,9 +109,9 @@
     },
     {
       "label": "old-ambush",
-      "actions": 4,
-      "day": 1,
-      "stamina": 61,
+      "actions": 19,
+      "day": 2,
+      "stamina": 82,
       "health": 100
     }
   ],

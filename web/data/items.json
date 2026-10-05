@@ -405,7 +405,7 @@
     "description": "A reusable vessel for collecting and carrying river water.",
     "repair": {
       "fiber": 1,
-      "hide": 1
+      "scrap": 1
     },
     "art": "assets/art/items/canteen.webp"
   },

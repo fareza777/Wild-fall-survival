@@ -12,7 +12,7 @@ const finished=()=>page.waitForFunction(()=>!document.body.classList.contains('a
 const ack=()=>page.locator('[data-ui="acknowledge-result"]').click();
 const close=()=>page.locator('[data-ui="close-modal"]').click();
 async function fixture(kind){
- await page.evaluate(async kind=>{
+ const before=await page.evaluate(async kind=>{
   const names=['items','recipes','locations','weather','enemies','events','scenarios','quests','story'],c=Object.fromEntries(await Promise.all(names.map(async n=>[n,await(await fetch(`/data/${n}.json`)).json()]))),{GameEngine}=await import('/game/engine.js');
   const g=new GameEngine(c,null,{seed:7103}),s=g.state;
   s.prologue={step:4,complete:true};s.tutorial={step:8,active:false,usedFood:true,usedWater:true,version:2};s.nextWeather=1e8;
@@ -20,9 +20,17 @@ async function fixture(kind){
   s.items={scrap:3,fiber:5,wood:4,dirty_water:4,raw_meat:2};
   if(kind==='missing-pot')s.gear=s.gear.filter(x=>x.id!=='cooking_pot');
   if(kind==='legacy'){delete s.toolsVersion;s.gear=s.gear.filter(x=>x.id==='knife');}
+  if(['unused-gifts','old-receipt'].includes(kind)){
+   s.toolsVersion=1;s.gear=['knife','cooking_pot','canteen','fire_drill'].map((id,i)=>({id,uid:`${id}-${i+1}`,durability:c.items[id].durability}));s.nextGear=5;
+   if(kind==='unused-gifts'){if(!g.perform('craft',{id:'cooking_pot'}).ok)throw new Error('Fixture craft failed');s.receipt=null;s.gear.find(x=>x.id==='canteen').durability--;}
+   else{if(!g.perform('craft',{id:'water'}).ok)throw new Error('Fixture boil failed');s.receipt.message='Completed: 2 Ã— clean water.';}
+   for(const gear of s.gear){delete gear.origin;delete gear.uses;}delete s.flags.wreck_scrap_remaining;
+  }
   window.name='tools-fixture:'+JSON.stringify({state:s,checkpoint:structuredClone(s)});
+  return {time:s.time,stats:s.stats,items:s.items,receipt:s.receipt};
  },kind);
  await page.reload();await page.locator('[data-ui="continue"]').click();
+ return before;
 }
 async function recipe(id){
  await page.locator('.bottom-nav [data-tab="craft"]').click();
@@ -63,9 +71,14 @@ try{
  await page.locator('[data-ui="commerce-panel"][data-panel="ads"]').click();assert.equal(await page.locator('[data-ui="purchase-remove-ads"]').isDisabled(),true);
  await close();
  checks.push('pause opens Remove Ads and optional ration/water supply card; browser does not fake rewarded SDK ads');
- await fixture('legacy');const migrated=await state();assert.deepEqual(migrated.gear.map(x=>x.id),['knife','cooking_pot','canteen','fire_drill']);assert.equal(migrated.time,480);
- await page.reload();await page.locator('[data-ui="continue"]').click();assert.equal((await state()).gear.length,4);
- checks.push('old saves receive formerly implicit starter tools exactly once without changing the clock');
+ await fixture('legacy');const migrated=await state();assert.deepEqual(migrated.gear.map(x=>x.id),['knife']);assert.equal(migrated.time,480);
+ await page.reload();await page.locator('[data-ui="continue"]').click();assert.equal((await state()).gear.length,1);
+ checks.push('old saves retain earned equipment and receive no automatic starter tool set');
+ const giftBefore=await fixture('unused-gifts'),withdrawn=await state();assert.deepEqual(withdrawn.gear.map(x=>x.uid),['knife-1','canteen-3','cooking_pot-5']);assert.equal(withdrawn.time,giftBefore.time);assert.deepEqual(withdrawn.stats,giftBefore.stats);assert.deepEqual(withdrawn.items,giftBefore.items);
+ await page.reload();await page.locator('[data-ui="continue"]').click();assert.deepEqual((await state()).gear.map(x=>x.uid),['knife-1','canteen-3','cooking_pot-5']);
+ checks.push('v1.4 unused pot/drill gifts withdraw once; a used canteen and an original crafted duplicate retain exact progress after reload');
+ const receiptBefore=await fixture('old-receipt');await page.locator('.result-message').waitFor();assert.equal(await page.locator('.result-message').innerText(),'Completed: 2 × clean water.');assert.equal((await state()).items.water,receiptBefore.items.water);assert.equal((await state()).time,receiptBefore.time);await page.screenshot({path:'test-results/tools-legacy-result.png'});await ack();assert.equal((await state()).items.water,receiptBefore.items.water);
+ checks.push('historical unread boiling result displays clean batch text; Continue preserves credited loot and action time');
  const images=await page.evaluate(async()=>{const ids=['cooking_pot','canteen','fire_drill','roasting_spit','pickaxe','hammer','sewing_kit'];return Promise.all(ids.map(async id=>{const img=new Image();img.src=`/assets/art/items/${id}.webp`;await img.decode();return {id,width:img.naturalWidth,height:img.naturalHeight};}));});
  for(const img of images)assert.ok(img.width>100&&img.height>100);checks.push('all seven generated tool illustrations decode successfully');
  assert.deepEqual(errors,[]);assert.deepEqual(missing,[]);

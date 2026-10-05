@@ -13,7 +13,7 @@ test('rain extinguishes outdoor fires immediately, even under a sleeping shelter
  for(const location of ['camp','forest'])for(const shelter of [0,1,3]){const g=game();Object.assign(g.state,{weather:'rain',location});Object.assign(g.state.camp,{shelter,fire:600});advanceTime(g.state,c,1,0);assert.equal(g.state.camp.fire,0);}
 });
 test('rain cannot consume ignition materials; a dedicated canopy permits fire and cooking',()=>{
- const g=game();g.state.camp.firepit=true;g.state.weather='rain';const before=JSON.stringify(g.state);assert.equal(g.perform('fire').ok,false);assert.equal(JSON.stringify(g.state),before);
+ const g=game();for(const id of ['fire_drill','cooking_pot'])g.state.gear.push({id,uid:`${id}-${g.state.nextGear++}`,durability:c.items[id].durability});g.state.camp.firepit=true;g.state.weather='rain';const before=JSON.stringify(g.state);assert.equal(g.perform('fire').ok,false);assert.equal(JSON.stringify(g.state),before);
  g.state.camp.fire_cover=true;assert.ok(g.perform('fire').ok);assert.equal(g.state.camp.fire,345);g.state.items.dirty_water=2;assert.ok(g.perform('craft',{id:'water'}).ok);assert.equal(g.state.counters.waterBoiled,2);
 });
 test('weather starts inside a long action; exposed fire stops warming for the remaining hours',()=>{

@@ -1,13 +1,15 @@
 {
   "passed": true,
-  "version": "1.4.0",
+  "version": "1.4.1",
   "checks": [
     "Remove Ads shows US$4.99, honest unavailable browser purchase, readable at 320px and banner-reduced 412px",
     "missing pot blocks cooking; real Craft shortcut creates one reusable pot; boiling consumes dirty water and wears the pot; results remain until Continue",
     "roasting spit is crafted and reused for actual meat cooking",
     "carried cooking kit uses no equipment slot and repairs with the displayed scrap cost",
     "pause opens Remove Ads and optional ration/water supply card; browser does not fake rewarded SDK ads",
-    "old saves receive formerly implicit starter tools exactly once without changing the clock",
+    "old saves retain earned equipment and receive no automatic starter tool set",
+    "v1.4 unused pot/drill gifts withdraw once; a used canteen and an original crafted duplicate retain exact progress after reload",
+    "historical unread boiling result displays clean batch text; Continue preserves credited loot and action time",
     "all seven generated tool illustrations decode successfully"
   ],
   "images": [

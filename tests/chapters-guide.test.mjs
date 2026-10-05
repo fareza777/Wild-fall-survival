@@ -24,6 +24,7 @@ test('tutorial chooses safe tea and berries when original bottles and rations ar
 });
 test('a depleted safe-water lesson leads to boiling carried river water, never a missing use control',()=>{
  const g=game();Object.assign(g.state.camp,{shelter:1,firepit:true,fire_cover:true,fire:500});
+ for(const id of ['cooking_pot','canteen'])g.state.gear.push({id,uid:`${id}-${g.state.nextGear++}`,durability:c.items[id].durability});
  g.state.items={dirty_water:2,berries:3};g.state.tutorial={step:6,active:true,version:2,usedFood:true};
  const next=guideStep(g,'craft',null);assert.equal(next.recipe,'water');assert.equal(g.reason('craft',{id:next.recipe}),null);
  assert.equal(g.perform('craft',{id:next.recipe}).ok,true);g.state.receipt=null;

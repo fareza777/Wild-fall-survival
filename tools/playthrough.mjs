@@ -99,7 +99,7 @@ function materials(cost){
     if(!missing)return;
     const id=missing[0];
     if(['wood','stone','fiber'].includes(id)){travel('camp');act('gather');}
-    else if(id==='scrap'){travel('cabin');act('gather');}
+    else if(id==='scrap'){travel((s.flags.wreck_scrap_remaining||0)>0?'camp':'cabin');act('gather');}
     else if(id==='hide'){travel('forest');act('hunt');}
     else if(id==='ore'){travel('cave');const torch=s.gear.find(x=>x.id==='torch'&&x.durability>0);act('equip',{uid:torch.uid});if(s.equipment.tool!==torch.uid)act('equip',{uid:torch.uid});act('mine');}
     else if(id==='herbs'){travel('camp');act('forage');}

@@ -7,6 +7,7 @@ import {beginCombat} from '../web/game/combat.js';
 const content=Object.fromEntries(await Promise.all(['items','recipes','locations','weather','enemies','events','scenarios','quests','story'].map(async n=>[n,JSON.parse(await readFile(`web/data/${n}.json`,'utf8'))])));
 function journey(seed=1){
  const g=new GameEngine(content,null,{seed});
+ for(const id of ['cooking_pot','canteen'])g.state.gear.push({id,uid:`${id}-${g.state.nextGear++}`,durability:content.items[id].durability,origin:'crafted'});
  g.state.tutorial={step:7,active:true,version:2,usedWater:true,usedFood:true};
  g.state.nextWeather=1e8;g.state.counters.actions=4;
  return g;

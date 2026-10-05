@@ -25,10 +25,10 @@ export function createState(content, options = {}) {
     location:'camp', weather:scenario.weather || 'clear', nextWeather:start + 240, dead:false,
     stats:{ health:100, stamina:85, calories:scenario.calories || 2200, hydration:scenario.hydration || 2100, temperature:scenario.temperature || 36.8, fatigue:12, injury:0, sickness:0 },
     items:{ ...(scenario.items || { wood:3, stone:2, fiber:2, water:2, ration:2, herbs:1 }) },
-    gear:STARTER_KIT.map((id,index)=>({id,uid:`${id}-${index+1}`,durability:content.items[id].durability})), equipment:{ tool:'knife-1', weapon:null, clothing:null }, nextGear:STARTER_KIT.length+1,toolsVersion:1,
+    gear:STARTER_KIT.map((id,index)=>({id,uid:`${id}-${index+1}`,durability:content.items[id].durability,origin:'salvaged',uses:0})), equipment:{ tool:'knife-1', weapon:null, clothing:null }, nextGear:STARTER_KIT.length+1,toolsVersion:2,
     camp:{ shelter:0, firepit:false, fire:0, fire_cover:false, rain_collector:false, garden:false },
     visited:['camp'], discovered:['camp','forest', ...(scenario.unlocked || [])], explored:{ ...(scenario.explored || {}) },
-    flags:{}, counters:{ ...INITIAL_COUNTERS }, quests:{ completed:[] }, skills:{ gathering:0, hunting:0, crafting:0 },
+    flags:{wreck_scrap_remaining:content.locations.camp.salvageScrap||0}, counters:{ ...INITIAL_COUNTERS }, quests:{ completed:[] }, skills:{ gathering:0, hunting:0, crafting:0 },
     traps:[], event:null, combat:null, carcass:null, receipt:null, prologue:null, tutorial:null, lastEvent:null, logs:[{ id:0, time:start, text:'You salvage a knife and supplies from the wreck. Make camp before night.', tone:'story' }], nextLog:1
   };
 }
@@ -42,7 +42,8 @@ export class GameEngine {
     this.lastResult = null;
     this.state.camp.fire_cover ??= false;
     for(const key of ['carcass','receipt','prologue','tutorial'])this.state[key] ??= null;
-    if(migrateTools(this.state,content))this.log('Your salvaged cooking pot, canteen and fire drill are now listed in Gear.','story');
+    if(migrateTools(this.state,content).length)this.log('Unused starter tools withdrawn. Craft your camp kit from gathered materials.','story');
+    this.state.flags.wreck_scrap_remaining??=content.locations.camp.salvageScrap||0;
     this.state.runId??=`${this.state.scenario}-${this.state.seed}-${this.state.startTime}`;
     this.state.support??={day:0,claimed:[]};
     if(extinguishFire(this.state,content))this.log('Rain extinguished the exposed campfire. Build a fire canopy.','weather');
@@ -330,7 +331,7 @@ export class GameEngine {
         if(!['clear','cloudy'].includes(s.weather)||timeResult.weatherChanges.some(w=>!['clear','cloudy'].includes(w.id))){interrupted=true;message='Poor weather interrupted the signal. Try again in calm daylight.';tone='warning';}
         else {s.flags.rescued=true; message='Signal received. Rescue is on its way.'; tone='quest';}
       }
-      if(loot) { const result=this.loot(loot,{force:refund});lootReport=result; if(action==='mine')s.counters.oreMined+=result.taken.ore||0; if(action==='water')message=`${result.taken.dirty_water||0} river-water bottles packed. Boil before drinking.`; }
+      if(loot) { const result=this.loot(loot,{force:refund,origin:action==='craft'&&!interrupted?'crafted':'found'});lootReport=result;if(action==='gather'&&s.location==='camp')s.flags.wreck_scrap_remaining-=result.taken.scrap||0; if(action==='mine')s.counters.oreMined+=result.taken.ore||0; if(action==='water')message=`${result.taken.dirty_water||0} river-water bottles packed. Boil before drinking.`; }
     }
     s.counters.actions++;
     normalizeStats(s);

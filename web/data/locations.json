@@ -14,7 +14,8 @@
       "river",
       "cabin"
     ],
-    "description": "Your shelter, workshop, and safest place to sleep.",
+    "description": "Your shelter and workshop. Scavenge the nearby wreck for a few metal scraps.",
+    "salvageScrap": 5,
     "actions": [
       "gather",
       "forage",
@@ -23,6 +24,7 @@
       "fire"
     ],
     "loot": {
+      "scrap": [0, 1],
       "wood": [
         2,
         3

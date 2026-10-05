@@ -19,7 +19,7 @@ export function wear(state, content, slot, amount = 1) {
   if (!gear.durability) { state.equipment[slot] = null; return true; }
   return false;
 }
-export function addLoot(state, content, loot, { force = false } = {}) {
+export function addLoot(state, content, loot, { force = false, origin='found' } = {}) {
   const taken = {}, left = {};
   for (const [id, n] of Object.entries(loot)) {
     const item = content.items[id];
@@ -27,7 +27,7 @@ export function addLoot(state, content, loot, { force = false } = {}) {
     for (let i = 0; i < n; i++) {
       const canTake = force || item.category === 'quest' || weight(state, content) + item.weight <= capacity(state) + 0.001;
       if (!canTake) { left[id] = (left[id] || 0) + 1; continue; }
-      if (item.category === 'gear') state.gear.push({ id, uid: `${id}-${state.nextGear++}`, durability: item.durability });
+      if (item.category === 'gear') state.gear.push({ id, uid: `${id}-${state.nextGear++}`, durability: item.durability,origin,uses:0 });
       else state.items[id] = count(state, id) + 1;
       taken[id] = (taken[id] || 0) + 1;
     }

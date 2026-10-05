@@ -47,6 +47,7 @@ test('crafting spends exact resources and creates durable equippable gear', () =
 
 test('campfire cooking requires lit fire and home camp', () => {
   const g=game(); g.state.items.dirty_water=4;
+  g.state.gear.push({id:'cooking_pot',uid:'test-pot',durability:content.items.cooking_pot.durability});
   assert.equal(g.perform('craft',{id:'water'}).ok,false);
   g.state.camp.fire=200;
   assert.equal(g.perform('craft',{id:'water'}).ok,true);

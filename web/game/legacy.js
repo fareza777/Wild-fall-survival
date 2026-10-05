@@ -3,6 +3,7 @@ const names={"Kayu":"Firewood","Batu":"Flint stone","Serat liar":"Wild fiber","H
 const rename=t=>{for(const [a,b] of Object.entries(names).sort((a,b)=>b[0].length-a[0].length)){t=t.replaceAll(a,b).replaceAll(a.toLowerCase(),b.toLowerCase());}return t;};
 const escape=s=>s.replace(/[.*+?^$()|[\]\\]/g,'\\$&');
 export function englishHistory(text){
+  text=text.replaceAll('Ã—','×');
   for(const [a,b] of pairs){
     const parts=a.split(/(\$\{[^}]+\})/);
     if(parts.length===1){if(text===a)return b;continue;}

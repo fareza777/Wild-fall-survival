@@ -11,6 +11,7 @@ import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.WindowInsets;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
@@ -30,8 +31,11 @@ public final class MainActivity extends Activity {
   private WebView web;
   private SharedPreferences preferences;
   private CommerceController commerce;
-  private void immersive() {
-    getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+  private void systemBars() {
+    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
+    if(Build.VERSION.SDK_INT>=30){getWindow().setDecorFitsSystemWindows(false);if(getWindow().getInsetsController()!=null)getWindow().getInsetsController().show(WindowInsets.Type.systemBars());}
+    getWindow().getDecorView().requestApplyInsets();
   }
   @Override public void onCreate(Bundle saved) {
     super.onCreate(saved);
@@ -74,16 +78,23 @@ public final class MainActivity extends Activity {
       }
     });
     LinearLayout root=new LinearLayout(this);root.setOrientation(LinearLayout.VERTICAL);root.setBackgroundColor(Color.rgb(18,18,22));
-    root.addView(web,new LinearLayout.LayoutParams(-1,0,1));
     LinearLayout bannerHost=new LinearLayout(this);bannerHost.setOrientation(LinearLayout.VERTICAL);bannerHost.setVisibility(View.GONE);
-    root.addView(bannerHost,new LinearLayout.LayoutParams(-1,-2));setContentView(root);
+    root.addView(bannerHost,new LinearLayout.LayoutParams(-1,-2));
+    root.addView(web,new LinearLayout.LayoutParams(-1,0,1));
+    root.setOnApplyWindowInsetsListener((view,insets)->{
+      int left,top,right,bottom;
+      if(Build.VERSION.SDK_INT>=30){android.graphics.Insets safe=insets.getInsets(WindowInsets.Type.systemBars()|WindowInsets.Type.displayCutout());left=safe.left;top=safe.top;right=safe.right;bottom=safe.bottom;}
+      else{left=insets.getSystemWindowInsetLeft();top=insets.getSystemWindowInsetTop();right=insets.getSystemWindowInsetRight();bottom=insets.getSystemWindowInsetBottom();if(Build.VERSION.SDK_INT>=28&&insets.getDisplayCutout()!=null){android.view.DisplayCutout cutout=insets.getDisplayCutout();left=Math.max(left,cutout.getSafeInsetLeft());top=Math.max(top,cutout.getSafeInsetTop());right=Math.max(right,cutout.getSafeInsetRight());bottom=Math.max(bottom,cutout.getSafeInsetBottom());}}
+      view.setPadding(left,top,right,bottom);return insets;
+    });
+    setContentView(root);root.requestApplyInsets();
     commerce=new CommerceController(this,preferences,bannerHost,new CommerceController.Listener(){
       @Override public void changed(){notifyCommerce();}
       @Override public void fullscreen(boolean showing){if(web!=null)web.evaluateJavascript(showing?"window.wildfallPause && window.wildfallPause()":"window.wildfallResume && window.wildfallResume()",null);}
     });
     if (Build.VERSION.SDK_INT >= 33) getOnBackInvokedDispatcher().registerOnBackInvokedCallback(android.window.OnBackInvokedDispatcher.PRIORITY_DEFAULT, this::goBack);
     web.loadUrl("https://" + HOST + "/assets/index.html");
-    immersive();
+    systemBars();
   }
   private static WebResourceResponse error(int code, String reason) {
     return new WebResourceResponse("text/plain", "UTF-8", code, reason, Collections.emptyMap(), new ByteArrayInputStream(reason.getBytes()));
@@ -104,9 +115,9 @@ public final class MainActivity extends Activity {
   private void goBack() { if(web!=null)web.evaluateJavascript("window.wildfallBack && window.wildfallBack()",null); }
   private void notifyCommerce(){if(web!=null&&commerce!=null)web.evaluateJavascript("window.dispatchEvent(new CustomEvent('wildfall:commerce',{detail:"+commerce.state().toString()+"}))",null);}
   @Override public void onBackPressed() { goBack(); }
-  @Override public void onWindowFocusChanged(boolean focused) { super.onWindowFocusChanged(focused); if(focused)immersive(); }
+  @Override public void onWindowFocusChanged(boolean focused) { super.onWindowFocusChanged(focused); if(focused)systemBars(); }
   @Override protected void onPause() { if(commerce!=null)commerce.pause();if(web!=null){web.evaluateJavascript("window.wildfallPause && window.wildfallPause()",null);web.onPause();}super.onPause(); }
-  @Override protected void onResume() { super.onResume();if(commerce!=null)commerce.resume();if(web!=null){web.onResume();if(commerce==null||!commerce.showing())web.evaluateJavascript("window.wildfallResume && window.wildfallResume()",null);}immersive(); }
+  @Override protected void onResume() { super.onResume();if(commerce!=null)commerce.resume();if(web!=null){web.onResume();if(commerce==null||!commerce.showing())web.evaluateJavascript("window.wildfallResume && window.wildfallResume()",null);}systemBars(); }
   @Override protected void onDestroy() { if(commerce!=null)commerce.destroy();if(web!=null){web.removeJavascriptInterface("Android");web.destroy();web=null;}super.onDestroy(); }
   private final class NativeBridge {
     @JavascriptInterface public String commerceState(){return commerce==null?"{}":commerce.state().toString();}

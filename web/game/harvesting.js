@@ -14,6 +14,7 @@ export function gatherYield(state,content,action,location) {
     const amount=base*abundance*conditions;
     let n=Math.floor(amount)+(random(state)<amount%1?1:0);
     if(id==='wood'&&action==='gather')n+=equipped(state,content,'tool')?.gather||0;
+    if(action==='gather'&&location.biome==='camp'&&id==='scrap')n=Math.min(n,state.flags.wreck_scrap_remaining??location.salvageScrap??0);
     if(n>0)found[id]=n;
   }
   return {found,quality};

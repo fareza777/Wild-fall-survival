@@ -11,7 +11,8 @@ export function validState(state,content) {
   if(!Object.keys(createState(content).stats).every(k=>Number.isFinite(state.stats[k])))return false;
   if(typeof state.dead!=='boolean'||typeof state.permadeath!=='boolean'||!['story','survivor','relentless'].includes(state.difficulty))return false;
   if(state.runId!==undefined&&(typeof state.runId!=='string'||!/^[a-z0-9_-]{1,120}$/.test(state.runId)))return false;
-  if(state.toolsVersion!==undefined&&state.toolsVersion!==1)return false;
+  if(state.toolsVersion!==undefined&&![1,2].includes(state.toolsVersion))return false;
+  if(state.flags.wreck_scrap_remaining!==undefined&&(!Number.isInteger(state.flags.wreck_scrap_remaining)||state.flags.wreck_scrap_remaining<0||state.flags.wreck_scrap_remaining>(content.locations.camp.salvageScrap||0)))return false;
   if(state.support!==undefined){const r=state.support;if(!isObject(r)||!Number.isInteger(r.day)||r.day<0||r.day>Math.floor(state.time/1440)+1||!Array.isArray(r.claimed)||r.claimed.length>20||new Set(r.claimed).size!==r.claimed.length||r.claimed.some(id=>typeof id!=='string'||!/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i.test(id)))return false;}
   if(!Number.isInteger(state.camp.shelter)||state.camp.shelter<0||state.camp.shelter>3||!Number.isFinite(state.camp.fire)||state.camp.fire<0||state.camp.fire>960)return false;
   if(['firepit','garden','rain_collector'].some(key=>typeof state.camp[key]!=='boolean'))return false;
@@ -24,6 +25,7 @@ export function validState(state,content) {
   if(state.stats.calories<0||state.stats.calories>2800||state.stats.hydration<0||state.stats.hydration>2500||state.stats.temperature<31||state.stats.temperature>40)return false;
   if(Object.entries(state.items).some(([id,n])=>!content.items[id]||!Number.isInteger(n)||n<0))return false;
   if(state.gear.some(g=>!content.items[g.id]||content.items[g.id].category!=='gear'||typeof g.uid!=='string'||!Number.isFinite(g.durability)||g.durability<0||g.durability>content.items[g.id].durability))return false;
+  if(state.gear.some(g=>g.origin!==undefined&&!['crafted','found','salvaged'].includes(g.origin)||g.uses!==undefined&&(!Number.isInteger(g.uses)||g.uses<0)))return false;
   if(new Set(state.gear.map(g=>g.uid)).size!==state.gear.length)return false;
   if(['tool','weapon','clothing'].some(slot=>state.equipment[slot]!==null&&!state.gear.some(g=>g.uid===state.equipment[slot]&&content.items[g.id].slot===slot&&g.durability>0)))return false;
   const shape=createState(content);

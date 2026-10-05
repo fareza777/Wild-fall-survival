@@ -1,9 +1,9 @@
 {
   "passed": true,
-  "version": "1.4.0",
+  "version": "1.4.1",
   "command": "npm test",
-  "tests": 106,
-  "pass": 106,
+  "tests": 116,
+  "pass": 116,
   "fail": 0,
   "cancelled": 0,
   "skipped": 0

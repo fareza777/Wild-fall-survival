@@ -1,0 +1,39 @@
+{
+  "passed": true,
+  "version": "1.4.1",
+  "serial": "emulator-5580",
+  "layouts": [
+    {
+      "mode": "threebutton",
+      "banner": [
+        0,
+        42,
+        720,
+        61
+      ],
+      "content": [
+        0,
+        173,
+        720,
+        1516
+      ],
+      "nativeNavigationTop": 1516
+    },
+    {
+      "mode": "gestural",
+      "banner": [
+        0,
+        42,
+        720,
+        61
+      ],
+      "content": [
+        0,
+        173,
+        720,
+        1558
+      ],
+      "nativeNavigationTop": 1558
+    }
+  ]
+}

@@ -2,9 +2,10 @@ import {art,itemArt,esc,button,icon,duration} from './helpers.js';
 import {pageOf,pager} from './layout.js';
 import {weight,capacity} from '../game/inventory.js';
 import {cuttingTool} from '../game/harvesting.js';
+import {englishHistory} from '../game/legacy.js';
 const names={gather:'Gathering complete.',forage:'Foraging complete.',mine:'Mining complete.',explore:'Trail searched.',travel:'You have arrived.',craft:'Work complete.',fire:'Fire tended.',rest:'Rest complete.',sleep:'A new breath.',fish:'Fishing complete.',water:'Water collected.',hunt:'Hunt complete.',setTrap:'Snare set.',checkTrap:'Snare checked.',harvestCarcass:'Harvest complete.',repair:'Equipment repaired.',signal:'Signal received.',resolveEvent:'Choice resolved.'};
 export function resultView(game,page=0){
-  const r=game.state.receipt,c=game.content,e=r.effects,b=e.battle;
+  const r={...game.state.receipt,message:englishHistory(game.state.receipt.message)},c=game.content,e=r.effects,b=e.battle;
   const enemy=b?.victory?c.enemies[b.id]:null,recipe=r.kind==='craft'?c.recipes[r.options.id]:null;
   const ids=[...new Set([...Object.keys(e.gained),...Object.keys(e.left)])],p=pageOf(ids,page,window.innerWidth<=760?4:6);
   const stats=b?.summary?.stats||e.stats,minutes=b?.summary?.minutes??e.minutes;

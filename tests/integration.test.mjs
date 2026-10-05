@@ -31,7 +31,7 @@ test('rain extinguishes an exposed campfire while away; a sleeping shelter does 
  g.state.camp.fire_cover=true;g.state.camp.fire=120;advanceTime(g.state,c,60,0);assert.equal(g.state.camp.fire,60);assert.equal(fireBurnRate(g.state,c),1);
 });
 test('cooking checks the full fuel budget at the weather burn rate',()=>{
- const g=game();g.state.weather='rain';g.state.camp.fire_cover=true;g.state.camp.fire=14;g.state.items.dirty_water=2;
+ const g=game();g.state.gear.push({id:'cooking_pot',uid:'test-pot',durability:c.items.cooking_pot.durability});g.state.weather='rain';g.state.camp.fire_cover=true;g.state.camp.fire=14;g.state.items.dirty_water=2;
  assert.ok(g.reason('craft',{id:'water'}));g.state.camp.fire=15;assert.equal(g.reason('craft',{id:'water'}),null);
  assert.equal(g.perform('craft',{id:'water'}).ok,true);assert.equal(g.state.camp.fire,0);
 });

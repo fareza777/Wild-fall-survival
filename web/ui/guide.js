@@ -56,13 +56,20 @@ function roomHint(game,tab,modal,needed={},space=2.4){
  if(!id)return null;
  return {selector:modal==='item-info'?`button[data-ui="perform"][data-kind="drop"][data-id="${id}"]`:tab==='pack'?`button[data-ui="item-info"][data-id="${id}"]`:nav('pack'),title:'Make room for supplies.',text:`Drop one surplus ${c.items[id].name.toLowerCase()} from its details. Keep the materials needed for your next build.`,item:id,drop:true};
 }
+function scrapHint(game,tab,modal){
+ const s=game.state;
+ if(game.unlocked('cabin'))return s.location==='cabin'?guidedAction(game,tab,modal,'gather','Salvage usable metal.','Gather scrap here, then return to camp to craft your tools.'):travelHint(game,tab,modal,'cabin','Find more salvage.','The wreck is picked clean. Metal remains at Forgotten Cabin.');
+ if(game.unlocked('river'))return s.location==='river'?guidedAction(game,tab,modal,'explore','Follow the old trail.','Explore the riverbank to open the route to Forgotten Cabin.'):travelHint(game,tab,modal,'river','Follow the old trail.','Explore the riverbank to find a source of salvaged metal.');
+ return s.location==='forest'?guidedAction(game,tab,modal,'explore','Find a salvage route.','Explore the forest to open the river and cabin trails.'):travelHint(game,tab,modal,'forest','Find a salvage route.','Follow the forest trail toward more usable metal.');
+}
 function buildHint(game,tab,modal,id,title,text){
  const s=game.state,r=game.content.recipes[id];
- if(s.location!=='camp')return travelHint(game,tab,modal,'camp','Return to your workshop.','Craft and build at camp.');
  const missing=requiredTools(s,game.content,'craft',{id}).find(tool=>!workingTool(s,tool));
  if(missing)return buildHint(game,tab,modal,missing,'Prepare your kit.','Craft '+game.content.items[missing].name.toLowerCase()+' before this recipe.');
  const prepared=r.cost;
  const needs=Object.entries(prepared).filter(([id,n])=>(s.items[id]||0)<n);
+ if(needs.some(([id])=>id==='scrap')&&s.flags.wreck_scrap_remaining===0)return scrapHint(game,tab,modal);
+ if(s.location!=='camp')return travelHint(game,tab,modal,'camp','Return to your workshop.','Craft and build at camp.');
  if(needs.length)return roomHint(game,tab,modal,prepared)||guidedAction(game,tab,modal,'gather',title,'Gather '+needs.map(([id,n])=>`${n-(s.items[id]||0)} ${game.content.items[id].name.toLowerCase()}`).join(' · ')+(id==='fire_cover'?'. Keep fuel ready to light the fire after building.':'.'));
  if(s.stats.stamina<game.effort('craft',{id}))return restHint(tab,modal);
  return {selector:modal==='craft-dialog'?`button[data-ui="perform"][data-id="${id}"]`:tab==='craft'?`button[data-action="craft"][data-id="${id}"]`:nav('craft'),title,text,recipe:id};
@@ -80,7 +87,6 @@ function fireHint(game,tab,modal){
 }
 function waterHint(game,tab,modal){
  const s=game.state,r=game.content.recipes.water;
- if(s.location==='river'&&(s.items.dirty_water||0)<6)return roomHint(game,tab,modal,{dirty_water:6},1.2)||guidedAction(game,tab,modal,'water','Carry enough for the return.','Collect at least six river-water bottles. Boil them at camp; the return trip also consumes water.');
  if((s.items.dirty_water||0)>=r.cost.dirty_water){
   if(s.location!=='camp')return travelHint(game,tab,modal,'camp','Bring water back to camp.','River water needs boiling before it is safe.');
   if(!workingTool(s,'cooking_pot'))return buildHint(game,tab,modal,'cooking_pot','Carry a cooking pot.','A metal pot makes river water safe. Craft one in Tools before boiling.');
@@ -88,6 +94,8 @@ function waterHint(game,tab,modal){
   if(s.stats.stamina<game.effort('craft',{id:'water'}))return restHint(tab,modal);
   return {selector:modal==='craft-dialog'?'button[data-ui="perform"][data-id="water"]':tab==='craft'?'button[data-action="craft"][data-id="water"]':nav('craft'),title:'Make water safe.',text:'Your carried pot is ready. Boil water in Cooking, then drink from Pack.',recipe:'water'};
  }
+ if(!workingTool(s,'canteen'))return buildHint(game,tab,modal,'canteen','Make a water carrier.','Gather scrap near the wreck and craft a canteen before visiting the river.');
+ if(s.location==='river'&&(s.items.dirty_water||0)<6)return roomHint(game,tab,modal,{dirty_water:6},1.2)||guidedAction(game,tab,modal,'water','Carry enough for the return.','Collect at least six river-water bottles. Boil them at camp; the return trip also consumes water.');
  if(s.location==='river')return roomHint(game,tab,modal,{dirty_water:2},1.2)||guidedAction(game,tab,modal,'water','Refill at the river.','Collect river water. Carry it back to camp and boil it.');
  if(game.unlocked('river'))return travelHint(game,tab,modal,'river','Find a water source.','Your bottles are empty. Travel to the river to refill, then boil water at camp.');
  if(s.location!=='forest')return travelHint(game,tab,modal,'forest','Follow the water trail.','Travel to Ashpine Forest, then explore to open the river route.');
@@ -135,6 +143,10 @@ export function guideStep(game,tab,modal){
     if(step===5)return fireHint(game,tab,modal);
     const text=step===2?'Build a shelter before night. A dry bed protects your body and improves sleep.':step===3?'A stone ring lets you light a fire and cook. Building the ring does not light it.':'Build an open-sided fire canopy. Your sleeping shelter does not cover the outdoor fire.';
     return buildHint(game,tab,modal,id,label,text);
+  }
+  if(step===7){
+    const missing=['canteen','cooking_pot'].find(id=>!workingTool(s,id));
+    if(missing)return buildHint(game,tab,modal,missing,'Craft your camp kit.','Your utensils are made from gathered materials. Prepare a canteen and cooking pot for the trail.');
   }
   if(step===6)return supplyHint(game,tab,modal,!t.usedWater);
   if(step===7){

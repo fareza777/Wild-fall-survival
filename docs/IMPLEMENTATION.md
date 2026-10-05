@@ -6,7 +6,7 @@
 - [x] Save/checkpoint storage and corruption handling.
 - [x] Native Android host, splash, launcher resources, build/sign pipeline.
 - [x] Content validation, simulation tests, browser and Android smoke checks.
-- [x] APK 1.4.0, checksum, complete repository source, and documentation.
+- [x] APK 1.4.1, checksum, complete repository source, and documentation.
 - [x] 90 generated assets, English UI, concealed survivor faces and charcoal/copper theme.
 - [x] Compact camp actions, adaptive item pages, short recipe pages and single-objective journal.
 - [x] Simulation-backed action/battle motion, reduced motion, physical foley and nature ambience without music.
@@ -14,7 +14,7 @@
 - [x] Five illustrated story scenes and nine live guided first steps, with skip/replay.
 - [x] Rain extinguishing, separate fire canopy, interrupted cooking and accurate dawn production.
 - [x] Randomized gather and carcass yields, held results, separate meat/skin, spoilage, blade wear and exhausted-victor recovery.
-- [x] Newest-valid-save selection, unread result recovery after Android force-stop and 106 regression tests.
+- [x] Newest-valid-save selection, unread result recovery after Android force-stop and 116 regression tests.
 - [x] Stable character/difficulty selection without replacing artwork, focus or the setup panel.
 - [x] Seven bundled ElevenLabs English voice clips, matching subtitles and scenario variants, mute/replay and background suspension; no music or runtime narration network requests.
 - [x] Adaptive tutorial supplies, safe substitutes, boiling/refilling guidance and migration of old stuck saves.
@@ -25,7 +25,9 @@
 - [x] All 54 sampled scenario/difficulty/seed combinations finish safely; normal difficulty and encounters resume on Finish or Skip.
 - [x] Final Android APK: 13 offline checks, actual narration playback/mute/replay, native controls and exact result/save restoration after force-stop.
 
-- [x] Seven generated durable camp tools, recipe/action prerequisites, material-specific repairs and one-time legacy-kit migration.
+- [x] Seven generated durable camp tools, recipe/action prerequisites and material-specific repairs; knife-only starts, finite wreck salvage, guided kit crafting and conservative unused-gift withdrawal from v1.4 saves.
+- [x] Correct readable batch labels for clean water, linen bandages and flint arrows, including historical unread results; catalog-wide broken-encoding validation.
+- [x] Banner above the game, Android system-bar/cutout padding and actual button/gesture navigation geometry checks.
 - [x] Real AdMob SDK banner, interstitial and rewarded integration using official demo IDs; ad audio starts muted.
 - [x] Rewarded supply receipts, daily limits, capacity checks and persistent idempotent earned rewards.
 - [x] Google Play Billing one-time Remove Ads and Restore, acknowledgement, pending and cancellation handling; US$4.99 intended base price.

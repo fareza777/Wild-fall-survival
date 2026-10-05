@@ -39,7 +39,7 @@ async function fixture(kind){
   if(kind==='tea'){s.items={tea:1,berries:3};}
   if(kind==='boil'){s.items={dirty_water:2,berries:3};s.tutorial.usedFood=true;}
   if(kind==='refill'){s.items={ration:2,wood:8,fiber:5};s.tutorial.usedFood=true;}
-  if(kind==='tired-travel'){s.tutorial.step=7;s.tutorial.usedFood=true;s.tutorial.usedWater=true;s.stats.stamina=20;}
+  if(kind==='tired-travel'){for(const id of ['cooking_pot','canteen'])s.gear.push({id,uid:`${id}-${s.nextGear++}`,durability:c.items[id].durability,origin:'crafted'});s.tutorial.step=7;s.tutorial.usedFood=true;s.tutorial.usedWater=true;s.stats.stamina=20;}
   if(kind==='old-ambush'){s.tutorial={step:7,active:false,version:2,usedFood:true,usedWater:true};s.seed=1;s.counters.actions=4;s.stats.stamina=7;g.perform('travel',{id:'forest'});if(s.combat?.id!=='wolf')throw new Error('Fixture must reproduce the original wolf ambush');s.tutorial.active=true;}
   if(kind==='chapter-two'){s.tutorial.active=false;s.time=1440;s.counters.fires=1;g.perform('rest');s.receipt=null;}
   window.name='chapter-fixture:'+JSON.stringify({state:s,checkpoint:structuredClone(s)});

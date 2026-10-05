@@ -1,6 +1,6 @@
 {
   "passed": true,
-  "version": "1.4.0",
+  "version": "1.4.1",
   "command": "android/gradlew.bat -p android testReleaseUnitTest",
   "tests": 4,
   "failures": 0,

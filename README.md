@@ -2,13 +2,13 @@
 
 An original 2D wilderness survival game for Android, with offline gameplay. Read the land, build a refuge, and repair a radio to find your way home.
 
-**v1.4.0 — A Prepared Wilderness.** Seven new generated tools make boiling, roasting, collecting water, mining, sewing and advanced construction depend on real, durable gear. Camp kit is included in new runs and migrated into older saves. Native Google demo banner, interstitial and optional rewarded ads are integrated, with one-time Remove Ads prepared for US$4.99 through Google Play. Quiet onboarding, narrated scenes, gradual Journal chapters, weather-aware fire and held results remain included. **No music, melodies, instrument samples, or tonal UI beeps.**
+**v1.4.1 — Earn Your Camp.** New runs start with a salvaged knife; cookware, a canteen and a fire drill must be crafted. Gather finite scrap from the nearby wreck, then prepare your kit through the guided first steps. Older saves withdraw only provably unused free starter tools, preserving used and crafted equipment. Workbench batch labels are corrected. Native demo banners now sit above the game, with space reserved for Android status and navigation bars. Optional rewarded ads and one-time Remove Ads for US$4.99 remain included. **No music, melodies, instrument samples, or tonal UI beeps.**
 
 <img src="docs/media/story.webp" width="260" alt="Original illustrated prologue"> <img src="docs/media/guide.webp" width="260" alt="Tutorial highlighting the actual gather control"> <img src="docs/media/harvest.webp" width="260" alt="Wolf carcass with harvesting and recovery choices">
 
 ## Install
 
-[Download the APK](https://github.com/fareza777/Wild-fall-survival/releases/download/v1.4.0/WILDFALL-Last-Ember-1.4.0.apk), or use `dist/WILDFALL-Last-Ember-1.4.0.apk` (9.67 MiB). The checksum is in `dist/SHA256.txt`. Install over the previous build to retain compatible saves and settings.
+[Download the APK](https://github.com/fareza777/Wild-fall-survival/releases/download/v1.4.1/WILDFALL-Last-Ember-1.4.1.apk), or use `dist/WILDFALL-Last-Ember-1.4.1.apk` (9.67 MiB). The checksum is in `dist/SHA256.txt`. Install over the previous build to retain compatible saves and settings.
 
 Requires Android 8.0+ (API 26) and Android System WebView 108+. Universal ARM/x86 APK. All game art, simulation and audio remain local; the native ads and Google Play purchases use the network. Open the APK on your phone and allow installation from your file manager if Android prompts you. This standalone build uses the project's development certificate; it is not a Play Store release.
 
@@ -41,9 +41,9 @@ The rescue route leads through the river and cabin to the ruins and cave. Recove
 
 ## Camp tools and optional support
 
-The starting knife, cooking pot, canteen and fire drill are visible in Pack. Pots boil water and prepare stew, tea and medicine; a crafted spit roasts meat and fish. A pickaxe mines copper alongside an equipped torch. A hammer supports advanced shelters and radio assembly; a sewing kit supports clothing and backpacks. Carried kit works automatically and occupies pack weight without using an equipment slot. Missing or broken tools block actions before any cost is spent, with Craft/Repair shortcuts. See the [tool matrix](docs/TOOLS.md).
+Only the salvaged knife starts in Pack. Gather at camp to recover up to five scrap from the wreck, then craft your pot, canteen and fire drill in Tools. Once that deposit is exhausted, explore toward Forgotten Cabin for further salvage; the guide follows that route if needed. Pots boil water and prepare stew, tea and medicine; a crafted spit roasts meat and fish. A pickaxe mines copper alongside an equipped torch. A hammer supports advanced shelters and radio assembly; a sewing kit supports clothing and backpacks. Carried kit works automatically and occupies pack weight without using an equipment slot. Missing or broken tools block actions before any cost is spent, with Craft/Repair shortcuts. See the [tool matrix](docs/TOOLS.md).
 
-Native adaptive banners sit below the game and hide during story, onboarding, actions, battles and dialogs. Interstitials are limited to an eligible return to the main menu after eight actions, with a three-minute native cooldown. Rewarded ads are chosen by the player at camp: one ration and one clean water per game day, granted only after the SDK earns the reward. Results are held, survive reload and cannot be credited twice. Supplies and Remove Ads use separate compact tabs.
+Native adaptive banners sit above the game and hide during story, onboarding, actions, battles and dialogs. The game reserves Android status, cutout and navigation areas; button and gesture navigation were checked on the emulator. Interstitials are limited to an eligible return to the main menu after eight actions, with a three-minute native cooldown. Rewarded ads are chosen by the player at camp: one ration and one clean water per game day, granted only after the SDK earns the reward. Results are held, survive reload and cannot be credited twice. Supplies and Remove Ads use separate compact tabs.
 
 **Remove Ads is a one-time Google Play product (`wildfall_remove_ads`) with intended US base price US$4.99.** It removes banner and interstitial ads; rewarded remains optional. The APK shows honest purchase unavailability until the Play application/product and an eligible billing account are configured. Purchase, acknowledgement, pending/cancellation handling and restore are implemented. Live payment is not claimed as verified. See [monetization setup](docs/MONETIZATION.md).
 
@@ -73,12 +73,13 @@ Browser QA uses Playwright. If Chromium is not installed, run `npx playwright in
 
 ```powershell
 npm run qa:android
+node tools/android-layout-qa.mjs # Set ANDROID_SERIAL to a dedicated emulator first.
 node tools/playthrough.mjs story riverborn 7103
 node tools/refinements-qa.mjs survivor
 python tools/verify-package.py
 ```
 
-Nine fresh public tutorial runs cover all three scenarios and all three difficulties, with no battles or random interruptions; each finishes with at least 40 stamina. Simulation tests cover 54 scenario/difficulty/seed combinations. Separate public UI fixtures verify old stuck saves, an existing wolf ambush, low-stamina travel, substitute drinks, boiling and a river refill. Controlled browser fixtures also verify normal combat, rain, pack capacity, art and audio. The v1.4.0 Explorer rescue demonstration obtains and repairs the new tools through public actions: Riverborn, seed 7103, 533 actions, rescue on day 11. See [verification evidence](docs/VERIFICATION.md) for scope and results.
+Nine fresh public tutorial runs cover all three scenarios and all three difficulties, with no battles or random interruptions; each finishes with at least 40 stamina. Simulation tests cover 54 scenario/difficulty/seed combinations. Separate public UI fixtures verify old stuck saves, an existing wolf ambush, low-stamina travel, substitute drinks, boiling and a river refill. Controlled browser fixtures also verify normal combat, rain, pack capacity, art and audio. The v1.4.1 Explorer rescue demonstration obtains and repairs the required tools through public actions: Riverborn, seed 7103, 808 actions, rescue on day 16. See [verification evidence](docs/VERIFICATION.md) for scope and results.
 
 ## Build Android
 

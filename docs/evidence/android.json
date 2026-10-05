@@ -1,9 +1,11 @@
 {
   "passed": true,
-  "version": "1.4.0",
-  "device": "emulator-5582",
+  "version": "1.4.1",
+  "device": "emulator-5580",
   "api": 36,
-  "uiDumpRetries": 1,
+  "uiDumpRetries": 2,
+  "systemUiWaits": 0,
+  "keyboardClicks": [],
   "checks": [
     "offline-menu",
     "stable-character-difficulty-controls",
