@@ -95,7 +95,7 @@ try{
   while((await save()).combat){await page.getByRole('button',{name:/^Power strike /}).click();await settle();}
   assert.equal((await motion()).effects.battle.victory,true);assert.equal((await save()).counters.battlesWon,1);checks.push('battle lunge, actual hit numbers, guard and defeat');
   await fixture('pack');await nav('Pack');await page.getByRole('combobox',{name:'Inventory category'}).selectOption('all');const itemIds=new Set();
-  for(let i=0;i<12;i++){for(const id of await page.locator('.item-card').evaluateAll(cards=>cards.map(c=>c.dataset.item)))itemIds.add(id);const next=page.locator('.page-controls [data-scope="pack"]').last();if(await next.isDisabled())break;await next.click();}assert.equal(itemIds.size,36);
+  for(let i=0;i<16;i++){for(const id of await page.locator('.item-card').evaluateAll(cards=>cards.map(c=>c.dataset.item)))itemIds.add(id);const next=page.locator('.page-controls [data-scope="pack"]').last();if(await next.isDisabled())break;await next.click();}assert.equal(itemIds.size,await page.evaluate(async()=>Object.keys(await(await fetch('/data/items.json')).json()).length));
   await page.getByRole('combobox',{name:'Inventory category'}).selectOption('gear');await shot('all-items-phone');
   await nav('Camp');await page.setViewportSize({width:1440,height:1000});await shot('camp-desktop');
   for(const width of [320,412,1440]){
@@ -108,7 +108,7 @@ try{
   }
   await page.setViewportSize({width:320,height:640});await page.locator('.mobile-settings').click();await page.getByRole('button',{name:/Larger text A little/}).click();await page.getByRole('button',{name:'Close dialog'}).click();
   for(const name of ['Camp','Explore','Pack','Craft','Journal']){await nav(name);assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false,`${name} fits larger text at 320px`);}
-  checks.push('all 36 item cards and five tabs at 320/412/1440px, including larger text');
+  checks.push(`all ${itemIds.size} item cards and five tabs at 320/412/1440px, including larger text`);
   await page.setViewportSize({width:412,height:915});await nav('Camp');await page.locator('.mobile-settings').click();await page.getByRole('button',{name:/Animation Atmosphere/}).click();await page.getByRole('button',{name:'Close dialog'}).click();
   assert.equal(await page.locator('html').evaluate(h=>h.classList.contains('no-motion')),true);
   await page.locator('[data-action="gather"]').click();await settle();assert.equal(await page.locator('.action-theatre').count(),0);

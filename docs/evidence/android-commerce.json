@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "version": "1.4.0",
+  "device": "emulator-5582",
+  "checks": [
+    "real native Play Billing unavailable product stays disabled; US$4.99 and Restore remain visible",
+    "native banner is hidden throughout story and guided first steps",
+    "actual Google demo adaptive banner loaded below the game; SDK ad audio is muted before requests",
+    "real rewarded SDK callback grants a held ration/water result once; same-day claim is disabled",
+    "actual Google demo interstitial appears only on an eligible return to the menu and closes back to that menu"
+  ],
+  "actualSDKAds": true,
+  "livePurchase": false,
+  "livePurchaseReason": "Google Play application/product configuration and an eligible billing test account are required; live transactions were not attempted."
+}

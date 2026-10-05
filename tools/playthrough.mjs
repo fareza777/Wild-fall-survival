@@ -2,6 +2,7 @@ import { readFile,writeFile } from 'node:fs/promises';
 import { GameEngine } from '../web/game/engine.js';
 import { capacity,weight } from '../web/game/inventory.js';
 import { dayOf,hourOf,fireBurnRate } from '../web/game/survival.js';
+import {requiredTools,repairCost} from '../web/game/tools.js';
 import assert from 'node:assert/strict';
 const c=Object.fromEntries(await Promise.all(['items','recipes','locations','weather','enemies','events','scenarios','quests'].map(async n=>[n,JSON.parse(await readFile(`web/data/${n}.json`,'utf8'))])));
 const options={seed:Number(process.argv[4])||7103,difficulty:process.argv[2]||'story',scenario:process.argv[3]||'riverborn'};
@@ -22,7 +23,7 @@ function pending(){
     else{
       const weapon=s.gear.find(x=>x.uid===s.equipment.weapon&&x.durability>0);
       if(s.stats.health<60&&s.items.bandage)perform('use',{id:'bandage'});
-      else if((!weapon||s.stats.health<45||s.combat.id==='bear')&&s.stats.stamina>15&&!g.reason('combat',{move:'flee'}))perform('combat',{move:'flee'});
+      else if((!weapon||weapon.durability<10||s.stats.health<70||s.combat.id==='bear')&&!g.reason('combat',{move:'flee'}))perform('combat',{move:'flee'});
       else perform('combat',{move:g.reason('combat',{move:'power'})?'defend':'power'});
     }
   }
@@ -59,7 +60,7 @@ function ready(action,options={}){
     perform('rest');useSupplies();
   }
 }
-function act(action,options={}){ready(action,options);if(action==='craft'&&c.recipes[options.id]?.requiresFire&&s.camp.fire<c.recipes[options.id].minutes*fireBurnRate(s,c)){fire();ready(action,options);}return perform(action,options);}
+function act(action,options={}){const location=s.location;for(const id of requiredTools(s,c,action,options)){if(!s.gear.some(x=>x.id===id))craft(id);maintain(id);}if(s.location!==location)travel(location);ready(action,options);if(action==='craft'&&c.recipes[options.id]?.requiresFire&&s.camp.fire<c.recipes[options.id].minutes*fireBurnRate(s,c)){fire();ready(action,options);}return perform(action,options);}
 function travel(id){if(s.location!==id)act('travel',{id});}
 function trim(protectedItems=[]){
   for(const [id,n] of Object.entries(s.items)){
@@ -113,12 +114,14 @@ function materials(cost){
   throw new Error('Materials could not be obtained: '+JSON.stringify(cost)+' '+JSON.stringify(s.items));
 }
 function craft(id){
-  const r=c.recipes[id];materials(r.cost);travel('camp');
+  const r=c.recipes[id];
+  for(const tool of r.tools||[]){if(!s.gear.some(x=>x.id===tool))craft(tool);maintain(tool);}
   if(r.requiresFire)fire();
+  materials(r.cost);travel('camp');
   act('craft',{id});
 }
 function equip(id){const gear=s.gear.find(x=>x.id===id&&x.durability>0);if(s.equipment[c.items[id].slot]!==gear?.uid)act('equip',{uid:gear.uid});}
-function maintain(id){const gear=s.gear.find(x=>x.id===id);if(gear&&gear.durability<30){materials({scrap:1,fiber:2});travel('camp');act('repair',{uid:gear.uid});}}
+function maintain(id){const gear=s.gear.find(x=>x.id===id);if(gear&&gear.durability<30){materials(repairCost(c,id));travel('camp');act('repair',{uid:gear.uid});}}
 function expeditionFood(){
   for(let i=0;i<25&&(s.items.cooked_meat||0)<4;i++){
     trim();makeRoom(1);if(!s.items.water)water();maintain('spear');equip('spear');travel('forest');act('hunt');travel('camp');fire();

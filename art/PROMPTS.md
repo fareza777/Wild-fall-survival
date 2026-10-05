@@ -7,3 +7,5 @@ The full per-asset prompt, destination, size, and transparency specification is 
 The title illustration depicts the intended survival atmosphere; it is separate from the state-driven camp view.
 
 Version 1.2 adds five individually generated narrative backgrounds: departure, mountain storm, wreck, awakening, and a distant rescue signal. A sixth new asset depicts an open-sided fire canopy, with no baked-in flame. Each has its own full prompt in the catalog; the five backgrounds do not alter gameplay time or weather.
+
+Version 1.4 adds seven individual transparent tool illustrations: cooking pot, canteen, fire drill, roasting spit, pickaxe, hammer and sewing kit. Each was generated with built-in imagegen and retains its complete prompt and original PNG in the catalog.

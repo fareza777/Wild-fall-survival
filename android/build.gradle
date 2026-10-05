@@ -1,0 +1,36 @@
+plugins { id 'com.android.application' version '8.13.1' }
+
+layout.buildDirectory = file('../.build/gradle-android')
+android {
+    namespace 'com.ashenvalley.wildfall'
+    compileSdk 36
+    defaultConfig {
+        applicationId 'com.ashenvalley.wildfall'
+        minSdk 26
+        targetSdk 36
+        versionCode 6
+        versionName '1.4.0'
+    }
+    sourceSets.main {
+        manifest.srcFile 'AndroidManifest.xml'
+        java.srcDirs = ['src']
+        res.srcDirs = ['res']
+        assets.srcDirs = ['../web']
+    }
+    sourceSets.test.java.srcDirs = ['test']
+    signingConfigs {
+        development { storeFile file('keystore/wildfall-development.jks'); storePassword 'android'; keyAlias 'wildfall'; keyPassword 'android' }
+    }
+    buildTypes.release {
+        signingConfig signingConfigs.development
+        minifyEnabled true
+        shrinkResources true
+        proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+    }
+    compileOptions { sourceCompatibility JavaVersion.VERSION_1_8; targetCompatibility JavaVersion.VERSION_1_8 }
+}
+dependencies {
+    implementation 'com.google.android.gms:play-services-ads:25.5.0'
+    implementation 'com.android.billingclient:billing:8.3.0'
+    testImplementation 'junit:junit:4.13.2'
+}

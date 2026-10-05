@@ -1,6 +1,6 @@
 {
   "name": "wildfall-last-ember",
-  "version": "1.3.1",
+  "version": "1.4.0",
   "private": true,
   "type": "module",
   "description": "An offline, data-driven wilderness survival game for Android",
@@ -11,6 +11,8 @@
     "qa": "node tools/premium-qa.mjs",
     "qa:refinements": "node tools/refinements-qa.mjs",
     "qa:chapters": "node tools/chapters-qa.mjs",
+    "qa:tools": "node tools/tools-commerce-qa.mjs",
+    "qa:commerce": "node tools/android-commerce-qa.mjs",
     "qa:android": "node tools/android-qa.mjs",
     "assets": "node tools/prepare-assets.mjs",
     "android": "powershell -ExecutionPolicy Bypass -File tools/build-android.ps1"

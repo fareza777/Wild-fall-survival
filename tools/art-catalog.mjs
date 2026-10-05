@@ -1,6 +1,14 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 
 const objects = {
+  cooking_pot:"a compact dark iron field cooking pot with a curved wire handle, fitted lid slightly offset, softly worn copper patina",
+  canteen:"a reusable weathered metal field canteen in a tan canvas sleeve, corked neck and folded carrying strap",
+  fire_drill:"a complete primitive bow fire drill kit: small curved wooden bow, taut plant-fiber cord, upright dry spindle, hearth board and hand socket",
+  roasting_spit:"a portable wooden roasting spit kit: two forked supports beside one straight hardwood skewer, no food",
+  pickaxe:"a primitive flint pickaxe with an angular pointed gray stone head securely lashed to a hardwood handle",
+  hammer:"a compact primitive stone-headed mallet secured by tight plant-fiber lashing to a hardwood handle",
+  sewing_kit:"a tiny leather roll opened to show a polished bone awl, a bone needle and a small coil of pale plant-fiber cord",
+
   wood:'three split pieces of weathered firewood, pale exposed grain and charcoal bark, loosely tied with twine',
   stone:'three angular flint river stones, slate gray, fine mineral edges',
   fiber:'a neat coil of pale hand-twisted plant fiber cord with loose dried stalks',

@@ -1,20 +1,20 @@
 # WILDFALL: Last Ember
 
-An original, fully offline 2D wilderness survival game for Android. Read the land, build a refuge, and repair a radio to find your way home.
+An original 2D wilderness survival game for Android, with offline gameplay. Read the land, build a refuge, and repair a radio to find your way home.
 
-**v1.3.1 — A Quiet First Trail.** Onboarding now teaches camp and travel without wildlife ambushes or random interruptions. It uses gentle survival needs, rests before leaving, and finishes with energy for normal play. Offline English cinematic narration, stable setup controls, gradual Journal chapters, weather-aware fire, varied gathering and field dressing remain included. **No music, melodies, instrument samples, or tonal UI beeps.**
+**v1.4.0 — A Prepared Wilderness.** Seven new generated tools make boiling, roasting, collecting water, mining, sewing and advanced construction depend on real, durable gear. Camp kit is included in new runs and migrated into older saves. Native Google demo banner, interstitial and optional rewarded ads are integrated, with one-time Remove Ads prepared for US$4.99 through Google Play. Quiet onboarding, narrated scenes, gradual Journal chapters, weather-aware fire and held results remain included. **No music, melodies, instrument samples, or tonal UI beeps.**
 
 <img src="docs/media/story.webp" width="260" alt="Original illustrated prologue"> <img src="docs/media/guide.webp" width="260" alt="Tutorial highlighting the actual gather control"> <img src="docs/media/harvest.webp" width="260" alt="Wolf carcass with harvesting and recovery choices">
 
 ## Install
 
-[Download the APK](https://github.com/fareza777/Wild-fall-survival/releases/download/v1.3.1/WILDFALL-Last-Ember-1.3.1.apk), or use `dist/WILDFALL-Last-Ember-1.3.1.apk` (7.00 MiB). The checksum is in `dist/SHA256.txt`. Install over the previous build to retain compatible saves and settings.
+[Download the APK](https://github.com/fareza777/Wild-fall-survival/releases/download/v1.4.0/WILDFALL-Last-Ember-1.4.0.apk), or use `dist/WILDFALL-Last-Ember-1.4.0.apk` (9.67 MiB). The checksum is in `dist/SHA256.txt`. Install over the previous build to retain compatible saves and settings.
 
-Requires Android 8.0+ (API 26) and Android System WebView 108+. Universal ARM/x86 APK; no network permission, account, ads, or runtime downloads. Open the APK on your phone and allow installation from your file manager if Android prompts you. This standalone build uses the project's development certificate; it is not a Play Store release.
+Requires Android 8.0+ (API 26) and Android System WebView 108+. Universal ARM/x86 APK. All game art, simulation and audio remain local; the native ads and Google Play purchases use the network. Open the APK on your phone and allow installation from your file manager if Android prompts you. This standalone build uses the project's development certificate; it is not a Play Store release.
 
 ## Play
 
-- Eight connected locations, 36 items, 27 recipes, five main quests and ten side objectives.
+- Eight connected locations, 43 items, 35 recipes, five main quests and ten side objectives.
 - Three starting scenarios, three difficulty levels, optional permadeath, dawn recovery and longest survival records.
 - Health, stamina, calories, hydration, temperature, fatigue, injury and sickness.
 - Day/night, six weather types, increasing exposure and encounter risk, location progression and random choices with consequences.
@@ -37,11 +37,19 @@ Defeated wolves, boars and bears leave a carcass with randomized, species-specif
 
 Gather firewood, flint stone and fiber. Build a shelter, fire ring and fire canopy, then light the fire. Eat and drink from Pack. **Equip crafted gear**: crafting alone does not equip it. Explore the forest to unlock the river and boil its water at camp. Cook raw food before eating.
 
-The rescue route leads through the river and cabin to the ruins and cave. Recover the journal and radio module, equip a torch and carry a working axe to mine copper. Make a battery and radio at camp. Transmit at Hope Summit in clear/cloudy daylight; the 30-minute transmission must finish before 19:00 and remain in suitable weather. Start with Explorer / Riverborn for a gentler first journey.
+The rescue route leads through the river and cabin to the ruins and cave. Recover the journal and radio module, equip a torch and carry a working pickaxe to mine copper. Make a hammer, then assemble a battery and radio at camp. Transmit at Hope Summit in clear/cloudy daylight; the 30-minute transmission must finish before 19:00 and remain in suitable weather. Start with Explorer / Riverborn for a gentler first journey.
+
+## Camp tools and optional support
+
+The starting knife, cooking pot, canteen and fire drill are visible in Pack. Pots boil water and prepare stew, tea and medicine; a crafted spit roasts meat and fish. A pickaxe mines copper alongside an equipped torch. A hammer supports advanced shelters and radio assembly; a sewing kit supports clothing and backpacks. Carried kit works automatically and occupies pack weight without using an equipment slot. Missing or broken tools block actions before any cost is spent, with Craft/Repair shortcuts. See the [tool matrix](docs/TOOLS.md).
+
+Native adaptive banners sit below the game and hide during story, onboarding, actions, battles and dialogs. Interstitials are limited to an eligible return to the main menu after eight actions, with a three-minute native cooldown. Rewarded ads are chosen by the player at camp: one ration and one clean water per game day, granted only after the SDK earns the reward. Results are held, survive reload and cannot be credited twice. Supplies and Remove Ads use separate compact tabs.
+
+**Remove Ads is a one-time Google Play product (`wildfall_remove_ads`) with intended US base price US$4.99.** It removes banner and interstitial ads; rewarded remains optional. The APK shows honest purchase unavailability until the Play application/product and an eligible billing account are configured. Purchase, acknowledgement, pending/cancellation handling and restore are implemented. Live payment is not claimed as verified. See [monetization setup](docs/MONETIZATION.md).
 
 ## Architecture
 
-Vanilla ES modules and JSON catalogs keep the simulation separate from presentation. `web/game/` contains the action engine, seeded RNG, metabolism, inventory, combat, quests and storage. `web/ui/` contains views, paging, motion and audio. The small Java host in `android/src/` provides local asset loading, native backup, haptics, sharing and Back handling.
+Vanilla ES modules and JSON catalogs keep the simulation separate from presentation. `web/game/` contains the action engine, seeded RNG, metabolism, inventory, combat, quests and storage. `web/ui/` contains views, paging, motion and audio. The Java host in `android/src/` provides local asset loading, native backup, haptics, sharing, Back handling, real AdMob SDK ads and Google Play Billing. Native ownership never comes from a WebView unlock flag.
 
 Add content in `web/data/`: items, recipes, locations, events, enemies, weather, scenarios, quests and story scenes. Each entry references local art. `random.js` and `harvesting.js` handle saved outcomes; `story-view.js`, `guide.js` and `results-view.js` present the introduction, highlights and held results. Cost preview and execution share the same exposure/metabolism code. Every accepted action saves before its animation starts. Android restores the newest valid browser/native copy after force-stop. Compatible version-1 saves and dawn checkpoints are retained; existing survivors do not have to repeat the new introduction.
 
@@ -58,6 +66,7 @@ npm run check
 npm run qa
 npm run qa:refinements
 npm run qa:chapters
+npm run qa:tools
 ```
 
 Browser QA uses Playwright. If Chromium is not installed, run `npx playwright install chromium`; alternatively set `PLAYWRIGHT_CHROMIUM_EXECUTABLE`. On Windows the test also locates an existing Playwright browser cache. Android QA uses `ADB` and `ANDROID_SERIAL` (defaults: `C:/Android/Sdk/platform-tools/adb.exe` and `emulator-5580`) with an installed, running APK:
@@ -69,11 +78,11 @@ node tools/refinements-qa.mjs survivor
 python tools/verify-package.py
 ```
 
-Nine fresh public tutorial runs cover all three scenarios and all three difficulties, with no battles or random interruptions; each finishes with at least 40 stamina. Simulation tests cover 54 scenario/difficulty/seed combinations. Separate public UI fixtures verify old stuck saves, an existing wolf ambush, low-stamina travel, substitute drinks, boiling and a river refill. Controlled browser fixtures also verify normal combat, rain, pack capacity, art and audio. The prior Explorer rescue demonstration remains in the evidence: seed 7103, 653 public actions, rescue on day 13. See [verification evidence](docs/VERIFICATION.md) for scope and results.
+Nine fresh public tutorial runs cover all three scenarios and all three difficulties, with no battles or random interruptions; each finishes with at least 40 stamina. Simulation tests cover 54 scenario/difficulty/seed combinations. Separate public UI fixtures verify old stuck saves, an existing wolf ambush, low-stamina travel, substitute drinks, boiling and a river refill. Controlled browser fixtures also verify normal combat, rain, pack capacity, art and audio. The v1.4.0 Explorer rescue demonstration obtains and repairs the new tools through public actions: Riverborn, seed 7103, 533 actions, rescue on day 11. See [verification evidence](docs/VERIFICATION.md) for scope and results.
 
 ## Build Android
 
-JDK 17+, Android SDK platform 35, build-tools 35.0.0 and PowerShell. No Gradle or Android Studio is required.
+JDK 21, Android SDK platform 36, build-tools 35.0.0 and PowerShell. The included Gradle 8.14.3 wrapper fetches Android Gradle Plugin 8.13.1, Mobile Ads 25.5.0 and Play Billing 8.3.0 on the first build. Android Studio is optional.
 
 ```powershell
 npm run android
@@ -81,11 +90,11 @@ npm run android
 powershell -ExecutionPolicy Bypass -File tools/build-android.ps1 -SdkPath C:\Android\Sdk -JavaPath "C:\Program Files\Microsoft\jdk-21.0.11.10-hotspot"
 ```
 
-The pipeline compiles resources and Java, converts to DEX, bundles all local web assets with standard ZIP paths, aligns, signs and verifies the APK, then writes SHA-256. It preserves your local development keystore for subsequent updates. Private keys and build caches are excluded from Git; a fresh clone creates its own development certificate. Use a separate production keystore for store publication.
+Gradle compiles the native SDKs and app, shrinks code/resources, bundles the local game, and signs the release. The script checks signatures and alignment, then writes SHA-256. It preserves your local development keystore for subsequent updates. Private keys and build caches are excluded from Git; a fresh clone creates its own development certificate. Use a separate production keystore for store publication.
 
 ## Art and audio
 
-83 original generated assets cover every item, enemy, environment, survivor, camp structure, gameplay symbol, story scene, title illustration and app emblem. All human faces are completely concealed. Originals and individual prompts are retained in `art/generated/` and [art/catalog.json](art/catalog.json). Runtime WebP assets are resized and format-converted only. `npm run assets` repeats conversion using Sharp; camp structures, the canopy and fire are separate layers driven by game state.
+90 original generated assets cover every item, enemy, environment, survivor, camp structure, gameplay symbol, story scene, title illustration and app emblem. All human faces are completely concealed. Originals and individual prompts are retained in `art/generated/` and [art/catalog.json](art/catalog.json). Runtime WebP assets are resized and format-converted only. `npm run assets` repeats conversion using Sharp; camp structures, the canopy and fire are separate layers driven by game state.
 
 16 selected physical foley clips come from Kenney RPG Audio and Impact Sounds (CC0). Wind, rain, flowing water and fire use original filtered broadband noise. Seven English narration clips were generated with ElevenLabs, using George and `eleven_multilingual_v2`. Recordings and a script manifest are bundled for offline playback. Narration follows the scene and chosen scenario, ducks nature ambience, stops on Skip, and pauses in the background. Mute and replay controls are available in the prologue; settings retain the voice preference. Full credits are in [audio/SOURCES.md](web/assets/audio/SOURCES.md). `tools/prepare-audio.mjs` documents the foley mapping. `tools/generate-narration.py` requests a key through a hidden terminal prompt; no API credential is bundled in the repository or APK.
 

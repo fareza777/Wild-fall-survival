@@ -1,7 +1,8 @@
 import assert from 'node:assert/strict';
-import {mkdir,writeFile} from 'node:fs/promises';
+import {mkdir,writeFile,readFile} from 'node:fs/promises';
 import {launchBrowser} from './browser-runtime.mjs';
 const browser=await launchBrowser();
+const version=JSON.parse(await readFile('package.json','utf8')).version;
 const context=await browser.newContext({viewport:{width:412,height:915},isMobile:true,hasTouch:true});
 await mkdir('test-results',{recursive:true});
 await context.addInitScript(()=>{localStorage.setItem('wildfall-onboarded','1');crypto.getRandomValues=a=>{a.fill(1);return a;};if(window.name.startsWith('chapter-fixture:')){localStorage.setItem('wildfall-save-v1',window.name.slice(16));window.name='';}});
@@ -84,5 +85,5 @@ try{
  for(const title of ['The Ranger’s Trail','Fragments of a Signal','A Voice in the Static','The Last Signal'])assert.equal(await page.getByText(title,{exact:true}).count(),0);
  await page.locator('[data-ui="quest-group"][data-group="side"]').click();await page.getByRole('heading',{name:'Unwritten pages.',exact:true}).waitFor();await shot('unwritten-journal');await fixture('chapter-two');await page.locator('.bottom-nav [data-ui="tab"][data-tab="journal"]').click();await page.getByRole('heading',{name:'The Ranger’s Trail',exact:true}).waitFor();assert.equal(await page.getByText('Fragments of a Signal',{exact:true}).count(),0);await shot('next-chapter');checks.push('Journal reveals completed/current main chapters and discovered side objectives only; next chapter opens after real quest completion');
  assert.deepEqual(errors,[]);assert.deepEqual(missing,[]);assert.deepEqual(external,[]);
- await writeFile('test-results/chapters-report.json',JSON.stringify({passed:true,version:'1.3.1',checks,tutorials,audioClips,errors,missing,external},null,2));console.log(JSON.stringify({passed:true,checks,tutorials},null,2));
+ await writeFile('test-results/chapters-report.json',JSON.stringify({passed:true,version,checks,tutorials,audioClips,errors,missing,external},null,2));console.log(JSON.stringify({passed:true,checks,tutorials},null,2));
 }finally{await browser.close();}

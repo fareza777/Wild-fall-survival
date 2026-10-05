@@ -5,6 +5,7 @@ import { updateQuests } from './quests.js';
 import { englishHistory } from './legacy.js';
 import { random } from './random.js';
 import { gatherYield,cuttingTool,carcassCost } from './harvesting.js';
+import {STARTER_KIT,requiredTools,workingTool,wearTool,repairCost,migrateTools} from './tools.js';
 
 const ACTIONS = {
   gather: { minutes:45, stamina:10 }, forage: { minutes:40, stamina:8 }, explore: { minutes:50, stamina:13 },
@@ -19,12 +20,12 @@ export function createState(content, options = {}) {
   const scenario = content.scenarios?.[scenarioId] || {};
   const start = (scenario.startHour || 8) * 60;
   return {
-    version:1, scenario:scenarioId, difficulty:['story','survivor','relentless'].includes(options.difficulty) ? options.difficulty : 'survivor',
+    version:1,runId:`${scenarioId}-${(Number(options.seed)>>>0)||78043}-${start}`,support:{day:0,claimed:[]}, scenario:scenarioId, difficulty:['story','survivor','relentless'].includes(options.difficulty) ? options.difficulty : 'survivor',
     permadeath:options.permadeath ?? false, seed:(Number(options.seed) >>> 0) || 78043, time:start, startTime:start,
     location:'camp', weather:scenario.weather || 'clear', nextWeather:start + 240, dead:false,
     stats:{ health:100, stamina:85, calories:scenario.calories || 2200, hydration:scenario.hydration || 2100, temperature:scenario.temperature || 36.8, fatigue:12, injury:0, sickness:0 },
     items:{ ...(scenario.items || { wood:3, stone:2, fiber:2, water:2, ration:2, herbs:1 }) },
-    gear:[{ id:'knife', uid:'knife-1', durability:80 }], equipment:{ tool:'knife-1', weapon:null, clothing:null }, nextGear:2,
+    gear:STARTER_KIT.map((id,index)=>({id,uid:`${id}-${index+1}`,durability:content.items[id].durability})), equipment:{ tool:'knife-1', weapon:null, clothing:null }, nextGear:STARTER_KIT.length+1,toolsVersion:1,
     camp:{ shelter:0, firepit:false, fire:0, fire_cover:false, rain_collector:false, garden:false },
     visited:['camp'], discovered:['camp','forest', ...(scenario.unlocked || [])], explored:{ ...(scenario.explored || {}) },
     flags:{}, counters:{ ...INITIAL_COUNTERS }, quests:{ completed:[] }, skills:{ gathering:0, hunting:0, crafting:0 },
@@ -41,12 +42,36 @@ export class GameEngine {
     this.lastResult = null;
     this.state.camp.fire_cover ??= false;
     for(const key of ['carcass','receipt','prologue','tutorial'])this.state[key] ??= null;
+    if(migrateTools(this.state,content))this.log('Your salvaged cooking pot, canteen and fire drill are now listed in Gear.','story');
+    this.state.runId??=`${this.state.scenario}-${this.state.seed}-${this.state.startTime}`;
+    this.state.support??={day:0,claimed:[]};
     if(extinguishFire(this.state,content))this.log('Rain extinguished the exposed campfire. Build a fire canopy.','weather');
   }
   random() {
     return random(this.state);
   }
   range(min, max) { return min + Math.floor(this.random() * (max - min + 1)); }
+  supportRewardReason(){
+    const s=this.state;
+    if(s.dead||s.location!=='camp')return 'Optional supplies are available at your living camp.';
+    if(s.tutorial?.active||s.prologue&&!s.prologue.complete)return 'Finish your first steps before requesting optional supplies.';
+    if(s.combat||s.event||s.carcass||s.receipt)return 'Finish your current action first.';
+    if(s.support.day>=dayOf(s))return 'Supply pack claimed. Return tomorrow.';
+    if(weight(s,this.content)+this.content.items.ration.weight+this.content.items.water.weight>capacity(s)+.001)return 'Free pack space for one ration and one clean water.';
+    return null;
+  }
+  claimSupportReward(payload){
+    const s=this.state;
+    if(!payload||typeof payload.id!=='string'||!/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i.test(payload.id)||payload.runId!==s.runId||payload.day!==dayOf(s))return {ok:false,message:'Reward does not belong to this journey.'};
+    if(s.support.claimed.includes(payload.id))return {ok:true,duplicate:true};
+    const reason=this.supportRewardReason();if(reason)return {ok:false,message:reason};
+    const result=this.loot({ration:1,water:1});
+    s.support.day=dayOf(s);s.support.claimed=[...s.support.claimed.slice(-19),payload.id];
+    const effects={minutes:0,stats:{},gained:result.taken,left:result.left};
+    s.receipt={kind:'support',options:{},message:'Your optional supply pack is ready.',effects,notes:[],quests:[]};
+    this.log('Optional supply pack claimed: one ration and one clean water.','loot');
+    return {ok:true,message:s.receipt.message,effects};
+  }
   log(text, tone = 'normal') {
     this.state.logs.unshift({ id:this.state.nextLog++, time:this.state.time, text, tone });
     this.state.logs = this.state.logs.slice(0, 80);
@@ -123,6 +148,8 @@ export class GameEngine {
     if (!cost) return 'Action or route unavailable.';
     const required=this.effort(action, options);
     if (s.stats.stamina + 0.001 < required) return `Need ${Math.ceil(required)} stamina. Rest first.`;
+    const missingTool=requiredTools(s,c,action,options).find(id=>!workingTool(s,id));
+    if(missingTool)return `Carry a working ${c.items[missingTool].name.toLowerCase()}. Craft or repair it at camp.`;
     if(action==='harvestCarcass'){
       if(!cuttingTool(s))return 'Carry a working knife or axe to skin and butcher.';
       if(s.time+cost.minutes>s.carcass.expires)return 'The carcass will spoil before you finish. Leave it behind.';
@@ -153,7 +180,8 @@ export class GameEngine {
       const gear=s.gear.find(g=>g.uid===options.uid);
       if (!gear) return 'Equipment unavailable.';
       if (action === 'equip' && gear.durability <= 0) return 'Equipment broken. Repair at camp.';
-      if (action === 'repair' && (s.location !== 'camp' || !hasCost(s,{scrap:1,fiber:2}))) return 'Repair at camp: one scrap and two fiber.';
+      if(action==='equip'&&c.items[gear.id].carried)return 'This kit is used while carried. No equipment slot needed.';
+      if (action === 'repair' && (s.location !== 'camp' || !hasCost(s,repairCost(c,gear.id)))) return 'Repair at camp. Check the repair materials.';
       if (action === 'repair' && gear.durability >= c.items[gear.id].durability) return 'Equipment is fully repaired.';
     } else if (action === 'drop') {
       if (options.uid) { if(!s.gear.some(g=>g.uid===options.uid)) return 'Equipment unavailable.'; }
@@ -170,7 +198,6 @@ export class GameEngine {
       if (action === 'fire' && s.camp.fire > 720) return 'The fire already has plenty of fuel.';
       if(action==='fire'&&exposedToRain(s,c))return 'Rain puts out exposed fires. Build a fire canopy first.';
       if (l.requiresLight && ['explore','mine'].includes(action) && equipped(s,c,'tool')?.id !== 'torch') return 'Equip a torch to enter the cave.';
-      if (action === 'mine' && !s.gear.some(g=>['axe','iron_axe'].includes(g.id) && g.durability>0)) return 'Carry a working axe to mine.';
       if (action === 'fish' && equipped(s,c,'tool')?.id !== 'fishing_rod') return 'Equip a fishing rod in the tool slot.';
       if (action === 'hunt' && !equipped(s,c,'weapon')) return 'Equip a spear or bow to hunt.';
       if (action === 'hunt' && equipped(s,c,'weapon')?.id === 'bow' && !count(s,'arrows')) return 'Your bow needs arrows.';
@@ -194,18 +221,20 @@ export class GameEngine {
     this.lastDawn=false;
     let message='', loot=null, generateEvent=false, tone='normal', battle=null,quality=null,lootReport={taken:{},left:{}},interrupted=false,refund=false;
     // Consume ingredients before producing results; advance metabolism before any healing.
+    const actionTools=requiredTools(s,c,action,options);
     if (action === 'craft') spend(s,cost.cost);
     if (action === 'resolveEvent') spend(s,cost.cost);
     if (action === 'fire') { spend(s,{wood:2,fiber:s.camp.fire>0?0:1}); s.camp.fire=Math.min(960,s.camp.fire+360); }
     const timeResult=advanceAction(s,c,action,cost,route);
+    if(action==='craft'||action==='fire')for(const id of actionTools)if(wearTool(s,id,action==='craft'?2:1))this.log(`${c.items[id].name} wore out. Repair it at camp.`,'warning');
     if (!s.dead) {
       if (['gather','forage','mine'].includes(action)) {
         const yieldResult=gatherYield(s,c,action,l);loot=yieldResult.found;quality=yieldResult.quality;
         if (action==='mine') {
-          const ax=s.gear.find(g=>['axe','iron_axe'].includes(g.id)&&g.durability>0); ax.durability=Math.max(0,ax.durability-4);
-          if (!ax.durability && s.equipment.tool===ax.uid) s.equipment.tool=null;
+          wearTool(s,'pickaxe',4);
         }
-        if (wear(s,c,'tool',action==='forage'?1:3)) this.log('Your tool broke. Repair it at camp.','warning');
+        const held=equipped(s,c,'tool');
+        if(held&&(action==='mine'?held.id==='torch':['knife','axe','iron_axe'].includes(held.id))&&!(action==='mine'&&held.id==='pickaxe')&&wear(s,c,'tool',action==='forage'?1:3))this.log('Your tool broke. Repair it at camp.','warning');
         s.skills.gathering++; message=({ gather:'Materials gathered.', forage:'Foraging complete.', mine:'Copper veins uncovered.' })[action]; generateEvent=true;
       } else if (action==='explore') {
         s.explored[s.location]=(s.explored[s.location]||0)+1;
@@ -233,7 +262,7 @@ export class GameEngine {
         s.counters.fires++;
         message=s.camp.fire>0?'Fire lit. Keep it covered before rain.':'Rain extinguished the exposed fire.'; tone='warm';
       } else if (action==='rest'||action==='sleep') message=action==='sleep'?'You wake from sleep.':'Rest complete.';
-      else if (action==='water') { loot={dirty_water:3}; message='Three river-water bottles collected. Boil before drinking.'; }
+      else if (action==='water') { wearTool(s,'canteen',1);loot={dirty_water:3}; message='Three river-water bottles collected. Boil before drinking.'; }
       else if (action==='fish') {
         wear(s,c,'tool',3);
         if(this.random()<0.78) { const n=this.range(1,2); loot={fish:n}; s.counters.fishCaught+=n; message='Trout caught.'; }
@@ -273,7 +302,7 @@ export class GameEngine {
         s.equipment[slot]=s.equipment[slot]===gear.uid?null:gear.uid;
         message=`${c.items[gear.id].name} ${s.equipment[slot]?'equipped':'packed'}.`;
       } else if (action==='repair') {
-        spend(s,{scrap:1,fiber:2}); const gear=s.gear.find(g=>g.uid===options.uid);
+        const gear=s.gear.find(g=>g.uid===options.uid);spend(s,repairCost(c,gear.id));
         gear.durability=Math.min(c.items[gear.id].durability,gear.durability+40); message='Equipment repaired: up to +40 durability.';
       } else if (action==='drop') {
         if(options.uid) { const gear=s.gear.find(g=>g.uid===options.uid); const slot=c.items[gear.id].slot; if(s.equipment[slot]===gear.uid)s.equipment[slot]=null; s.gear=s.gear.filter(g=>g.uid!==options.uid); }

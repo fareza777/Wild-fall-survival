@@ -261,7 +261,7 @@
     "requiresExplore": {
       "mountain": 1
     },
-    "description": "Equip a torch; carry a working axe to mine copper.",
+    "description": "Equip a torch; carry a working pickaxe to mine copper.",
     "actions": [
       "explore",
       "mine",

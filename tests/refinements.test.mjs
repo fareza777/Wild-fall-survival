@@ -28,6 +28,7 @@ test('weather starts inside a long action; exposed fire stops warming for the re
 test('rain interrupts cooking without creating cooked food or losing raw ingredients',()=>{
  const wet={...c,weather:{rain:c.weather.rain}},g=new GameEngine(wet,null,{seed:2026});g.state.weather='clear';g.content={...wet,weather:{clear:c.weather.clear,rain:c.weather.rain}};
  g.state.items.raw_meat=2;g.state.camp.fire=300;g.state.nextWeather=g.state.time+1;
+ g.state.gear.push({id:'roasting_spit',uid:'rain-spit',durability:c.items.roasting_spit.durability});
  for(let seed=10000;seed<50000;seed++){const h=new GameEngine(g.content,g.state);h.state.seed=seed;const r=h.perform('craft',{id:'cooked_meat'});if(h.state.weather==='rain'){assert.equal(h.state.items.raw_meat,2);assert.equal(h.state.items.cooked_meat||0,0);assert.equal(h.state.counters.mealsCooked,0);assert.ok(r.message.includes('Uncooked'));assert.ok(h.state.time>g.state.time);return;}}
  assert.fail('Expected rain');
 });

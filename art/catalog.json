@@ -745,5 +745,68 @@
     "original": "art/generated/structures/fire_cover.png",
     "output": "web/assets/art/structures/fire_cover.webp",
     "width": 384
+  },
+  {
+    "key": "items/cooking_pot",
+    "kind": "item",
+    "prompt": "Use case: stylized-concept. Asset type: premium 2D survival game inventory item, square composition. Primary request: a compact dark iron field cooking pot with a curved wire handle, fitted lid slightly offset, softly worn copper patina. One complete centered item or coherent kit occupies 76% of frame, generous transparent margins, no cropped edges. Sophisticated painterly realism and tactile weathered materials, restrained soft ivory highlights and warm ember-copper rim light. Obsidian, slate, bone ivory, muted tan and copper palette. Fully transparent background with a tiny soft contact shadow. No green, teal, purple or neon. No lettering, logos, text, frames, UI, badge, watermark, scenery, people, skin, eyes or faces. Make a polished original collectible readable at 64px. Save the original image for the project item cooking_pot.",
+    "transparent": true,
+    "original": "art/generated/items/cooking_pot.png",
+    "output": "web/assets/art/items/cooking_pot.webp",
+    "width": 384
+  },
+  {
+    "key": "items/canteen",
+    "kind": "item",
+    "prompt": "Use case: stylized-concept. Asset type: premium 2D survival game inventory item, square composition. Primary request: a reusable weathered metal field canteen in a tan canvas sleeve, corked neck and folded carrying strap. One complete centered item or coherent kit occupies 76% of frame, generous transparent margins, no cropped edges. Sophisticated painterly realism and tactile weathered materials, restrained soft ivory highlights and warm ember-copper rim light. Obsidian, slate, bone ivory, muted tan and copper palette. Fully transparent background with a tiny soft contact shadow. No green, teal, purple or neon. No lettering, logos, text, frames, UI, badge, watermark, scenery, people, skin, eyes or faces. Make a polished original collectible readable at 64px. Save the original image for the project item canteen.",
+    "transparent": true,
+    "original": "art/generated/items/canteen.png",
+    "output": "web/assets/art/items/canteen.webp",
+    "width": 384
+  },
+  {
+    "key": "items/fire_drill",
+    "kind": "item",
+    "prompt": "Use case: stylized-concept. Asset type: premium 2D survival game inventory item, square composition. Primary request: a complete primitive bow fire drill kit: small curved wooden bow, taut plant-fiber cord, upright dry spindle, hearth board and hand socket. One complete centered item or coherent kit occupies 76% of frame, generous transparent margins, no cropped edges. Sophisticated painterly realism and tactile weathered materials, restrained soft ivory highlights and warm ember-copper rim light. Obsidian, slate, bone ivory, muted tan and copper palette. Fully transparent background with a tiny soft contact shadow. No green, teal, purple or neon. No lettering, logos, text, frames, UI, badge, watermark, scenery, people, skin, eyes or faces. Make a polished original collectible readable at 64px. Save the original image for the project item fire_drill.",
+    "transparent": true,
+    "original": "art/generated/items/fire_drill.png",
+    "output": "web/assets/art/items/fire_drill.webp",
+    "width": 384
+  },
+  {
+    "key": "items/roasting_spit",
+    "kind": "item",
+    "prompt": "Use case: stylized-concept. Asset type: premium 2D survival game inventory item, square composition. Primary request: a portable wooden roasting spit kit: two forked supports beside one straight hardwood skewer, no food. One complete centered item or coherent kit occupies 76% of frame, generous transparent margins, no cropped edges. Sophisticated painterly realism and tactile weathered materials, restrained soft ivory highlights and warm ember-copper rim light. Obsidian, slate, bone ivory, muted tan and copper palette. Fully transparent background with a tiny soft contact shadow. No green, teal, purple or neon. No lettering, logos, text, frames, UI, badge, watermark, scenery, people, skin, eyes or faces. Make a polished original collectible readable at 64px. Save the original image for the project item roasting_spit.",
+    "transparent": true,
+    "original": "art/generated/items/roasting_spit.png",
+    "output": "web/assets/art/items/roasting_spit.webp",
+    "width": 384
+  },
+  {
+    "key": "items/pickaxe",
+    "kind": "item",
+    "prompt": "Use case: stylized-concept. Asset type: premium 2D survival game inventory item, square composition. Primary request: a primitive flint pickaxe with an angular pointed gray stone head securely lashed to a hardwood handle. One complete centered item or coherent kit occupies 76% of frame, generous transparent margins, no cropped edges. Sophisticated painterly realism and tactile weathered materials, restrained soft ivory highlights and warm ember-copper rim light. Obsidian, slate, bone ivory, muted tan and copper palette. Fully transparent background with a tiny soft contact shadow. No green, teal, purple or neon. No lettering, logos, text, frames, UI, badge, watermark, scenery, people, skin, eyes or faces. Make a polished original collectible readable at 64px. Save the original image for the project item pickaxe.",
+    "transparent": true,
+    "original": "art/generated/items/pickaxe.png",
+    "output": "web/assets/art/items/pickaxe.webp",
+    "width": 384
+  },
+  {
+    "key": "items/hammer",
+    "kind": "item",
+    "prompt": "Use case: stylized-concept. Asset type: premium 2D survival game inventory item, square composition. Primary request: a compact primitive stone-headed mallet secured by tight plant-fiber lashing to a hardwood handle. One complete centered item or coherent kit occupies 76% of frame, generous transparent margins, no cropped edges. Sophisticated painterly realism and tactile weathered materials, restrained soft ivory highlights and warm ember-copper rim light. Obsidian, slate, bone ivory, muted tan and copper palette. Fully transparent background with a tiny soft contact shadow. No green, teal, purple or neon. No lettering, logos, text, frames, UI, badge, watermark, scenery, people, skin, eyes or faces. Make a polished original collectible readable at 64px. Save the original image for the project item hammer.",
+    "transparent": true,
+    "original": "art/generated/items/hammer.png",
+    "output": "web/assets/art/items/hammer.webp",
+    "width": 384
+  },
+  {
+    "key": "items/sewing_kit",
+    "kind": "item",
+    "prompt": "Use case: stylized-concept. Asset type: premium 2D survival game inventory item, square composition. Primary request: a tiny leather roll opened to show a polished bone awl, a bone needle and a small coil of pale plant-fiber cord. One complete centered item or coherent kit occupies 76% of frame, generous transparent margins, no cropped edges. Sophisticated painterly realism and tactile weathered materials, restrained soft ivory highlights and warm ember-copper rim light. Obsidian, slate, bone ivory, muted tan and copper palette. Fully transparent background with a tiny soft contact shadow. No green, teal, purple or neon. No lettering, logos, text, frames, UI, badge, watermark, scenery, people, skin, eyes or faces. Make a polished original collectible readable at 64px. Save the original image for the project item sewing_kit.",
+    "transparent": true,
+    "original": "art/generated/items/sewing_kit.png",
+    "output": "web/assets/art/items/sewing_kit.webp",
+    "width": 384
   }
 ]

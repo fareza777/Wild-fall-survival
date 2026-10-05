@@ -10,6 +10,9 @@ export function validState(state,content) {
   if(!Array.isArray(state.gear)||!Array.isArray(state.visited)||!Array.isArray(state.discovered)||!Array.isArray(state.logs)||!Array.isArray(state.traps)||!Array.isArray(state.quests?.completed))return false;
   if(!Object.keys(createState(content).stats).every(k=>Number.isFinite(state.stats[k])))return false;
   if(typeof state.dead!=='boolean'||typeof state.permadeath!=='boolean'||!['story','survivor','relentless'].includes(state.difficulty))return false;
+  if(state.runId!==undefined&&(typeof state.runId!=='string'||!/^[a-z0-9_-]{1,120}$/.test(state.runId)))return false;
+  if(state.toolsVersion!==undefined&&state.toolsVersion!==1)return false;
+  if(state.support!==undefined){const r=state.support;if(!isObject(r)||!Number.isInteger(r.day)||r.day<0||r.day>Math.floor(state.time/1440)+1||!Array.isArray(r.claimed)||r.claimed.length>20||new Set(r.claimed).size!==r.claimed.length||r.claimed.some(id=>typeof id!=='string'||!/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i.test(id)))return false;}
   if(!Number.isInteger(state.camp.shelter)||state.camp.shelter<0||state.camp.shelter>3||!Number.isFinite(state.camp.fire)||state.camp.fire<0||state.camp.fire>960)return false;
   if(['firepit','garden','rain_collector'].some(key=>typeof state.camp[key]!=='boolean'))return false;
   if(state.camp.fire_cover!==undefined&&typeof state.camp.fire_cover!=='boolean')return false;

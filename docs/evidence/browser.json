@@ -14,7 +14,7 @@
     "16 decoded foley clips, separate toggles and volumes, background suspend/resume",
     "craft reveal and camp build state",
     "battle lunge, actual hit numbers, guard and defeat",
-    "all 36 item cards and five tabs at 320/412/1440px, including larger text",
+    "all 43 item cards and five tabs at 320/412/1440px, including larger text",
     "animation setting and OS reduced motion"
   ],
   "audio": {
@@ -28,21 +28,21 @@
     ],
     "loaded": [
       "tap",
-      "pack",
-      "chop",
-      "leaf",
-      "equip",
       "swing",
+      "leaf",
       "draw",
+      "equip",
       "step1",
-      "step2",
-      "snowstep",
+      "chop",
       "hit",
+      "snowstep",
       "guard",
+      "pack",
+      "step2",
       "heavy",
       "book",
-      "mine",
-      "craft"
+      "craft",
+      "mine"
     ],
     "settings": {
       "sound": true,
@@ -56,5 +56,6 @@
     }
   },
   "errors": [],
-  "missing": []
+  "missing": [],
+  "version": "1.4.0"
 }

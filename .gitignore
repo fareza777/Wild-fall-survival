@@ -1,5 +1,7 @@
 node_modules/
 .build/
+android/.gradle/
+android/local.properties
 android/keystore/
 *.log
 test-results/

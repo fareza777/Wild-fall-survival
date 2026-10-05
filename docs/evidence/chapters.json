@@ -1,6 +1,6 @@
 {
   "passed": true,
-  "version": "1.3.1",
+  "version": "1.4.0",
   "checks": [
     "stable character/difficulty selection: same panel, portraits, animation and focus",
     "seven real MP3s decoded; subtitles/variant match, mute, replay, scene replacement, background pause/resume, skip stops speech; no external runtime calls",

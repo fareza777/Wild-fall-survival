@@ -3,8 +3,8 @@
   "difficulty": "story",
   "scenario": "riverborn",
   "seed": 7103,
-  "days": 13,
-  "actions": 653,
+  "days": 11,
+  "actions": 533,
   "quests": [
     "woodkeeper",
     "first_night",
@@ -19,16 +19,17 @@
     "cartographer",
     "last_signal"
   ],
-  "health": 66.0212281670277,
+  "health": 100,
   "stats": {
-    "health": 66.0212281670277,
-    "stamina": 95,
-    "calories": 2431.5112799999833,
-    "hydration": 2164.5944799999943,
-    "temperature": 35.085623823062456,
-    "fatigue": 1.1366666666666667,
+    "health": 100,
+    "stamina": 41.25,
+    "calories": 1802.9251542857082,
+    "hydration": 2169.222479999995,
+    "temperature": 35.94420802443486,
+    "fatigue": 4.043333333333342,
     "injury": 0,
     "sickness": 0
   },
-  "notes": "All resources obtained using public actions; no state injection, free resources, or stat resets."
+  "notes": "All resources obtained using public actions; no state injection, free resources, or stat resets.",
+  "version": "1.4.0"
 }

@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "version": "1.4.0",
+  "command": "npm test",
+  "tests": 106,
+  "pass": 106,
+  "fail": 0,
+  "cancelled": 0,
+  "skipped": 0
+}

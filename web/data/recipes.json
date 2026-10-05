@@ -35,17 +35,22 @@
     },
     "minutes": 35,
     "stamina": 10,
-    "description": "Unlocks cooking. Add wood to light the fire.",
+    "description": "An outdoor fire for warmth and cooking. Carry the right cookware.",
     "art": "assets/art/structures/firepit.webp"
   },
   "fire_cover": {
     "name": "Fire canopy",
     "category": "camp",
     "structure": "fire_cover",
-    "requiresStructure": { "firepit": 1 },
-      "cost": { "wood": 4, "fiber": 3 },
-      "minutes": 45,
-      "stamina": 8,
+    "requiresStructure": {
+      "firepit": 1
+    },
+    "cost": {
+      "wood": 4,
+      "fiber": 3
+    },
+    "minutes": 45,
+    "stamina": 8,
     "description": "A high, open-sided roof keeps rain off the outdoor fire. Your sleeping shelter covers only your bed.",
     "art": "assets/art/structures/fire_cover.webp"
   },
@@ -80,7 +85,10 @@
     "minutes": 150,
     "stamina": 22,
     "description": "Better insulation and more restful sleep.",
-    "art": "assets/art/structures/shelter2.webp"
+    "art": "assets/art/structures/shelter2.webp",
+    "tools": [
+      "hammer"
+    ]
   },
   "shelter3": {
     "name": "Alpine lodge",
@@ -99,7 +107,10 @@
     "minutes": 210,
     "stamina": 28,
     "description": "Maximum shelter protection for the harshest nights.",
-    "art": "assets/art/structures/shelter3.webp"
+    "art": "assets/art/structures/shelter3.webp",
+    "tools": [
+      "hammer"
+    ]
   },
   "rain_collector": {
     "name": "Rain collector",
@@ -166,7 +177,10 @@
     "minutes": 75,
     "stamina": 14,
     "requiresFire": true,
-    "art": "assets/art/items/iron_axe.webp"
+    "art": "assets/art/items/iron_axe.webp",
+    "tools": [
+      "hammer"
+    ]
   },
   "bow": {
     "name": "Hunting bow",
@@ -182,7 +196,7 @@
     "art": "assets/art/items/bow.webp"
   },
   "arrows": {
-    "name": "5 × Flint arrows",
+    "name": "5 \u00c3\u2014 Flint arrows",
     "category": "weapons",
     "item": "arrows",
     "quantity": 5,
@@ -193,7 +207,10 @@
     },
     "minutes": 15,
     "stamina": 4,
-    "art": "assets/art/items/arrows.webp"
+    "art": "assets/art/items/arrows.webp",
+    "tools": [
+      "knife"
+    ]
   },
   "jacket": {
     "name": "Hide jacket",
@@ -205,7 +222,10 @@
     },
     "minutes": 65,
     "stamina": 10,
-    "art": "assets/art/items/jacket.webp"
+    "art": "assets/art/items/jacket.webp",
+    "tools": [
+      "sewing_kit"
+    ]
   },
   "insulated": {
     "name": "Alpine coat",
@@ -218,7 +238,10 @@
     },
     "minutes": 100,
     "stamina": 14,
-    "art": "assets/art/items/insulated.webp"
+    "art": "assets/art/items/insulated.webp",
+    "tools": [
+      "sewing_kit"
+    ]
   },
   "backpack": {
     "name": "Field backpack",
@@ -231,7 +254,10 @@
     },
     "minutes": 50,
     "stamina": 9,
-    "art": "assets/art/items/backpack.webp"
+    "art": "assets/art/items/backpack.webp",
+    "tools": [
+      "sewing_kit"
+    ]
   },
   "trap": {
     "name": "Fiber snare",
@@ -246,7 +272,7 @@
     "art": "assets/art/items/trap.webp"
   },
   "bandage": {
-    "name": "2 × Linen bandage",
+    "name": "2 \u00c3\u2014 Linen bandage",
     "category": "medicine",
     "item": "bandage",
     "quantity": 2,
@@ -269,10 +295,13 @@
     "minutes": 30,
     "stamina": 4,
     "requiresFire": true,
-    "art": "assets/art/items/medicine.webp"
+    "art": "assets/art/items/medicine.webp",
+    "tools": [
+      "cooking_pot"
+    ]
   },
   "water": {
-    "name": "2 × Clean water",
+    "name": "2 \u00c3\u2014 Clean water",
     "category": "cooking",
     "item": "water",
     "quantity": 2,
@@ -282,7 +311,10 @@
     "minutes": 15,
     "stamina": 3,
     "requiresFire": true,
-    "art": "assets/art/items/water.webp"
+    "art": "assets/art/items/water.webp",
+    "tools": [
+      "cooking_pot"
+    ]
   },
   "cooked_meat": {
     "name": "Roasted venison",
@@ -294,7 +326,10 @@
     "minutes": 25,
     "stamina": 4,
     "requiresFire": true,
-    "art": "assets/art/items/cooked_meat.webp"
+    "art": "assets/art/items/cooked_meat.webp",
+    "tools": [
+      "roasting_spit"
+    ]
   },
   "cooked_fish": {
     "name": "Roasted trout",
@@ -306,7 +341,10 @@
     "minutes": 20,
     "stamina": 3,
     "requiresFire": true,
-    "art": "assets/art/items/cooked_fish.webp"
+    "art": "assets/art/items/cooked_fish.webp",
+    "tools": [
+      "roasting_spit"
+    ]
   },
   "stew": {
     "name": "Woodland stew",
@@ -320,7 +358,10 @@
     "minutes": 30,
     "stamina": 4,
     "requiresFire": true,
-    "art": "assets/art/items/stew.webp"
+    "art": "assets/art/items/stew.webp",
+    "tools": [
+      "cooking_pot"
+    ]
   },
   "tea": {
     "name": "Herbal tea",
@@ -333,7 +374,10 @@
     "minutes": 15,
     "stamina": 3,
     "requiresFire": true,
-    "art": "assets/art/items/tea.webp"
+    "art": "assets/art/items/tea.webp",
+    "tools": [
+      "cooking_pot"
+    ]
   },
   "battery": {
     "name": "Copper battery",
@@ -346,7 +390,10 @@
     "minutes": 60,
     "stamina": 10,
     "requiresFire": true,
-    "art": "assets/art/items/battery.webp"
+    "art": "assets/art/items/battery.webp",
+    "tools": [
+      "hammer"
+    ]
   },
   "radio": {
     "name": "Rescue radio",
@@ -362,6 +409,108 @@
     "minutes": 120,
     "stamina": 15,
     "requiresFlag": "journal",
-    "art": "assets/art/items/radio.webp"
+    "art": "assets/art/items/radio.webp",
+    "tools": [
+      "hammer"
+    ]
+  },
+  "cooking_pot": {
+    "name": "Field cooking pot",
+    "category": "tools",
+    "item": "cooking_pot",
+    "cost": {
+      "scrap": 2,
+      "fiber": 1
+    },
+    "minutes": 35,
+    "stamina": 6,
+    "art": "assets/art/items/cooking_pot.webp"
+  },
+  "canteen": {
+    "name": "Field canteen",
+    "category": "tools",
+    "item": "canteen",
+    "cost": {
+      "hide": 1,
+      "fiber": 2
+    },
+    "minutes": 20,
+    "stamina": 4,
+    "art": "assets/art/items/canteen.webp"
+  },
+  "fire_drill": {
+    "name": "Bow fire drill",
+    "category": "tools",
+    "item": "fire_drill",
+    "cost": {
+      "wood": 1,
+      "fiber": 2
+    },
+    "minutes": 20,
+    "stamina": 4,
+    "art": "assets/art/items/fire_drill.webp"
+  },
+  "roasting_spit": {
+    "name": "Roasting spit",
+    "category": "tools",
+    "item": "roasting_spit",
+    "cost": {
+      "wood": 2,
+      "fiber": 1
+    },
+    "minutes": 20,
+    "stamina": 4,
+    "art": "assets/art/items/roasting_spit.webp"
+  },
+  "pickaxe": {
+    "name": "Flint pickaxe",
+    "category": "tools",
+    "item": "pickaxe",
+    "cost": {
+      "wood": 2,
+      "stone": 4,
+      "fiber": 2
+    },
+    "minutes": 35,
+    "stamina": 6,
+    "art": "assets/art/items/pickaxe.webp"
+  },
+  "hammer": {
+    "name": "Field hammer",
+    "category": "tools",
+    "item": "hammer",
+    "cost": {
+      "wood": 1,
+      "stone": 2,
+      "fiber": 1
+    },
+    "minutes": 20,
+    "stamina": 4,
+    "art": "assets/art/items/hammer.webp"
+  },
+  "sewing_kit": {
+    "name": "Hide sewing kit",
+    "category": "tools",
+    "item": "sewing_kit",
+    "cost": {
+      "hide": 1,
+      "fiber": 2
+    },
+    "minutes": 20,
+    "stamina": 4,
+    "art": "assets/art/items/sewing_kit.webp"
+  },
+  "knife": {
+    "name": "Survival knife",
+    "category": "tools",
+    "item": "knife",
+    "cost": {
+      "wood": 1,
+      "stone": 2,
+      "fiber": 1
+    },
+    "minutes": 25,
+    "stamina": 5,
+    "art": "assets/art/items/knife.webp"
   }
 }

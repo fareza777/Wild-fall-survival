@@ -2,6 +2,7 @@ import {button,esc,icon} from './helpers.js';
 import {isNight,exertionCost} from '../game/survival.js';
 import {fireBurnRate} from '../game/survival.js';
 import {weight,capacity} from '../game/inventory.js';
+import {workingTool,requiredTools} from '../game/tools.js';
 const nav=tab=>`button[data-ui="tab"][data-tab="${tab}"]`;
 const safeDrink=item=>item?.hydration>0&&!item.risk&&['water','medicine'].includes(item.category);
 const safeFood=item=>item?.calories>0&&!item.risk&&item.category==='food';
@@ -58,6 +59,8 @@ function roomHint(game,tab,modal,needed={},space=2.4){
 function buildHint(game,tab,modal,id,title,text){
  const s=game.state,r=game.content.recipes[id];
  if(s.location!=='camp')return travelHint(game,tab,modal,'camp','Return to your workshop.','Craft and build at camp.');
+ const missing=requiredTools(s,game.content,'craft',{id}).find(tool=>!workingTool(s,tool));
+ if(missing)return buildHint(game,tab,modal,missing,'Prepare your kit.','Craft '+game.content.items[missing].name.toLowerCase()+' before this recipe.');
  const prepared=r.cost;
  const needs=Object.entries(prepared).filter(([id,n])=>(s.items[id]||0)<n);
  if(needs.length)return roomHint(game,tab,modal,prepared)||guidedAction(game,tab,modal,'gather',title,'Gather '+needs.map(([id,n])=>`${n-(s.items[id]||0)} ${game.content.items[id].name.toLowerCase()}`).join(' · ')+(id==='fire_cover'?'. Keep fuel ready to light the fire after building.':'.'));
@@ -69,6 +72,7 @@ function fireHint(game,tab,modal){
  if(s.location!=='camp')return travelHint(game,tab,modal,'camp','Return to your camp.','Your fire and workshop are at camp.');
  if(!s.camp.firepit)return buildHint(game,tab,modal,'firepit','Build your fire ring.','A stone ring lets you light a fire and cook.');
  if(!s.camp.fire_cover)return buildHint(game,tab,modal,'fire_cover','Rain needs a roof.','Build an open-sided canopy to keep your fire dry.');
+ if(s.camp.fire<=0&&!workingTool(s,'fire_drill'))return buildHint(game,tab,modal,'fire_drill','Make a fire drill.','Twist dry cordage around a wooden spindle before lighting a cold fire.');
  const needed={wood:2,...(s.camp.fire>0?{}:{fiber:1})};
  if(Object.entries(needed).some(([id,n])=>(s.items[id]||0)<n))return roomHint(game,tab,modal,needed)||guidedAction(game,tab,modal,'gather','Fuel for warmth.','Gather wood and fiber before lighting the fire.');
  if(s.stats.stamina<game.effort('fire'))return restHint(tab,modal);
@@ -79,9 +83,10 @@ function waterHint(game,tab,modal){
  if(s.location==='river'&&(s.items.dirty_water||0)<6)return roomHint(game,tab,modal,{dirty_water:6},1.2)||guidedAction(game,tab,modal,'water','Carry enough for the return.','Collect at least six river-water bottles. Boil them at camp; the return trip also consumes water.');
  if((s.items.dirty_water||0)>=r.cost.dirty_water){
   if(s.location!=='camp')return travelHint(game,tab,modal,'camp','Bring water back to camp.','River water needs boiling before it is safe.');
+  if(!workingTool(s,'cooking_pot'))return buildHint(game,tab,modal,'cooking_pot','Carry a cooking pot.','A metal pot makes river water safe. Craft one in Tools before boiling.');
   if(s.camp.fire<r.minutes*fireBurnRate(s,game.content)||!s.camp.fire_cover)return fireHint(game,tab,modal);
   if(s.stats.stamina<game.effort('craft',{id:'water'}))return restHint(tab,modal);
-  return {selector:modal==='craft-dialog'?'button[data-ui="perform"][data-id="water"]':tab==='craft'?'button[data-action="craft"][data-id="water"]':nav('craft'),title:'Make water safe.',text:'Boil two river-water bottles in Cooking. Then drink clean water from Pack.',recipe:'water'};
+  return {selector:modal==='craft-dialog'?'button[data-ui="perform"][data-id="water"]':tab==='craft'?'button[data-action="craft"][data-id="water"]':nav('craft'),title:'Make water safe.',text:'Your carried pot is ready. Boil water in Cooking, then drink from Pack.',recipe:'water'};
  }
  if(s.location==='river')return roomHint(game,tab,modal,{dirty_water:2},1.2)||guidedAction(game,tab,modal,'water','Refill at the river.','Collect river water. Carry it back to camp and boil it.');
  if(game.unlocked('river'))return travelHint(game,tab,modal,'river','Find a water source.','Your bottles are empty. Travel to the river to refill, then boil water at camp.');
@@ -93,7 +98,7 @@ function supplyHint(game,tab,modal,drink){
  if(id)return {selector:tab==='pack'?`button[data-action="use"][data-id="${id}"]`:nav('pack'),title:drink?'Drink safe water.':'Eat before the trail.',text:`Use ${game.content.items[id].name.toLowerCase()} from Pack. ${drink?'Safe drinks restore hydration.':'Food restores calories.'}`,item:id};
  if(drink)return waterHint(game,tab,modal);
  const s=game.state,raw=['cooked_meat','cooked_fish'].find(id=>(s.items[Object.keys(game.content.recipes[id].cost)[0]]||0)>0);
- if(raw&&s.location==='camp'){if(s.camp.fire<game.content.recipes[raw].minutes*fireBurnRate(s,game.content)||!s.camp.fire_cover)return fireHint(game,tab,modal);if(s.stats.stamina<game.effort('craft',{id:raw}))return restHint(tab,modal);return {selector:modal==='craft-dialog'?`button[data-ui="perform"][data-id="${raw}"]`:tab==='craft'?`button[data-action="craft"][data-id="${raw}"]`:nav('craft'),title:'Cook before eating.',text:'Cook your raw catch at camp. Then eat it from Pack.',recipe:raw};}
+ if(raw&&s.location==='camp'){const missing=requiredTools(s,game.content,'craft',{id:raw}).find(id=>!workingTool(s,id));if(missing)return buildHint(game,tab,modal,missing,'Prepare to roast.','Craft your reusable roasting spit in Tools.');if(s.camp.fire<game.content.recipes[raw].minutes*fireBurnRate(s,game.content)||!s.camp.fire_cover)return fireHint(game,tab,modal);if(s.stats.stamina<game.effort('craft',{id:raw}))return restHint(tab,modal);return {selector:modal==='craft-dialog'?`button[data-ui="perform"][data-id="${raw}"]`:tab==='craft'?`button[data-action="craft"][data-id="${raw}"]`:nav('craft'),title:'Cook before eating.',text:'Cook your raw catch at camp. Then eat it from Pack.',recipe:raw};}
  if(!game.content.locations[s.location].actions.includes('forage'))return travelHint(game,tab,modal,'camp','Find safe food.','Return to camp to forage for berries.');
  return roomHint(game,tab,modal,{},1)||guidedAction(game,tab,modal,'forage','Find your next meal.','Forage for edible berries, then eat them from Pack. Finds vary each time.');
 }

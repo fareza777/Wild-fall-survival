@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "version": "1.4.0",
+  "command": "android/gradlew.bat -p android testReleaseUnitTest",
+  "tests": 4,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "checks": [
+    "pendingCancelledWrongProductAndMissingTokenNeverUnlock",
+    "confirmedMatchingPurchaseIsEligibleForAcknowledgement",
+    "firstAdNeedsReadyContentAndNeverAppearsForOwnedOrBusyGame",
+    "cooldownAndOneHourExpiryHaveExactBoundaries"
+  ]
+}

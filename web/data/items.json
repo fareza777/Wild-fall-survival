@@ -193,7 +193,11 @@
     "damage": 5,
     "gather": 0,
     "description": "A reliable starting tool and backup weapon.",
-    "art": "assets/art/items/knife.webp"
+    "art": "assets/art/items/knife.webp",
+    "repair": {
+      "stone": 1,
+      "fiber": 1
+    }
   },
   "axe": {
     "name": "Flint axe",
@@ -204,8 +208,12 @@
     "durability": 65,
     "damage": 8,
     "gather": 1,
-    "description": "More firewood per gather. Carry one for mining.",
-    "art": "assets/art/items/axe.webp"
+    "description": "More firewood per gather. Use a pickaxe for mining.",
+    "art": "assets/art/items/axe.webp",
+    "repair": {
+      "stone": 2,
+      "fiber": 1
+    }
   },
   "iron_axe": {
     "name": "Salvaged axe",
@@ -217,7 +225,11 @@
     "damage": 11,
     "gather": 2,
     "description": "A durable axe with a better firewood yield.",
-    "art": "assets/art/items/iron_axe.webp"
+    "art": "assets/art/items/iron_axe.webp",
+    "repair": {
+      "scrap": 1,
+      "fiber": 1
+    }
   },
   "spear": {
     "name": "Ashwood spear",
@@ -229,7 +241,12 @@
     "damage": 13,
     "hunt": 0.18,
     "description": "Equip to hunt and face wildlife.",
-    "art": "assets/art/items/spear.webp"
+    "art": "assets/art/items/spear.webp",
+    "repair": {
+      "wood": 1,
+      "stone": 1,
+      "fiber": 1
+    }
   },
   "bow": {
     "name": "Hunting bow",
@@ -241,7 +258,11 @@
     "damage": 19,
     "hunt": 0.3,
     "description": "A stronger weapon. Each attack or hunt uses one arrow.",
-    "art": "assets/art/items/bow.webp"
+    "art": "assets/art/items/bow.webp",
+    "repair": {
+      "wood": 1,
+      "fiber": 3
+    }
   },
   "arrows": {
     "name": "Flint arrows",
@@ -261,7 +282,11 @@
     "warmth": 8,
     "armor": 3,
     "description": "Cold protection and light armor.",
-    "art": "assets/art/items/jacket.webp"
+    "art": "assets/art/items/jacket.webp",
+    "repair": {
+      "hide": 1,
+      "fiber": 2
+    }
   },
   "insulated": {
     "name": "Alpine coat",
@@ -273,7 +298,11 @@
     "warmth": 15,
     "armor": 5,
     "description": "Strong cold protection and reinforced armor.",
-    "art": "assets/art/items/insulated.webp"
+    "art": "assets/art/items/insulated.webp",
+    "repair": {
+      "hide": 2,
+      "fiber": 2
+    }
   },
   "fishing_rod": {
     "name": "Field fishing rod",
@@ -283,7 +312,11 @@
     "weight": 0.45,
     "durability": 75,
     "description": "Equip in the tool slot to fish.",
-    "art": "assets/art/items/fishing_rod.webp"
+    "art": "assets/art/items/fishing_rod.webp",
+    "repair": {
+      "wood": 1,
+      "fiber": 2
+    }
   },
   "torch": {
     "name": "Ember torch",
@@ -293,7 +326,11 @@
     "weight": 0.35,
     "durability": 40,
     "description": "Equip to explore and mine in the cave.",
-    "art": "assets/art/items/torch.webp"
+    "art": "assets/art/items/torch.webp",
+    "repair": {
+      "wood": 1,
+      "fiber": 2
+    }
   },
   "backpack": {
     "name": "Field backpack",
@@ -342,5 +379,109 @@
     "weight": 0.5,
     "description": "Transmit from the summit in calm daylight.",
     "art": "assets/art/items/radio.webp"
+  },
+  "cooking_pot": {
+    "name": "Field cooking pot",
+    "category": "gear",
+    "icon": "cooking-pot",
+    "slot": "kit",
+    "carried": true,
+    "weight": 0.55,
+    "durability": 90,
+    "description": "A carried metal pot for boiling water, stew, tea and herbal medicine.",
+    "repair": {
+      "scrap": 1
+    },
+    "art": "assets/art/items/cooking_pot.webp"
+  },
+  "canteen": {
+    "name": "Field canteen",
+    "category": "gear",
+    "icon": "drop",
+    "slot": "kit",
+    "carried": true,
+    "weight": 0.12,
+    "durability": 120,
+    "description": "A reusable vessel for collecting and carrying river water.",
+    "repair": {
+      "fiber": 1,
+      "hide": 1
+    },
+    "art": "assets/art/items/canteen.webp"
+  },
+  "fire_drill": {
+    "name": "Bow fire drill",
+    "category": "gear",
+    "icon": "flame",
+    "slot": "kit",
+    "carried": true,
+    "weight": 0.15,
+    "durability": 70,
+    "description": "Dry spindle and cordage for lighting a cold fire. Adding fuel needs no drill.",
+    "repair": {
+      "wood": 1,
+      "fiber": 1
+    },
+    "art": "assets/art/items/fire_drill.webp"
+  },
+  "roasting_spit": {
+    "name": "Roasting spit",
+    "category": "gear",
+    "icon": "cooking-pot",
+    "slot": "kit",
+    "carried": true,
+    "weight": 0.22,
+    "durability": 60,
+    "description": "Reusable wooden supports and skewer for roasting meat or fish.",
+    "repair": {
+      "wood": 1,
+      "fiber": 1
+    },
+    "art": "assets/art/items/roasting_spit.webp"
+  },
+  "pickaxe": {
+    "name": "Flint pickaxe",
+    "category": "gear",
+    "icon": "hammer",
+    "slot": "tool",
+    "carried": false,
+    "weight": 1.0,
+    "durability": 95,
+    "description": "A pointed mining tool. Carry it with an equipped torch inside the cave.",
+    "repair": {
+      "stone": 2,
+      "fiber": 1
+    },
+    "art": "assets/art/items/pickaxe.webp"
+  },
+  "hammer": {
+    "name": "Field hammer",
+    "category": "gear",
+    "icon": "hammer",
+    "slot": "kit",
+    "carried": true,
+    "weight": 0.65,
+    "durability": 100,
+    "description": "A stone mallet for advanced shelters, metalwork and radio assembly.",
+    "repair": {
+      "stone": 1,
+      "fiber": 1
+    },
+    "art": "assets/art/items/hammer.webp"
+  },
+  "sewing_kit": {
+    "name": "Hide sewing kit",
+    "category": "gear",
+    "icon": "coat-hanger",
+    "slot": "kit",
+    "carried": true,
+    "weight": 0.08,
+    "durability": 90,
+    "description": "Bone awl and cordage for clothing and backpack stitching.",
+    "repair": {
+      "fiber": 2,
+      "hide": 1
+    },
+    "art": "assets/art/items/sewing_kit.webp"
   }
 }

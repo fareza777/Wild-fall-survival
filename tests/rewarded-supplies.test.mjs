@@ -1,0 +1,12 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import {GameEngine} from '../web/game/engine.js';
+const c=Object.fromEntries(await Promise.all(['items','recipes','locations','weather','enemies','events','scenarios','quests'].map(async n=>[n,JSON.parse(await readFile(`web/data/${n}.json`,'utf8'))])));
+const game=()=>new GameEngine(c,null,{seed:2026});
+const reward=g=>({id:'12345678-1234-4321-a123-123456789012',runId:g.state.runId,day:Math.floor(g.state.time/1440)+1});
+test('an earned reward adds exactly the disclosed supplies, holds a result and spends no survival time',()=>{const g=game(),before=structuredClone(g.state);assert.equal(g.claimSupportReward(reward(g)).ok,true);assert.equal(g.state.items.water,before.items.water+1);assert.equal(g.state.items.ration,before.items.ration+1);assert.deepEqual(g.state.stats,before.stats);assert.equal(g.state.time,before.time);assert.equal(g.state.receipt.kind,'support');assert.deepEqual(g.state.receipt.effects.gained,{ration:1,water:1});});
+test('duplicate SDK reward delivery is idempotent, including after a saved result is reloaded',()=>{const g=game(),payload=reward(g);assert.equal(g.claimSupportReward(payload).ok,true);const restored=new GameEngine(c,g.state),before=JSON.stringify(restored.state);assert.equal(restored.claimSupportReward(payload).duplicate,true);assert.equal(JSON.stringify(restored.state),before);});
+test('cancelled or missing reward payloads never grant supplies',()=>{const g=game(),before=JSON.stringify(g.state);for(const payload of [null,{}, {id:'cancelled'}, {...reward(g),runId:'another-run'}, {...reward(g),day:9}])assert.equal(g.claimSupportReward(payload).ok,false);assert.equal(JSON.stringify(g.state),before);});
+test('optional supplies cannot interrupt guide, battle, result, event, carcass or death',()=>{for(const [key,value] of [['tutorial',{active:true}],['combat',{}],['receipt',{}],['event','stranger'],['carcass',{}],['dead',true]]){const g=game();g.state[key]=value;assert.ok(g.supportRewardReason(),key);const before=JSON.stringify(g.state);assert.equal(g.claimSupportReward(reward(g)).ok,false);assert.equal(JSON.stringify(g.state),before);}});
+test('once per in-game day and capacity checks apply before watching the ad',()=>{const g=game();g.claimSupportReward(reward(g));g.state.receipt=null;assert.match(g.supportRewardReason(),/tomorrow/i);g.state.time+=1440;assert.equal(g.supportRewardReason(),null);g.state.items.wood=100;assert.match(g.supportRewardReason(),/space/i);});

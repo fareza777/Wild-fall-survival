@@ -18,8 +18,8 @@ export async function animateAction(kind,options,result,before,content,settings)
  if(['equip','drop'].includes(kind)){await animate(document.querySelector(`[data-item="${options.id||before.gear.find(g=>g.uid===options.uid)?.id}"]`),[{transform:'scale(1)'},{transform:'scale(.975)',offset:.4},{transform:'scale(1)'}],{duration:230});return;}
  const recipe=kind==='craft'?content.recipes[options.id]:null,used=kind==='use'?content.items[options.id]:null;
  const [label,itemId]=moves[kind]||[kind==='craft'?'Crafting':used?.category==='water'||options.id==='tea'?'Drinking':used?.category==='medicine'?'Treating':'Eating',null];
- const tool=before.gear.find(g=>g.uid===before.equipment.tool&&g.durability>0),weapon=before.gear.find(g=>g.uid===before.equipment.weapon&&g.durability>0),axe=before.gear.find(g=>['axe','iron_axe'].includes(g.id)&&g.durability>0);
- const matching=kind==='gather'?tool?.id||'wood':kind==='mine'?axe?.id:kind==='hunt'?weapon?.id:kind==='fish'?'fishing_rod':itemId;
+ const tool=before.gear.find(g=>g.uid===before.equipment.tool&&g.durability>0&&['knife','axe','iron_axe'].includes(g.id)),weapon=before.gear.find(g=>g.uid===before.equipment.weapon&&g.durability>0),pickaxe=before.gear.find(g=>g.id==='pickaxe'&&g.durability>0);
+ const matching=kind==='gather'?tool?.id||'wood':kind==='mine'?pickaxe?.id:kind==='hunt'?weapon?.id:kind==='fish'?'fishing_rod':itemId;
  const source=recipe?.art||used?.art||content.items[matching]?.art;
  const direction=kind==='use'?(used.category==='water'||options.id==='tea'?'drink':used.category==='medicine'?'treat':'eat'):kind;
  const root=document.createElement('div');root.className=`action-theatre fx-${direction}`;root.setAttribute('aria-hidden','true');root.dataset.kind=kind;

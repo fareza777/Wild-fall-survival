@@ -18,6 +18,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.webkit.WebChromeClient;
+import android.widget.LinearLayout;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Collections;
@@ -28,6 +29,7 @@ public final class MainActivity extends Activity {
   private static final String HOST = "appassets.androidplatform.net";
   private WebView web;
   private SharedPreferences preferences;
+  private CommerceController commerce;
   private void immersive() {
     getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
   }
@@ -71,7 +73,14 @@ public final class MainActivity extends Activity {
         } catch (IOException ignored) { return error(404, "Not Found"); }
       }
     });
-    setContentView(web);
+    LinearLayout root=new LinearLayout(this);root.setOrientation(LinearLayout.VERTICAL);root.setBackgroundColor(Color.rgb(18,18,22));
+    root.addView(web,new LinearLayout.LayoutParams(-1,0,1));
+    LinearLayout bannerHost=new LinearLayout(this);bannerHost.setOrientation(LinearLayout.VERTICAL);bannerHost.setVisibility(View.GONE);
+    root.addView(bannerHost,new LinearLayout.LayoutParams(-1,-2));setContentView(root);
+    commerce=new CommerceController(this,preferences,bannerHost,new CommerceController.Listener(){
+      @Override public void changed(){notifyCommerce();}
+      @Override public void fullscreen(boolean showing){if(web!=null)web.evaluateJavascript(showing?"window.wildfallPause && window.wildfallPause()":"window.wildfallResume && window.wildfallResume()",null);}
+    });
     if (Build.VERSION.SDK_INT >= 33) getOnBackInvokedDispatcher().registerOnBackInvokedCallback(android.window.OnBackInvokedDispatcher.PRIORITY_DEFAULT, this::goBack);
     web.loadUrl("https://" + HOST + "/assets/index.html");
     immersive();
@@ -93,12 +102,21 @@ public final class MainActivity extends Activity {
     return "application/octet-stream";
   }
   private void goBack() { if(web!=null)web.evaluateJavascript("window.wildfallBack && window.wildfallBack()",null); }
+  private void notifyCommerce(){if(web!=null&&commerce!=null)web.evaluateJavascript("window.dispatchEvent(new CustomEvent('wildfall:commerce',{detail:"+commerce.state().toString()+"}))",null);}
   @Override public void onBackPressed() { goBack(); }
   @Override public void onWindowFocusChanged(boolean focused) { super.onWindowFocusChanged(focused); if(focused)immersive(); }
-  @Override protected void onPause() { if(web!=null){web.evaluateJavascript("window.wildfallPause && window.wildfallPause()",null);web.onPause();}super.onPause(); }
-  @Override protected void onResume() { super.onResume();if(web!=null){web.onResume();web.evaluateJavascript("window.wildfallResume && window.wildfallResume()",null);}immersive(); }
-  @Override protected void onDestroy() { if(web!=null){web.removeJavascriptInterface("Android");web.destroy();web=null;}super.onDestroy(); }
+  @Override protected void onPause() { if(commerce!=null)commerce.pause();if(web!=null){web.evaluateJavascript("window.wildfallPause && window.wildfallPause()",null);web.onPause();}super.onPause(); }
+  @Override protected void onResume() { super.onResume();if(commerce!=null)commerce.resume();if(web!=null){web.onResume();if(commerce==null||!commerce.showing())web.evaluateJavascript("window.wildfallResume && window.wildfallResume()",null);}immersive(); }
+  @Override protected void onDestroy() { if(commerce!=null)commerce.destroy();if(web!=null){web.removeJavascriptInterface("Android");web.destroy();web=null;}super.onDestroy(); }
   private final class NativeBridge {
+    @JavascriptInterface public String commerceState(){return commerce==null?"{}":commerce.state().toString();}
+    @JavascriptInterface public void adContext(boolean allowed){runOnUiThread(()->{if(commerce!=null)commerce.setBannerAllowed(allowed);});}
+    @JavascriptInterface public void interstitialBreak(){runOnUiThread(()->{if(commerce!=null)commerce.interstitialBreak();});}
+    @JavascriptInterface public void loadOptionalAd(){runOnUiThread(()->{if(commerce!=null)commerce.loadAds();});}
+    @JavascriptInterface public void requestReward(String context){if(context==null||context.length()>512)return;runOnUiThread(()->{if(commerce!=null)commerce.rewarded(context);});}
+    @JavascriptInterface public void acknowledgeReward(String id){if(id==null||id.length()>64)return;runOnUiThread(()->{if(commerce!=null)commerce.acknowledgeReward(id);});}
+    @JavascriptInterface public void purchaseRemoveAds(){runOnUiThread(()->{if(commerce!=null)commerce.purchase();});}
+    @JavascriptInterface public void restorePurchases(){runOnUiThread(()->{if(commerce!=null)commerce.restore(true);});}
     @JavascriptInterface public void saveBackup(String json) { if(json!=null&&json.length()<600000)preferences.edit().putString("backup",json).apply(); }
     @JavascriptInterface public String loadBackup() { return preferences.getString("backup",""); }
     @JavascriptInterface public void haptic() {

@@ -6,17 +6,17 @@
 - [x] Save/checkpoint storage and corruption handling.
 - [x] Native Android host, splash, launcher resources, build/sign pipeline.
 - [x] Content validation, simulation tests, browser and Android smoke checks.
-- [x] APK 1.3.1, checksum, complete repository source, and documentation.
-- [x] 83 generated assets, English UI, concealed survivor faces and charcoal/copper theme.
+- [x] APK 1.4.0, checksum, complete repository source, and documentation.
+- [x] 90 generated assets, English UI, concealed survivor faces and charcoal/copper theme.
 - [x] Compact camp actions, adaptive item pages, short recipe pages and single-objective journal.
 - [x] Simulation-backed action/battle motion, reduced motion, physical foley and nature ambience without music.
 - [x] Shared metabolism preview/execution, travel exposure, weather boundaries, daylight transmission and capped combat effects.
 - [x] Five illustrated story scenes and nine live guided first steps, with skip/replay.
 - [x] Rain extinguishing, separate fire canopy, interrupted cooking and accurate dawn production.
 - [x] Randomized gather and carcass yields, held results, separate meat/skin, spoilage, blade wear and exhausted-victor recovery.
-- [x] Newest-valid-save selection, unread result recovery after Android force-stop and 85 regression tests.
+- [x] Newest-valid-save selection, unread result recovery after Android force-stop and 106 regression tests.
 - [x] Stable character/difficulty selection without replacing artwork, focus or the setup panel.
-- [x] Seven bundled ElevenLabs English voice clips, matching subtitles and scenario variants, mute/replay and background suspension; no music or runtime network requests.
+- [x] Seven bundled ElevenLabs English voice clips, matching subtitles and scenario variants, mute/replay and background suspension; no music or runtime narration network requests.
 - [x] Adaptive tutorial supplies, safe substitutes, boiling/refilling guidance and migration of old stuck saves.
 - [x] Progressive main chapters and discovery-driven side objectives, sharing reveal conditions with the quest reward engine.
 - [x] Nine fresh tutorials covering all scenarios and difficulties, plus six recovery fixtures, completed through public highlighted controls.
@@ -24,3 +24,10 @@
 - [x] Old tutorial ambush/event recovery without false victories, bonus loot, time rewinds or stat resets.
 - [x] All 54 sampled scenario/difficulty/seed combinations finish safely; normal difficulty and encounters resume on Finish or Skip.
 - [x] Final Android APK: 13 offline checks, actual narration playback/mute/replay, native controls and exact result/save restoration after force-stop.
+
+- [x] Seven generated durable camp tools, recipe/action prerequisites, material-specific repairs and one-time legacy-kit migration.
+- [x] Real AdMob SDK banner, interstitial and rewarded integration using official demo IDs; ad audio starts muted.
+- [x] Rewarded supply receipts, daily limits, capacity checks and persistent idempotent earned rewards.
+- [x] Google Play Billing one-time Remove Ads and Restore, acknowledgement, pending and cancellation handling; US$4.99 intended base price.
+- [x] Separate compact Supplies / Remove Ads tabs, tool-status chips and actionable Craft/Repair links.
+- [ ] Live Play Console product activation and real purchase/restore testing on a Play-distributed build.

@@ -2,23 +2,23 @@ import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import { readFile,writeFile } from 'node:fs/promises';
 import assert from 'node:assert/strict';
+import {createAndroidDump} from './android-ui-dump.mjs';
 const execute=promisify(execFile),adb=process.env.ADB||'C:/Android/Sdk/platform-tools/adb.exe',device=process.env.ANDROID_SERIAL||'emulator-5580';
+const version=JSON.parse(await readFile('package.json','utf8')).version;
 const delay=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 let uiDumpRetries=0;
 const command=async args=>(await execute(adb,['-s',device,...args],{timeout:30000,maxBuffer:2*1024*1024})).stdout;
+const snapshot=await createAndroidDump(command);
 function nodes(xml){return (xml.match(/<node\s[^>]+>/g)||[]).map(tag=>Object.fromEntries([...tag.matchAll(/([\w-]+)="([^"]*)"/g)].map(m=>[m[1],m[2].replaceAll('&amp;','&').replaceAll('&quot;','"')])));}
 async function dump(){
   let lastError;
   for(let i=0;i<4;i++){
     try{
-      const output=await command(['shell','uiautomator','dump','--compressed','/sdcard/wildfall-qa.xml']);
-      if(!output.includes('dumped to:')){uiDumpRetries++;await delay(700);continue;}
-      const xml=await command(['shell','cat','/sdcard/wildfall-qa.xml']);
+      const xml=await snapshot();
       // A valid empty WebView tree is a loading frame; callers still wait for their exact label.
       if(nodes(xml).length)return xml;
     }catch(error){
       // Retry a killed helper; never use an accessibility file from a failed dump.
-      if(error.code!==137)throw error;
       lastError=error;uiDumpRetries++;
     }
     await delay(700);
@@ -27,11 +27,14 @@ async function dump(){
   throw new Error('Android accessibility tree did not become ready');
 }
 async function tap(label,{contains=false}={}){
-  let xml,candidates=[];
-  for(let attempt=0;attempt<10&&!candidates.length;attempt++){
+  let xml,candidates=[],previous='';
+  for(let attempt=0;attempt<12;attempt++){
     xml=await dump();
-    candidates=nodes(xml).filter(n=>n.clickable==='true'&&n.enabled==='true'&&((contains?(n.text||'').includes(label):n.text===label)||(contains?(n['content-desc']||'').includes(label):n['content-desc']===label)));
-    if(!candidates.length)await delay(500);
+    candidates=nodes(xml).filter(n=>(n.clickable==='true'||n.class==='android.widget.CheckedTextView')&&n.enabled==='true'&&((contains?(n.text||'').includes(label):n.text===label)||(contains?(n['content-desc']||'').includes(label):n['content-desc']===label)));
+    if(candidates.length&&candidates.at(-1).bounds===previous)break;
+    previous=candidates.at(-1)?.bounds||'';
+    candidates=[];
+    await delay(500);
   }
   if(!candidates.length){await writeFile('test-results/android-failed-ui.xml',xml);throw new Error(`No Android button: ${label}. Available: ${nodes(xml).filter(n=>n.clickable==='true').map(n=>n.text||n['content-desc']).join(' | ')}`);}
   const node=candidates.at(-1),v=node.bounds.match(/\d+/g).map(Number);
@@ -78,6 +81,6 @@ try{
   const logs=await command(['logcat','-d','-t','700']);
   assert.ok(!/FATAL EXCEPTION[\s\S]{0,300}com\.ashenvalley\.wildfall/.test(logs),'No native game crash');
   const api=Number((await command(['shell','getprop','ro.build.version.sdk'])).trim());
-  await writeFile('test-results/android-report.json',JSON.stringify({passed:true,version:'1.3.1',device,api,uiDumpRetries,checks:['offline-menu','stable-character-difficulty-controls','new-game-prologue','offline-narration-playing-mute-replay','highlighted-guide','gather','unread-result-after-force-stop','five-tabs','settings','save-after-force-stop','native-back','share-chooser','local-rating'],timeAfterReload:'08:45'},null,2));
+  await writeFile('test-results/android-report.json',JSON.stringify({passed:true,version,device,api,uiDumpRetries,checks:['offline-menu','stable-character-difficulty-controls','new-game-prologue','offline-narration-playing-mute-replay','highlighted-guide','gather','unread-result-after-force-stop','five-tabs','settings','save-after-force-stop','native-back','share-chooser','local-rating'],timeAfterReload:'08:45'},null,2));
   console.log('Android QA passed: offline gameplay, tabs, settings, native Back, force-stop persistence, share chooser, local rating.');
 }finally{await command(['shell','svc','wifi','enable']);}
