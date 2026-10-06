@@ -1,0 +1,42 @@
+[
+  {
+    "file": "screenshots/01-survive.png",
+    "headline": "Survive the night. Earn the dawn.",
+    "description": "A wilderness survival simulation"
+  },
+  {
+    "file": "screenshots/02-shelter.png",
+    "headline": "A little shelter. A fighting chance.",
+    "description": "Build. Keep warm. Weather the storm."
+  },
+  {
+    "file": "screenshots/03-gather.png",
+    "headline": "Every find buys you time.",
+    "description": "Gather supplies. Spend your energy wisely."
+  },
+  {
+    "file": "screenshots/04-craft.png",
+    "headline": "Make the tools. Make it through.",
+    "description": "Craft equipment that keeps you alive."
+  },
+  {
+    "file": "screenshots/05-battle.png",
+    "headline": "Think first. Strike second.",
+    "description": "Prepare for turn-based encounters."
+  },
+  {
+    "file": "screenshots/06-water.png",
+    "headline": "Safe water. Another tomorrow.",
+    "description": "Craft your cookware. Boil before you drink."
+  },
+  {
+    "file": "screenshots/07-explore.png",
+    "headline": "Beyond camp, nothing is certain.",
+    "description": "Discover eight connected locations."
+  },
+  {
+    "file": "screenshots/08-journal.png",
+    "headline": "Follow the clues. Find a way home.",
+    "description": "Uncover the path to rescue, chapter by chapter."
+  }
+]

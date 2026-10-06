@@ -1,0 +1,58 @@
+{
+  "gameVersion": "1.4.1",
+  "viewport": {
+    "width": 412,
+    "height": 760
+  },
+  "deviceScaleFactor": 2,
+  "fixtureDisclosure": "Controlled saves in the actual game. All displayed UI and animations are captured from v1.4.1 without UI alteration.",
+  "shots": [
+    "01-survive",
+    "02-shelter",
+    "03-gather",
+    "04-craft",
+    "05-battle",
+    "06-water",
+    "07-explore",
+    "08-journal"
+  ],
+  "clips": [
+    {
+      "mode": "night",
+      "file": "page@d86aa3cc38dd6816b604456096ff52ec.webm",
+      "offset": 2.222,
+      "duration": 6
+    },
+    {
+      "mode": "gather",
+      "file": "page@3cfd818f464b66cf0b242da20cdd55b2.webm",
+      "offset": 2.745,
+      "duration": 6
+    },
+    {
+      "mode": "craft",
+      "file": "page@d7d78e5828367aff8b6833829f2b42b8.webm",
+      "offset": 2.26,
+      "duration": 6
+    },
+    {
+      "mode": "battle",
+      "file": "page@af5111e49aaf4fb46d6a90f3b36b99f1.webm",
+      "offset": 2.269,
+      "duration": 6
+    },
+    {
+      "mode": "map",
+      "file": "page@f668657f7e0541c507a5412d07b20da6.webm",
+      "offset": 2.384,
+      "duration": 6
+    },
+    {
+      "mode": "journal",
+      "file": "page@9bdc270015d9d22c7f618065a8b75515.webm",
+      "offset": 2.351,
+      "duration": 6
+    }
+  ],
+  "errors": []
+}

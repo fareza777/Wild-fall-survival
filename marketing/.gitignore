@@ -1,0 +1,6 @@
+recordings/
+.store-layout.html
+exports/frames/
+exports/trailer-frame-*.png
+exports/*.zip
+remotion/build/

@@ -1,0 +1,114 @@
+{
+  "passed": true,
+  "gameVersion": "1.4.1",
+  "images": [
+    {
+      "file": "play-store/app-icon-512.png",
+      "width": 512,
+      "height": 512,
+      "alpha": true,
+      "bytes": 490550,
+      "sha256": "76206dc5d90fdaa3deb2260f3678595f9278335986467654f956856527dad0cd"
+    },
+    {
+      "file": "play-store/feature-graphic-1024x500.png",
+      "width": 1024,
+      "height": 500,
+      "alpha": false,
+      "bytes": 848833,
+      "sha256": "b3bd03c67ef600b19ab0cc0651e6b8f137b1dd088217097dd901a26c05d6fd82"
+    },
+    {
+      "file": "play-store/screenshots/01-survive.png",
+      "width": 1080,
+      "height": 1920,
+      "alpha": false,
+      "bytes": 1031484,
+      "sha256": "b635eb3d116dc2b75058364b2afa235b5a16ad9c67afa3d6dffabb0456ccfcac"
+    },
+    {
+      "file": "play-store/screenshots/02-shelter.png",
+      "width": 1080,
+      "height": 1920,
+      "alpha": false,
+      "bytes": 985922,
+      "sha256": "a105813e979d96a85662f0a0f7e620a114924a2b0d47c3159369fa2a446ac602"
+    },
+    {
+      "file": "play-store/screenshots/03-gather.png",
+      "width": 1080,
+      "height": 1920,
+      "alpha": false,
+      "bytes": 1010074,
+      "sha256": "dd0e029516954e68965a9d9488060ff2be5acfd2e410df77fea86e3ef5c7af41"
+    },
+    {
+      "file": "play-store/screenshots/04-craft.png",
+      "width": 1080,
+      "height": 1920,
+      "alpha": false,
+      "bytes": 844538,
+      "sha256": "f26becc18a8b3d0c5a41afcfa03403e26ae1f77835632f54f285e822d3fcc9cc"
+    },
+    {
+      "file": "play-store/screenshots/05-battle.png",
+      "width": 1080,
+      "height": 1920,
+      "alpha": false,
+      "bytes": 1120963,
+      "sha256": "5edd73253c313326f7812d1694d03874d3e3c75152f26f0d69f85d06f3b0f2d2"
+    },
+    {
+      "file": "play-store/screenshots/06-water.png",
+      "width": 1080,
+      "height": 1920,
+      "alpha": false,
+      "bytes": 791070,
+      "sha256": "dcdca86b41dc7e96eb67385df1ada5446816677cb049ebdc332925f8e321e9e3"
+    },
+    {
+      "file": "play-store/screenshots/07-explore.png",
+      "width": 1080,
+      "height": 1920,
+      "alpha": false,
+      "bytes": 997213,
+      "sha256": "b1929ecbf1b0aab5c5a6f3f5777327cbbb579dc3e15885e0872417fbf9299740"
+    },
+    {
+      "file": "play-store/screenshots/08-journal.png",
+      "width": 1080,
+      "height": 1920,
+      "alpha": false,
+      "bytes": 651850,
+      "sha256": "81c29837fad3efd53fadb80bec34a7e1eea47acfa7294271c97cd38265d8db15"
+    }
+  ],
+  "video": {
+    "file": "exports/WILDFALL-Last-Ember-Trailer-1080p.mp4",
+    "width": 1920,
+    "height": 1080,
+    "frames": 1080,
+    "fps": "30/1",
+    "duration": 36.011,
+    "codec": "h264",
+    "audio": "aac",
+    "channels": 2,
+    "bytes": 28864812,
+    "sha256": "e91ce87b9472c197be11dd49bc8de164af9f583496c02a450789c06528a85cb3"
+  },
+  "audioPolicy": "No music or instruments. Original filtered noise ambience plus licensed physical foley.",
+  "captureErrors": [],
+  "visualReview": "All eight screenshot layouts and one representative frame of each trailer scene reviewed at export resolution.",
+  "audioMeasurements": {
+    "peakDb": -0.8097869116372045,
+    "rmsDb": -29.539055858223463,
+    "clippedSamples": 0,
+    "decodedSeconds": 36.010666666666665
+  },
+  "browserPlayback": {
+    "playing": true,
+    "width": 1920,
+    "height": 1080,
+    "duration": 36.011
+  }
+}

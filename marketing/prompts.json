@@ -1,0 +1,19 @@
+{
+  "provider": "OpenAI built-in image_gen",
+  "generatedAt": "2026-10-06",
+  "assets": [
+    {
+      "file": "source/app-icon-master.png",
+      "prompt": "Create a premium Android wilderness survival game app icon, square 1:1, full bleed opaque background. NO text, NO letters, NO people, NO face, NO skull. Central instantly legible emblem: one sculptural weathered copper mountain peak forming a shelter-shaped triangular silhouette, with a small brilliant amber ember/flame cradled in its dark negative space. A subtly fractured circular compass ring behind the peak, bold simple silhouette, bevels and hand-forged copper patina, obsidian charcoal background, very restrained orange glow from the ember, tiny ash particles. Tactile cinematic painterly realism, luxury dark survival identity, exceptional polish, high contrast at 48 pixels, uncluttered, centered within middle 70 percent safe area, edges plain dark. No rounded-square border, no UI, no green, no teal, no purple, no neon, no glossy plastic. Original brand emblem for WILDFALL Last Ember. Master artwork 1024x1024."
+    },
+    {
+      "file": "source/key-art-master.png",
+      "prompt": "Cinematic original key art for a premium wilderness survival game, wide landscape 16:9. A tiny lone survivor seen STRICTLY FROM BEHIND, in a heavy weathered charcoal hooded cloak and rugged backpack, kneeling at a small ember-orange campfire on the RIGHT THIRD of frame. No visible face, no exposed eyes. A vast cold mountain valley beyond, black pine silhouettes, pale slate blue-gray fog, storm clouds, scattered rain, fallen branch in foreground, distant ruined watchtower almost hidden in mist. Composition leaves LEFT HALF elegantly dark with negative space for a large title to be added later. Restrained burnished copper warmth against desaturated obsidian and slate; premium painted realism, atmospheric fine texture, believable natural light, haunting beautiful isolation. Fire is sheltered beneath a rock overhang so it can survive the rain. Deep layered cinematographic composition, subtle volumetric light, elegant and mature, no green tint, no teal, no neon, no purple. Not a screenshot, no UI, absolutely NO text, NO logos, NO lettering. Human figure small, about one fifth frame height. Wide master artwork, landscape."
+    }
+  ],
+  "constraints": {
+    "language": "English",
+    "faces": "No visible human face",
+    "audio": "Nature ambience and physical foley only. No music, instruments or pitched effects."
+  }
+}
